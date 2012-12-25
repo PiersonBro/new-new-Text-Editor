@@ -56,7 +56,7 @@
 - (void)viewDidLoad
 {
     //Set up a UISegmentedControl and setup it's target.
-    NSArray *segmentControlText = @[@"Share",@"Email" @"Browser"];
+    NSArray *segmentControlText = @[@"Share",@"Email", @"Browser"];
     UISegmentedControl  *segmentControl = [[UISegmentedControl alloc]initWithItems:segmentControlText];
     segmentControl.momentary = YES;
     segmentControl.selectedSegmentIndex = 0;
@@ -127,7 +127,7 @@
         [self mailPressed:self];
     }
     if (segmentedControl.selectedSegmentIndex == 2) {
-       
+        [self performSegueWithIdentifier:@"goToWebView" sender:self];
     }
 }
 
@@ -176,10 +176,16 @@
 
     
 }
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
+-(void) performSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    if (identifier == @"goToWebView") {
+        NSLog(@"YES");
+    }
 }
 
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    NSLog(@"ahh");
+    
+}
 #pragma mark dismisskeyboard 
 //there Could be more touch code here in the future but I remain undecided.
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
