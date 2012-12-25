@@ -46,7 +46,9 @@
 - (void)textViewDidChange:(UITextView *)textView {
     self.document.userText = textView.text;
     [self.document updateChangeCount:UIDocumentChangeDone];
-   
+    NSError *error;
+    NSString *parse = [MMMarkdown HTMLStringWithMarkdown:self.document.userText error:&error];
+    NSLog(@"parse is %@",parse);
     
 }
 #pragma mark view handling

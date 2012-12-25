@@ -11,6 +11,8 @@
 #import <AddressBookUI/AddressBookUI.h>
 #import <UIKit/UIKit.h>
 #import "IDTDocument.h"
+#import "MMMarkdown.h"
+
 @interface IDTDetailViewController : UIViewController
 
 @property (strong, nonatomic) id detailItem;
