@@ -84,6 +84,37 @@
             </objects>
             <point key="canvasLocation" x="1369" y="-458"/>
         </scene>
+        <!--Web View Controller-->
+        <scene sceneID="Alf-Ua-Shf">
+            <objects>
+                <viewController id="hmF-Nr-vAV" customClass="IDTWebViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="sMb-jA-P7X">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rg8-Pe-Ghx">
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="504" id="bCc-gl-0mM"/>
+                                </constraints>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="rg8-Pe-Ghx" firstAttribute="top" secondItem="sMb-jA-P7X" secondAttribute="top" constant="-8" id="A7o-pe-k1F"/>
+                            <constraint firstItem="rg8-Pe-Ghx" firstAttribute="trailing" secondItem="sMb-jA-P7X" secondAttribute="trailing" type="default" id="GV9-Lh-Krq"/>
+                            <constraint firstItem="rg8-Pe-Ghx" firstAttribute="leading" secondItem="sMb-jA-P7X" secondAttribute="leading" type="default" id="K1u-V2-JRh"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="E2h-L7-Kf5"/>
+                    <connections>
+                        <outlet property="webView" destination="rg8-Pe-Ghx" id="kiJ-WZ-fxq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5bo-5E-e3M" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2101" y="-601"/>
+        </scene>
         <!--Detail View Controller - Detail-->
         <scene sceneID="24">
             <objects>
@@ -120,19 +151,18 @@
                     <connections>
                         <outlet property="detailDescriptionLabel" destination="27" id="28"/>
                         <outlet property="textField" destination="6AS-6Q-6Bg" id="sng-ZR-KAG"/>
+                        <segue destination="hmF-Nr-vAV" kind="push" identifier="goToWebView" id="ptK-Ia-idj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="23" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1847" y="-547"/>
+            <point key="canvasLocation" x="1329" y="-539"/>
         </scene>
     </scenes>
     <classes>
         <class className="IDTDetailViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/IDTDetailViewController.h"/>
             <relationships>
-                <relationship kind="action" name="mailPressed:"/>
-                <relationship kind="action" name="segmentAction:"/>
                 <relationship kind="outlet" name="detailDescriptionLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="textField" candidateClass="UITextView"/>
             </relationships>
@@ -141,6 +171,12 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/IDTMasterViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
+            </relationships>
+        </class>
+        <class className="IDTWebViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/IDTWebViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
             </relationships>
         </class>
         <class className="NSLayoutConstraint" superclassName="NSObject">

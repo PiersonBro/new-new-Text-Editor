@@ -7,7 +7,7 @@
 //
 #import "IDTDetailViewController.h"
 
-@interface IDTDetailViewController () <MFMailComposeViewControllerDelegate,UITextViewDelegate,UIDocumentInteractionControllerDelegate,UIGestureRecognizerDelegate>
+@interface IDTDetailViewController () <MFMailComposeViewControllerDelegate,UITextViewDelegate,UIDocumentInteractionControllerDelegate,UIGestureRecognizerDelegate,UIWebViewDelegate>
 - (void)configureView;
 @property (nonatomic,strong)  IDTDocument *document;
 @property (nonatomic,strong) NSURL *url;
@@ -48,6 +48,7 @@
     [self.document updateChangeCount:UIDocumentChangeDone];
     NSError *error;
     NSString *parse = [MMMarkdown HTMLStringWithMarkdown:self.document.userText error:&error];
+    
     NSLog(@"parse is %@",parse);
     
 }
@@ -55,7 +56,7 @@
 - (void)viewDidLoad
 {
     //Set up a UISegmentedControl and setup it's target.
-    NSArray *segmentControlText = @[@"Share",@"Email"];
+    NSArray *segmentControlText = @[@"Share",@"Email" @"Browser"];
     UISegmentedControl  *segmentControl = [[UISegmentedControl alloc]initWithItems:segmentControlText];
     segmentControl.momentary = YES;
     segmentControl.selectedSegmentIndex = 0;
@@ -125,6 +126,9 @@
         if (segmentedControl.selectedSegmentIndex == 1) {
         [self mailPressed:self];
     }
+    if (segmentedControl.selectedSegmentIndex == 2) {
+       
+    }
 }
 
 //When the email button is selected this code is executed.
@@ -170,6 +174,9 @@
    
 
 
+    
+}
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
 }
 
