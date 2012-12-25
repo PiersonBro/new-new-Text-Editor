@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2062AB061615088500CDC8E2 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2062AB051615088500CDC8E2 /* AddressBookUI.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		2062AB081615089400CDC8E2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2062AB071615089400CDC8E2 /* MessageUI.framework */; };
+		206EAD511689199600C6A06C /* libMMMarkdown-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 206EAD501689199600C6A06C /* libMMMarkdown-iOS.a */; };
 		207718E0166C391100F8835A /* IDTDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 207718DF166C391100F8835A /* IDTDocument.m */; };
 		208BA30B166F1CA300118232 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 208BA30A166F1CA300118232 /* Social.framework */; };
 		209DF224165987EF0096A78C /* HTMLNames.plist in Resources */ = {isa = PBXBuildFile; fileRef = 209DF223165987EF0096A78C /* HTMLNames.plist */; };
@@ -30,6 +31,8 @@
 /* Begin PBXFileReference section */
 		2062AB051615088500CDC8E2 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		2062AB071615089400CDC8E2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		206EAD501689199600C6A06C /* libMMMarkdown-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libMMMarkdown-iOS.a"; sourceTree = "<group>"; };
+		206EAD52168919A100C6A06C /* MMMarkdown.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMMarkdown.h; sourceTree = "<group>"; };
 		207718DF166C391100F8835A /* IDTDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDTDocument.m; sourceTree = "<group>"; };
 		207718E2166C391E00F8835A /* IDTDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IDTDocument.h; sourceTree = "<group>"; };
 		208BA30A166F1CA300118232 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -67,6 +70,7 @@
 				20D6067716138F5D0091658C /* Foundation.framework in Frameworks */,
 				20D6067516138F5D0091658C /* UIKit.framework in Frameworks */,
 				20D6067916138F5D0091658C /* CoreGraphics.framework in Frameworks */,
+				206EAD511689199600C6A06C /* libMMMarkdown-iOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +97,7 @@
 		20D6067316138F5D0091658C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				206EAD501689199600C6A06C /* libMMMarkdown-iOS.a */,
 				2062AB071615089400CDC8E2 /* MessageUI.framework */,
 				208BA30A166F1CA300118232 /* Social.framework */,
 				2062AB051615088500CDC8E2 /* AddressBookUI.framework */,
@@ -117,6 +122,7 @@
 				20D6068416138F5D0091658C /* IDTAppDelegate.m */,
 				209DF223165987EF0096A78C /* HTMLNames.plist */,
 				20C07D9B167FACE50020E517 /* IDTDataSourceArray.h */,
+				206EAD52168919A100C6A06C /* MMMarkdown.h */,
 				20C07D9C167FACE50020E517 /* IDTDataSourceArray.m */,
 				20D6067B16138F5D0091658C /* Supporting Files */,
 			);
@@ -286,6 +292,10 @@
 				GCC_PREFIX_HEADER = "new-new-Text-Editor/new-new-Text-Editor-Prefix.pch";
 				INFOPLIST_FILE = "new-new-Text-Editor/new-new-Text-Editor-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -299,6 +309,10 @@
 				GCC_PREFIX_HEADER = "new-new-Text-Editor/new-new-Text-Editor-Prefix.pch";
 				INFOPLIST_FILE = "new-new-Text-Editor/new-new-Text-Editor-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
