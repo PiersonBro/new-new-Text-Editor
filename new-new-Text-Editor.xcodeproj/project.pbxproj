@@ -26,6 +26,7 @@
 		20D6069116138F5D0091658C /* IDTMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D6069016138F5D0091658C /* IDTMasterViewController.m */; };
 		20D6069416138F5D0091658C /* IDTDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D6069316138F5D0091658C /* IDTDetailViewController.m */; };
 		20D6069B16138F950091658C /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20D6069A16138F950091658C /* MainStoryboard.storyboard */; };
+		20E71D3F16897037005640FD /* IDTWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E71D3E16897037005640FD /* IDTWebViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,8 @@
 		20D6069216138F5D0091658C /* IDTDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IDTDetailViewController.h; sourceTree = "<group>"; };
 		20D6069316138F5D0091658C /* IDTDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IDTDetailViewController.m; sourceTree = "<group>"; };
 		20D6069A16138F950091658C /* MainStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard.storyboard; sourceTree = "<group>"; };
+		20E71D3D16897037005640FD /* IDTWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDTWebViewController.h; sourceTree = "<group>"; };
+		20E71D3E16897037005640FD /* IDTWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDTWebViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +120,8 @@
 				20D6069216138F5D0091658C /* IDTDetailViewController.h */,
 				20D6069316138F5D0091658C /* IDTDetailViewController.m */,
 				207718E2166C391E00F8835A /* IDTDocument.h */,
+				20E71D3D16897037005640FD /* IDTWebViewController.h */,
+				20E71D3E16897037005640FD /* IDTWebViewController.m */,
 				207718DF166C391100F8835A /* IDTDocument.m */,
 				20D6068316138F5D0091658C /* IDTAppDelegate.h */,
 				20D6068416138F5D0091658C /* IDTAppDelegate.m */,
@@ -217,6 +222,7 @@
 				20D6069416138F5D0091658C /* IDTDetailViewController.m in Sources */,
 				207718E0166C391100F8835A /* IDTDocument.m in Sources */,
 				20C07D9D167FACE50020E517 /* IDTDataSourceArray.m in Sources */,
+				20E71D3F16897037005640FD /* IDTWebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
