@@ -25,8 +25,10 @@
 
 - (void)viewDidLoad
 {
+    
+    
     [super viewDidLoad];
-  //  self.webView
+    [self.webView loadHTMLString:self.stringForWebView baseURL:nil];
 	// Do any additional setup after loading the view.
 }
 

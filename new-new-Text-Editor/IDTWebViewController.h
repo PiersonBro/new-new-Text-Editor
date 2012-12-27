@@ -11,4 +11,9 @@
 @interface IDTWebViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UIWebView *webView;
 
+
+//These properties are prototypey.
+@property (strong, nonatomic) NSString *stringForWebView;
+@property (strong, nonatomic) NSURL *URLForWebView;
+
 @end

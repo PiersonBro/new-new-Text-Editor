@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 E&Z Pierson. All rights reserved.
 //
 #import "IDTDetailViewController.h"
-
+#import "IDTWebViewController.h"
 @interface IDTDetailViewController () <MFMailComposeViewControllerDelegate,UITextViewDelegate,UIDocumentInteractionControllerDelegate,UIGestureRecognizerDelegate,UIWebViewDelegate>
 - (void)configureView;
 @property (nonatomic,strong)  IDTDocument *document;
@@ -56,6 +56,7 @@
 - (void)viewDidLoad
 {
     //Set up a UISegmentedControl and setup it's target.
+    self.button.hidden = YES;
     NSArray *segmentControlText = @[@"Share",@"Email", @"Browser"];
     UISegmentedControl  *segmentControl = [[UISegmentedControl alloc]initWithItems:segmentControlText];
     segmentControl.momentary = YES;
@@ -65,15 +66,13 @@
 	segmentControl.frame = CGRectMake(0, 0, 400, 30.0);
 	[segmentControl addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
     self.navigationItem.titleView = segmentControl;
-    self.textField.allowsEditingTextAttributes = YES;
     // Attirbuted String for header label.
-    if (self.nameOfFile != nil) {
         
     NSMutableAttributedString *displayNameOfFile = [[NSMutableAttributedString alloc]initWithString:self.nameOfFile];
         [displayNameOfFile addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(0,[displayNameOfFile length])];
         self.detailDescriptionLabel.attributedText = displayNameOfFile;
 
-    }
+    
     [self.navigationItem.backBarButtonItem setAction:@selector(perform:)];
     [super viewDidLoad];
     [self configureView];
@@ -124,9 +123,10 @@
         
     }
         if (segmentedControl.selectedSegmentIndex == 1) {
-        [self mailPressed:self];
+            [self mailPressed:self];
     }
     if (segmentedControl.selectedSegmentIndex == 2) {
+        NSLog(@"okay");
         [self performSegueWithIdentifier:@"goToWebView" sender:self];
     }
 }
@@ -138,6 +138,7 @@
     compose.mailComposeDelegate = self;
     [compose setModalPresentationStyle:UIModalPresentationCurrentContext
      ];
+    //FIXME: This can casue a NSRangeException if the text does not have a charecter at 41;
     NSString *subjectStr = [self.textField.text substringWithRange:NSMakeRange(1, 41)];
     [compose setSubject:subjectStr];
     [compose setMessageBody:self.textField.text isHTML:NO];
@@ -164,11 +165,11 @@
     for (int i = 0; i < [self.document.rangesOfHighlight count]; i++) {
     
 
-    NSRange range = [[self.document.rangesOfHighlight objectAtIndex:i]rangeValue];
+        NSRange range = [[self.document.rangesOfHighlight objectAtIndex:i]rangeValue];
         
        
     
-     [attributedString  addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:0.7 green:0.2 blue:0.3 alpha:0.9] range:range];
+        [attributedString  addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:0.7 green:0.2 blue:0.3 alpha:0.9] range:range];
     }
     self.textField.attributedText = attributedString;
    
@@ -176,14 +177,14 @@
 
     
 }
--(void) performSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
-    if (identifier == @"goToWebView") {
-        NSLog(@"YES");
-    }
-}
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    NSLog(@"ahh");
+    NSLog(@"the identifier is %@",segue.identifier);
+    if ([segue.identifier isEqualToString:@"goToWebView"]) {
+        NSLog(@"work");
+        IDTWebViewController *webView = [segue destinationViewController];
+        webView.stringForWebView = [MMMarkdown HTMLStringWithMarkdown:self.textField.text error:nil];
+    }
     
 }
 #pragma mark dismisskeyboard 
@@ -195,6 +196,7 @@
     [self.view endEditing:YES];
 
 }
+
 
 
 

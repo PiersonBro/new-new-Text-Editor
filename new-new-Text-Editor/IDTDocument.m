@@ -95,7 +95,10 @@
     
     for (int i = 0; i < [namesToHighlight count]; i++) {
         NSRegularExpression *squeezeNewlines = [NSRegularExpression regularExpressionWithPattern:[namesToHighlight objectAtIndex:i] options:0 error:nil];
-        
+        if (string == nil) {
+            return nil;
+        }
+        else {
         NSArray *matches = [squeezeNewlines matchesInString:string options:0 range:[string rangeOfString:string]];
         
         
@@ -109,8 +112,11 @@
         }
     }
     return self.rangesOfHighlight;
-}
 
+
+    }
+    return self.rangesOfHighlight;
+}
 #pragma View Controller agnostic methods
 //sets up self.docsDir and self.path
 

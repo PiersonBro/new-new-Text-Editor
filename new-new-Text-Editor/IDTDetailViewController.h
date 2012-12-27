@@ -18,6 +18,7 @@
 @property (strong, nonatomic) id detailItem;
 @property (strong,nonatomic) id nameOfFile;
 
+@property (strong, nonatomic) IBOutlet UIButton *button;
 
 @property (strong, nonatomic) IBOutlet UITextView *textField;
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
