@@ -13,7 +13,6 @@
 		207718E0166C391100F8835A /* IDTDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 207718DF166C391100F8835A /* IDTDocument.m */; };
 		208BA30B166F1CA300118232 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 208BA30A166F1CA300118232 /* Social.framework */; };
 		209DF224165987EF0096A78C /* HTMLNames.plist in Resources */ = {isa = PBXBuildFile; fileRef = 209DF223165987EF0096A78C /* HTMLNames.plist */; };
-		20C07D9D167FACE50020E517 /* IDTDataSourceArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C07D9C167FACE50020E517 /* IDTDataSourceArray.m */; };
 		20D6067516138F5D0091658C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20D6067416138F5D0091658C /* UIKit.framework */; };
 		20D6067716138F5D0091658C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20D6067616138F5D0091658C /* Foundation.framework */; };
 		20D6067916138F5D0091658C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20D6067816138F5D0091658C /* CoreGraphics.framework */; };
@@ -39,7 +38,6 @@
 		208BA30A166F1CA300118232 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		209DF223165987EF0096A78C /* HTMLNames.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = HTMLNames.plist; sourceTree = "<group>"; };
 		20C07D9B167FACE50020E517 /* IDTDataSourceArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDTDataSourceArray.h; sourceTree = "<group>"; };
-		20C07D9C167FACE50020E517 /* IDTDataSourceArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDTDataSourceArray.m; sourceTree = "<group>"; };
 		20D6067016138F5D0091658C /* new-new-Text-Editor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "new-new-Text-Editor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		20D6067416138F5D0091658C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		20D6067616138F5D0091658C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -128,7 +126,6 @@
 				207718DF166C391100F8835A /* IDTDocument.m */,
 				20C07D9B167FACE50020E517 /* IDTDataSourceArray.h */,
 				206EAD52168919A100C6A06C /* MMMarkdown.h */,
-				20C07D9C167FACE50020E517 /* IDTDataSourceArray.m */,
 				20D6067B16138F5D0091658C /* Supporting Files */,
 			);
 			path = "new-new-Text-Editor";
@@ -221,7 +218,6 @@
 				20D6069116138F5D0091658C /* IDTMasterViewController.m in Sources */,
 				20D6069416138F5D0091658C /* IDTDetailViewController.m in Sources */,
 				207718E0166C391100F8835A /* IDTDocument.m in Sources */,
-				20C07D9D167FACE50020E517 /* IDTDataSourceArray.m in Sources */,
 				20E71D3F16897037005640FD /* IDTWebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
