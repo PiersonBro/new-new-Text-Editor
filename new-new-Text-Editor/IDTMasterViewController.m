@@ -59,6 +59,9 @@
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(popup:)];
     self.navigationItem.rightBarButtonItem = addButton;
     
+ 
+    
+    
     [[self tableView] reloadData];
 
 }

@@ -139,8 +139,14 @@
     [compose setModalPresentationStyle:UIModalPresentationCurrentContext
      ];
     //FIXME: This can casue a NSRangeException or NSRangeUnkown. if the text does not have a charecter at 41;
-    
-    NSString *subjectStr = [self.textField.text substringWithRange:NSMakeRange(1, 41)];
+    NSString *subjectStr = nil;
+    if (self.textField.text.length < 41) {
+        subjectStr = [self.textField.text substringWithRange:NSMakeRange(1, self.textField.text.length)];
+
+    }
+    else {
+        subjectStr = [self.textField.text substringWithRange:NSMakeRange(1, 41)];
+    }
     [compose setSubject:subjectStr];
     [compose setMessageBody:self.textField.text isHTML:NO];
     [self presentViewController:compose animated:YES completion:nil];
@@ -158,6 +164,7 @@
 //This is the view controller conterpart to the model's stringMatch method.
 //It is a little slow.
 -(void) highlight {
+    
     self.textField.text = self.document.userText;
 
     [self.document stringMatch:self.textField.text];

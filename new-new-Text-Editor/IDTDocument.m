@@ -7,7 +7,6 @@
 //
 
 #import "IDTDocument.h"
-#import "IDTDataSourceArray.h"
 @implementation IDTDocument
 #pragma mark UIDocument overrides
 // Called whenever the application reads data from the file system
@@ -152,5 +151,32 @@
     
     
 }
+
+
+- (NSString *)flattenHTML:(NSString *)html {
+    
+    NSString *text = nil;
+    
+    NSScanner *thescanner = [NSScanner scannerWithString:html];
+    
+    while ([thescanner isAtEnd] == false) {
+        
+        // find start of tag
+        [thescanner scanUpToString:@"<" intoString:nil];
+        
+        // find end of tag
+        [thescanner scanUpToString:@">" intoString:nil];
+        
+        // replace the found tag with a space
+        //(you can filter multi-spaces out later if you wish)
+        html = [html stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@", text] withString:@" "];
+                    
+    } // while //
+    
+    return html;
+    
+}
+
+
 
 @end
