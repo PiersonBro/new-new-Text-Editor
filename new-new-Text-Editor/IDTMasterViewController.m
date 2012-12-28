@@ -140,6 +140,8 @@
            } 
     
     cell.textLabel.text = object;
+    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+
     // Configure the cell
     
 

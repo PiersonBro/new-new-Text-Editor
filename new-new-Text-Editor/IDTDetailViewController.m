@@ -138,7 +138,8 @@
     compose.mailComposeDelegate = self;
     [compose setModalPresentationStyle:UIModalPresentationCurrentContext
      ];
-    //FIXME: This can casue a NSRangeException if the text does not have a charecter at 41;
+    //FIXME: This can casue a NSRangeException or NSRangeUnkown. if the text does not have a charecter at 41;
+    
     NSString *subjectStr = [self.textField.text substringWithRange:NSMakeRange(1, 41)];
     [compose setSubject:subjectStr];
     [compose setMessageBody:self.textField.text isHTML:NO];
