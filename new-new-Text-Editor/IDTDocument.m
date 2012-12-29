@@ -91,31 +91,30 @@
     NSString *path = [[NSBundle mainBundle] pathForResource:@"HTMLNames" ofType:@"plist"];
     NSArray *namesToHighlight = [[NSArray alloc]initWithContentsOfFile:path];
     self.rangesOfHighlight = [[NSMutableArray alloc]init];
-    
+    NSError *error = nil;
     for (int i = 0; i < [namesToHighlight count]; i++) {
-        NSRegularExpression *squeezeNewlines = [NSRegularExpression regularExpressionWithPattern:[namesToHighlight objectAtIndex:i] options:0 error:nil];
-        if (string == nil) {
-            return nil;
-        }
-        else {
+        NSRegularExpression *squeezeNewlines = [NSRegularExpression regularExpressionWithPattern:[namesToHighlight objectAtIndex:i]
+ options:NSRegularExpressionAllowCommentsAndWhitespace  error:&error];
+       
         NSArray *matches = [squeezeNewlines matchesInString:string options:0 range:[string rangeOfString:string]];
-        
-        
+        NSLog(@"matches is %@",matches);
+      //  NSLog(@"nslog %@",matches);
+        NSLog(@" error is %@",error);
         for (NSTextCheckingResult *textMatch in matches) {
             
             NSRange textMatchRange = [textMatch rangeAtIndex:0];
             [self.rangesOfHighlight addObject:[NSValue valueWithRange:textMatchRange]];
-            NSLog(@"The rangeArray is %@",self.rangesOfHighlight);
             
             
         }
-    }
-    return self.rangesOfHighlight;
-
-
-    }
-    return self.rangesOfHighlight;
+   
 }
+    return self.rangesOfHighlight;
+
+}
+
+
+
 #pragma View Controller agnostic methods
 //sets up self.docsDir and self.path
 
@@ -165,7 +164,8 @@
         [thescanner scanUpToString:@"<" intoString:nil];
         
         // find end of tag
-        [thescanner scanUpToString:@">" intoString:nil];
+        [thescanner scanUpToString:@">" intoString:&text];
+        NSLog(@"text is %@",text);
         
         // replace the found tag with a space
         //(you can filter multi-spaces out later if you wish)

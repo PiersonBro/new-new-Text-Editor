@@ -160,7 +160,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSString *identify = [[self.contactModel.textFiles objectAtIndex:indexPath.row]name];
+        NSString *identify = [self.contactModel.textFiles objectAtIndex:indexPath.row];
         [self.contactModel deleteFile:identify :indexPath.row];
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];

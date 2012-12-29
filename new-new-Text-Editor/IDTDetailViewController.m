@@ -46,10 +46,7 @@
 - (void)textViewDidChange:(UITextView *)textView {
     self.document.userText = textView.text;
     [self.document updateChangeCount:UIDocumentChangeDone];
-    NSError *error;
-    NSString *parse = [MMMarkdown HTMLStringWithMarkdown:self.document.userText error:&error];
-    
-    NSLog(@"parse is %@",parse);
+   
     
 }
 #pragma mark view handling
@@ -126,7 +123,6 @@
             [self mailPressed:self];
     }
     if (segmentedControl.selectedSegmentIndex == 2) {
-        NSLog(@"okay");
         [self performSegueWithIdentifier:@"goToWebView" sender:self];
     }
 }
@@ -187,10 +183,10 @@
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    NSLog(@"the identifier is %@",segue.identifier);
     if ([segue.identifier isEqualToString:@"goToWebView"]) {
-        NSLog(@"work");
+        
         IDTWebViewController *webView = [segue destinationViewController];
+        
         webView.stringForWebView = [MMMarkdown HTMLStringWithMarkdown:self.textField.text error:nil];
     }
     
