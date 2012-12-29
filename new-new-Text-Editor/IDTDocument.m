@@ -96,18 +96,12 @@
         NSRegularExpression *squeezeNewlines = [NSRegularExpression regularExpressionWithPattern:[namesToHighlight objectAtIndex:i]
  options:NSRegularExpressionAllowCommentsAndWhitespace  error:&error];
        
-        NSArray *matches = [squeezeNewlines matchesInString:string options:0 range:[string rangeOfString:string]];
-        NSLog(@"matches is %@",matches);
-      //  NSLog(@"nslog %@",matches);
-        NSLog(@" error is %@",error);
-        for (NSTextCheckingResult *textMatch in matches) {
-            
-            NSRange textMatchRange = [textMatch rangeAtIndex:0];
-            [self.rangesOfHighlight addObject:[NSValue valueWithRange:textMatchRange]];
-            
-            
-        }
-   
+       [squeezeNewlines enumerateMatchesInString:string options:0 range:[string rangeOfString:string] usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
+          
+          NSRange textMatchRange = [result rangeAtIndex:0];
+          [self.rangesOfHighlight addObject:[NSValue valueWithRange:textMatchRange]];
+      }];
+
 }
     return self.rangesOfHighlight;
 
