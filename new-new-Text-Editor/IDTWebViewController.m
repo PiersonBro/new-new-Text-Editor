@@ -28,6 +28,7 @@
     
     
     [super viewDidLoad];
+    //This load the string set by the detail view controller.
     [self.webView loadHTMLString:self.stringForWebView baseURL:nil];
     
 	// Do any additional setup after loading the view.

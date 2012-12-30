@@ -84,7 +84,7 @@
             </objects>
             <point key="canvasLocation" x="389" y="-638"/>
         </scene>
-        <!--Web View Controller-->
+        <!--Web View Controller - Preview-->
         <scene sceneID="Alf-Ua-Shf">
             <objects>
                 <viewController id="hmF-Nr-vAV" customClass="IDTWebViewController" sceneMemberID="viewController">
@@ -104,7 +104,7 @@
                             <constraint firstItem="rg8-Pe-Ghx" firstAttribute="top" secondItem="sMb-jA-P7X" secondAttribute="top" type="default" id="o19-7J-IXr"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="E2h-L7-Kf5"/>
+                    <navigationItem key="navigationItem" title="Preview" id="E2h-L7-Kf5"/>
                     <connections>
                         <outlet property="webView" destination="rg8-Pe-Ghx" id="kiJ-WZ-fxq"/>
                     </connections>
