@@ -198,8 +198,7 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
         else {
         object = [self.contactModel.textFilesPaths objectAtIndex:indexPath.row];
         }
-        IDTDetailViewController *contactDetailViewController = [[IDTDetailViewController alloc]init];
-        contactDetailViewController = [segue destinationViewController];
+        IDTDetailViewController *contactDetailViewController = [segue destinationViewController];
         contactDetailViewController.nameOfFile = [self.contactModel.textFiles objectAtIndex:indexPath.row];
         
         [[segue destinationViewController] setDetailItem:object];

@@ -186,8 +186,11 @@
     if ([segue.identifier isEqualToString:@"goToWebView"]) {
         
         IDTWebViewController *webView = [segue destinationViewController];
-        
-        webView.stringForWebView = [MMMarkdown HTMLStringWithMarkdown:self.textField.text error:nil];
+        NSError *error;
+        webView.stringForWebView = [MMMarkdown HTMLStringWithMarkdown:self.textField.text error:&error];
+        if (error) {
+            NSLog(@"error is %@",error);
+        }
     }
     
 }

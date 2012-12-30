@@ -8,7 +8,10 @@
 
 #import "IDTDocument.h"
 @implementation IDTDocument
-#pragma mark UIDocument overrides
+#pragma mark UIDocument overrides 
+#pragma mark Model methods for Detail VC
+
+
 // Called whenever the application reads data from the file system
 - (BOOL)loadFromContents:(id)contents ofType:(NSString *)typeName error:(NSError **)outError
 {
@@ -21,7 +24,8 @@
     } else {
         self.userText = @"Empty"; // When the note is created we assign some default content
     }
-    
+   
+    //I am keeping this here in the off chance that I will implment NSNotification functionnality.
     [[NSNotificationCenter defaultCenter] postNotificationName:@"noteModified"
                                                         object:self];
     
@@ -36,7 +40,9 @@
     if ([self.userText length] == 0) {
         self.userText = @"Empty";
     }
+    //Error handling/
     
+
     return [NSData dataWithBytes:[self.userText UTF8String]
                           length:[self.userText length]];
     
@@ -58,7 +64,7 @@
         self.textFiles = [[filemgr contentsOfDirectoryAtPath:self.docsDir error:nil]mutableCopy];
 
     }
-    else { [self createFile:@"Hello and welcome to my awesomely cool text editor! This is the list of stuff not yet implemented. 1. Markdwon renderer. 2. Syntax highlighting for HTML (uber difficult). 2.RTF implmentation (SUPER UBER difficult) " :@"Welcom" :0];
+    else { [self createFile:@"Hello and welcome to my awesomely cool text editor! This is the list of stuff not yet implemented.  2. Syntax highlighting for HTML (uber difficult). 2.RTF implmentation (SUPER UBER difficult) " :@"Welcome!" :0];
         self.textFiles = [[filemgr contentsOfDirectoryAtPath:self.docsDir error:nil]mutableCopy];
     }
     
@@ -70,10 +76,13 @@
         NSString *val = [preVal stringByAppendingString:[self.textFiles objectAtIndex:i]];
         
         [self.textFilesPaths addObject:val];
-        [self.textFilesPaths removeObject:0];
-        
+                
         
     }
+    // This deletes the terrible .DS_Store.
+    [self.textFilesPaths removeObjectAtIndex:0];
+    [self.textFiles removeObjectAtIndex:0];
+
     
     
     
@@ -82,10 +91,7 @@
 
 
 
-
-
-
-#pragma mark Model methods for Detail VC
+#pragma mark Basic String match.
 
 -(NSMutableArray *) stringMatch:(NSString *)string {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"HTMLNames" ofType:@"plist"];
@@ -126,50 +132,36 @@
   
     NSData *textData =  [text dataUsingEncoding:NSUTF8StringEncoding];
     self.path = [self.docsDir stringByAppendingPathComponent:name];
+
     [[NSFileManager defaultManager]createFileAtPath:self.path contents:textData attributes:nil];
     
     //After creating the file insert them into our arrays for the table View.
     [self.textFiles insertObject:name atIndex:indexPath];
     [self.textFilesPaths insertObject:self.path atIndex:indexPath];
     return self.path;
+    
 }
 
 //None of the passed vars can be nil.
 -(NSString *) deleteFile:(NSString *)name:(NSUInteger)indexPath {
     self.path = [self.docsDir stringByAppendingPathComponent:name];
-    [[NSFileManager defaultManager]removeItemAtPath:self.path error:nil];
+    NSError *error;
+    [[NSFileManager defaultManager]removeItemAtPath:self.path error:&error];
     [self.textFiles removeObjectAtIndex:indexPath];
     [self.textFilesPaths removeObjectAtIndex:indexPath];
+    
+    //Basic error functionality.
+    
+    if (error != nil) {
+        NSLog(@"%@",error);
+    }
+    
     return self.path;
     
     
 }
 
 
-- (NSString *)flattenHTML:(NSString *)html {
-    
-    NSString *text = nil;
-    
-    NSScanner *thescanner = [NSScanner scannerWithString:html];
-    
-    while ([thescanner isAtEnd] == false) {
-        
-        // find start of tag
-        [thescanner scanUpToString:@"<" intoString:nil];
-        
-        // find end of tag
-        [thescanner scanUpToString:@">" intoString:&text];
-        NSLog(@"text is %@",text);
-        
-        // replace the found tag with a space
-        //(you can filter multi-spaces out later if you wish)
-        html = [html stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@", text] withString:@" "];
-                    
-    } // while //
-    
-    return html;
-    
-}
 
 
 
