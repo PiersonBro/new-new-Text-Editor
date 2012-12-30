@@ -59,6 +59,7 @@ blockquote
 	<string>&lt;/p&gt;</string>
 	<string>&lt;/body&gt;</string>
 	<string>&lt;/header&gt;</string>
+	<string>&lt;header&gt;</string>
 	<string>&lt;/div&gt;</string>
 	<string>&lt;blockquote&gt;</string>
 	<string>&lt;/blockquote&gt;</string>
