@@ -121,7 +121,6 @@
 				20E71D3E16897037005640FD /* IDTWebViewController.m */,
 				20D6068316138F5D0091658C /* IDTAppDelegate.h */,
 				20D6068416138F5D0091658C /* IDTAppDelegate.m */,
-				209DF223165987EF0096A78C /* HTMLNames.plist */,
 				207718E2166C391E00F8835A /* IDTDocument.h */,
 				207718DF166C391100F8835A /* IDTDocument.m */,
 				20C07D9B167FACE50020E517 /* IDTDataSourceArray.h */,
@@ -135,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				20D6067C16138F5D0091658C /* new-new-Text-Editor-Info.plist */,
+				209DF223165987EF0096A78C /* HTMLNames.plist */,
 				20D6067D16138F5D0091658C /* InfoPlist.strings */,
 				20D6068016138F5D0091658C /* main.m */,
 				20D6068216138F5D0091658C /* new-new-Text-Editor-Prefix.pch */,
