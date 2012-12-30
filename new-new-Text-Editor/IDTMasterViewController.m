@@ -130,19 +130,19 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    //object
-    NSString *object = nil;
+    //cell label.
+    NSString *cellLabel = nil;
    
     if (tableView != self.searchDisplayController.searchResultsTableView) {
-        object = [self.contactModel.textFiles objectAtIndex:indexPath.row];
+        cellLabel = [self.contactModel.textFiles objectAtIndex:indexPath.row];
 
     }
     
     else {
-        object = [self.textFilesFiltered objectAtIndex:indexPath.row];
+        cellLabel = [self.textFilesFiltered objectAtIndex:indexPath.row];
            } 
     
-    cell.textLabel.text = object;
+    cell.textLabel.text = cellLabel;
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 
     // Configure the cell

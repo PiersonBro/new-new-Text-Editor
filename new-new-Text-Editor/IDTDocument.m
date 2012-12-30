@@ -101,10 +101,10 @@
           NSRange textMatchRange = [result rangeAtIndex:0];
           [self.rangesOfHighlight addObject:[NSValue valueWithRange:textMatchRange]];
       }];
-
-}
-    return self.rangesOfHighlight;
-
+  
+    }
+      return self.rangesOfHighlight;
+      
 }
 
 
