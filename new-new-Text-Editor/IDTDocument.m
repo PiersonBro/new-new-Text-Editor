@@ -8,6 +8,7 @@
 
 #import "IDTDocument.h"
 @implementation IDTDocument
+
 #pragma mark UIDocument overrides 
 #pragma mark Model methods for Detail VC
 

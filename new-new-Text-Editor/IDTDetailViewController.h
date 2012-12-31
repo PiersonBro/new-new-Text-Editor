@@ -22,5 +22,4 @@
 
 @property (strong, nonatomic) IBOutlet UITextView *textField;
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
--(void) highlight;
 @end
