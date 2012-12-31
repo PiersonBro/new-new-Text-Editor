@@ -80,8 +80,18 @@
     [super viewDidLoad];
     [self configureView];
 }
-
-
+//Not sure if this works but I am keeping it here just in case.
+-(void) perform:(id)sender {
+    
+    //do your saving and such here
+    NSLog(@"it kinda worked!");
+    [self.document closeWithCompletionHandler:^(BOOL success) {
+        if (success) {
+            NSLog(@"PARTY");
+        }
+    }];
+    [self.navigationController popViewControllerAnimated:NO];
+}
 -(void) viewWillDisappear:(BOOL)animated {
     if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
 
@@ -161,7 +171,6 @@
 
 #pragma mark syntax highlighting
 //This is the view controller conterpart to the model's stringMatch method.
-//It is a little slow.
 -(void) highlight {
     
     self.textField.text = self.document.userText;

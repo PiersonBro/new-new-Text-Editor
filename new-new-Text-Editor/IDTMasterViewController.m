@@ -86,7 +86,7 @@
 }
 - (void)insertNewObject:(id)sender
 {
-    [self.contactModel createFile:@"Vim VIM VI":self.textForFileName :0];
+    [self.contactModel createFile:@"Welcome to the green text editor":self.textForFileName :0];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     
@@ -95,7 +95,7 @@
 #pragma mark - Table View (delagate)
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Perform segue to candy detail
+    // Perform segue to text editor detail
     
     if (tableView == self.displayController.searchResultsTableView) {
     
@@ -191,16 +191,27 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSString *object = nil;
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        NSIndexPath *indexPath = nil;
+
         if (sender == self.searchDisplayController.searchResultsTableView) {
+            indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
+
             object = [self.filteredTextFilesPaths objectAtIndex:indexPath.row];
         }
         else {
+             indexPath = [self.tableView indexPathForSelectedRow];
+
         object = [self.contactModel.textFilesPaths objectAtIndex:indexPath.row];
         }
-        IDTDetailViewController *contactDetailViewController = [segue destinationViewController];
-        contactDetailViewController.nameOfFile = [self.contactModel.textFiles objectAtIndex:indexPath.row];
         
+        IDTDetailViewController *contactDetailViewController = [segue destinationViewController];
+        if (sender == self.searchDisplayController.searchResultsTableView) {
+            contactDetailViewController.nameOfFile = [self.textFilesFiltered objectAtIndex:indexPath.row];
+
+        }
+        else {
+        contactDetailViewController.nameOfFile = [self.contactModel.textFiles objectAtIndex:indexPath.row];
+        }
         [[segue destinationViewController] setDetailItem:object];
                                                     
                                                            
@@ -215,14 +226,15 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
 	[self.textFilesFiltered removeAllObjects];
     [self.filteredTextFilesPaths removeAllObjects];
 	// Filter the array using NSPredicate
-
+    NSString *searchTextPaths = [self.contactModel.docsDir stringByAppendingString:searchText];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF contains[c] %@",searchText];
-    
+    NSPredicate *predicatePaths = [NSPredicate predicateWithFormat:@"SELF contains[c] %@",searchTextPaths];
     NSArray *tempArray = [self.contactModel.textFiles  filteredArrayUsingPredicate:predicate];
     
-    NSArray *tempArrayPaths = [self.contactModel.textFilesPaths filteredArrayUsingPredicate:predicate];
+    NSArray *tempArrayPaths = [self.contactModel.textFilesPaths filteredArrayUsingPredicate:predicatePaths];
         self.textFilesFiltered = [NSMutableArray arrayWithArray:tempArray];
     self.filteredTextFilesPaths = [NSMutableArray arrayWithArray:tempArrayPaths];
+    
 
 }
 
@@ -243,7 +255,7 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
 
     // Tells the table data source to reload when scope bar selection changes
-    [self filterContentForSearchText:[self.searchDisplayController.searchBar text] scope:nil];
+    [self filterContentForSearchText:self.searchDisplayController.searchBar.text scope:nil];
     
     // Return YES to cause the search result table view to be reloaded.
     return YES;
