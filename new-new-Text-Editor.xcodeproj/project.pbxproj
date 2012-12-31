@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		20259D691691390200F4A1BA /* Telescope-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 20259D681691390200F4A1BA /* Telescope-icon.png */; };
 		2062AB061615088500CDC8E2 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2062AB051615088500CDC8E2 /* AddressBookUI.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		2062AB081615089400CDC8E2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2062AB071615089400CDC8E2 /* MessageUI.framework */; };
 		206EAD511689199600C6A06C /* libMMMarkdown-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 206EAD501689199600C6A06C /* libMMMarkdown-iOS.a */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		20259D681691390200F4A1BA /* Telescope-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Telescope-icon.png"; sourceTree = "<group>"; };
 		2062AB051615088500CDC8E2 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		2062AB071615089400CDC8E2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		206EAD501689199600C6A06C /* libMMMarkdown-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libMMMarkdown-iOS.a"; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 				207718DF166C391100F8835A /* IDTDocument.m */,
 				20C07D9B167FACE50020E517 /* IDTDataSourceArray.h */,
 				206EAD52168919A100C6A06C /* MMMarkdown.h */,
+				20259D681691390200F4A1BA /* Telescope-icon.png */,
 				20D6067B16138F5D0091658C /* Supporting Files */,
 			);
 			path = "new-new-Text-Editor";
@@ -203,6 +206,7 @@
 				20D6068B16138F5D0091658C /* Default-568h@2x.png in Resources */,
 				20D6069B16138F950091658C /* MainStoryboard.storyboard in Resources */,
 				209DF224165987EF0096A78C /* HTMLNames.plist in Resources */,
+				20259D691691390200F4A1BA /* Telescope-icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
