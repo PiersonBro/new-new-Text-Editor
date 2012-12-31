@@ -11,7 +11,7 @@
 - (void)configureView;
 @property (nonatomic,strong)  IDTDocument *document;
 @property (nonatomic,strong) NSURL *url;
-@property (nonatomic,strong) UIActivityViewController *actionSheet;
+@property (nonatomic) BOOL darkModeEnabled;
 
 @property (retain,nonatomic)UIDocumentInteractionController* docInteractionController;
 
@@ -55,6 +55,7 @@
     self.button.hidden = YES;
        
     //Set up a UISegmentedControl and setup it's target.
+    
 
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(action1:)];
     UIBarButtonItem *barButton2 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(action2:)];
@@ -71,6 +72,11 @@
 
     
     [self.navigationItem.backBarButtonItem setAction:@selector(perform:)];
+    if (self.darkModeEnabled == YES) {
+       self.textField.textColor = [UIColor colorWithWhite:1 alpha:1];
+       self.textField.backgroundColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.2 alpha:1];
+    }
+    
     [super viewDidLoad];
     [self configureView];
 }
