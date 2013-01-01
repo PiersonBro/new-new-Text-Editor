@@ -12,8 +12,9 @@
 @property (strong, nonatomic) IBOutlet UIWebView *webView;
 
 
-//These properties are prototypey.
+//This property recieves it's value from the detial view segue
 @property (strong, nonatomic) NSString *stringForWebView;
-@property (strong, nonatomic) NSURL *URLForWebView;
+
+- (IBAction)shareHTML:(id)sender;
 
 @end

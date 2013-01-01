@@ -46,7 +46,6 @@
 - (void)textViewDidChange:(UITextView *)textView {
     self.document.userText = textView.text;
     [self.document updateChangeCount:UIDocumentChangeDone];
-   
     
 }
 #pragma mark view handling
@@ -60,7 +59,7 @@
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(action1:)];
     UIBarButtonItem *barButton2 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(action2:)];
     UIBarButtonItem *barButton3 = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Telescope-icon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(action3:)];
-    //[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:@selector(action3:)];
+    
     NSArray *barButtonItemArray = [[NSArray alloc]initWithObjects:barButton,barButton2,barButton3, nil];
     
     self.navigationItem.rightBarButtonItem = barButton;
@@ -148,15 +147,8 @@
     [compose setModalPresentationStyle:UIModalPresentationCurrentContext
      ];
     //FIXME: This can casue a NSRangeException or NSRangeUnkown. if the text does not have a charecter at 41;
-    NSString *subjectStr = nil;
-    if (self.textField.text.length < 41) {
-        subjectStr = [self.textField.text substringWithRange:NSMakeRange(1, self.textField.text.length)];
-
-    }
-    else {
-        subjectStr = [self.textField.text substringWithRange:NSMakeRange(1, 41)];
-    }
-    [compose setSubject:subjectStr];
+    NSString *subjectStr = self.nameOfFile;
+       [compose setSubject:subjectStr];
     [compose setMessageBody:self.textField.text isHTML:NO];
     [self presentViewController:compose animated:YES completion:nil];
 }

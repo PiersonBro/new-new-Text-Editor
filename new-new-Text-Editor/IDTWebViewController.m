@@ -7,8 +7,10 @@
 //
 
 #import "IDTWebViewController.h"
-
-@interface IDTWebViewController ()
+#import <MessageUI/MessageUI.h>
+#import <AddressBook/AddressBook.h>
+#import <AddressBookUI/AddressBookUI.h>
+@interface IDTWebViewController () <MFMailComposeViewControllerDelegate>
 
 @end
 
@@ -39,5 +41,36 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (IBAction)shareHTML:(id)sender {
+    
+    [self mailPressed:self];
+    
+    
+    
+    
+    
+}
+
+- (IBAction)mailPressed:(id)sender {
+    
+    MFMailComposeViewController *compose = [[MFMailComposeViewController alloc]init];
+    compose.mailComposeDelegate = self;
+    [compose setModalPresentationStyle:UIModalPresentationCurrentContext
+     ];
+    //FIXME: This can casue a NSRangeException or NSRangeUnkown. if the text does not have a charecter at 41;
+    
+    [compose setMessageBody:self.stringForWebView isHTML:YES];
+    [self presentViewController:compose animated:YES completion:nil];
+}
+- (void)mailComposeController:(MFMailComposeViewController*)controller
+          didFinishWithResult:(MFMailComposeResult)result
+                        error:(NSError*)error
+{
+    if(error) NSLog(@"ERROR - mailComposeController: %@", [error localizedDescription]);
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+
 
 @end

@@ -104,14 +104,20 @@
                             <constraint firstItem="rg8-Pe-Ghx" firstAttribute="top" secondItem="sMb-jA-P7X" secondAttribute="top" type="default" id="o19-7J-IXr"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Preview" id="E2h-L7-Kf5"/>
+                    <navigationItem key="navigationItem" title="Preview" id="E2h-L7-Kf5">
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="rCD-oP-7Gy">
+                            <connections>
+                                <action selector="shareHTML:" destination="hmF-Nr-vAV" id="lKn-0j-2Kh"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="webView" destination="rg8-Pe-Ghx" id="kiJ-WZ-fxq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5bo-5E-e3M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2101" y="-601"/>
+            <point key="canvasLocation" x="1840" y="-663"/>
         </scene>
         <!--Detail View Controller - Detail-->
         <scene sceneID="24">
@@ -172,33 +178,6 @@
             <point key="canvasLocation" x="1415" y="-539"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="IDTDetailViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/IDTDetailViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="mailPressed:"/>
-                <relationship kind="action" name="segmentAction:"/>
-                <relationship kind="outlet" name="button" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="detailDescriptionLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="textField" candidateClass="UITextView"/>
-            </relationships>
-        </class>
-        <class className="IDTMasterViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/IDTMasterViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
-            </relationships>
-        </class>
-        <class className="IDTWebViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/IDTWebViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
