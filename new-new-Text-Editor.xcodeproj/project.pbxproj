@@ -26,6 +26,7 @@
 		20D6069116138F5D0091658C /* IDTMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D6069016138F5D0091658C /* IDTMasterViewController.m */; };
 		20D6069416138F5D0091658C /* IDTDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D6069316138F5D0091658C /* IDTDetailViewController.m */; };
 		20D6069B16138F950091658C /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20D6069A16138F950091658C /* MainStoryboard.storyboard */; };
+		20DE1C7F16925D7B000A7F01 /* glass.png in Resources */ = {isa = PBXBuildFile; fileRef = 20DE1C7E16925D7B000A7F01 /* glass.png */; };
 		20E71D3F16897037005640FD /* IDTWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E71D3E16897037005640FD /* IDTWebViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +59,7 @@
 		20D6069216138F5D0091658C /* IDTDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IDTDetailViewController.h; sourceTree = "<group>"; };
 		20D6069316138F5D0091658C /* IDTDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IDTDetailViewController.m; sourceTree = "<group>"; };
 		20D6069A16138F950091658C /* MainStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard.storyboard; sourceTree = "<group>"; };
+		20DE1C7E16925D7B000A7F01 /* glass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glass.png; sourceTree = "<group>"; };
 		20E71D3D16897037005640FD /* IDTWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDTWebViewController.h; sourceTree = "<group>"; };
 		20E71D3E16897037005640FD /* IDTWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDTWebViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -122,6 +124,7 @@
 				20E71D3D16897037005640FD /* IDTWebViewController.h */,
 				20E71D3E16897037005640FD /* IDTWebViewController.m */,
 				20D6068316138F5D0091658C /* IDTAppDelegate.h */,
+				20DE1C7E16925D7B000A7F01 /* glass.png */,
 				20D6068416138F5D0091658C /* IDTAppDelegate.m */,
 				207718E2166C391E00F8835A /* IDTDocument.h */,
 				207718DF166C391100F8835A /* IDTDocument.m */,
@@ -207,6 +210,7 @@
 				20D6069B16138F950091658C /* MainStoryboard.storyboard in Resources */,
 				209DF224165987EF0096A78C /* HTMLNames.plist in Resources */,
 				20259D691691390200F4A1BA /* Telescope-icon.png in Resources */,
+				20DE1C7F16925D7B000A7F01 /* glass.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
