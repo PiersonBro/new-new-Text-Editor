@@ -20,6 +20,6 @@
 
 @property (strong, nonatomic) IBOutlet UIButton *button;
 
-@property (strong, nonatomic) IBOutlet UITextView *textField;
+@property (strong, nonatomic) IBOutlet UITextView *textView;
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 @end

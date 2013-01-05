@@ -29,7 +29,7 @@
      self.url = [[NSURL alloc]initFileURLWithPath:[self.detailItem description]];
     self.document = [[IDTDocument alloc]initWithFileURL:self.url];
     [self.document openWithCompletionHandler:^(BOOL success) {
-        self.textField.text = self.document.userText;
+        self.textView.text = self.document.userText;
         
 
         if (success) {
@@ -40,7 +40,7 @@
         }
     }];
 
-    self.textField.delegate = self;
+    self.textView.delegate = self;
 }
 #pragma mark textView Delagate
 - (void)textViewDidChange:(UITextView *)textView {
@@ -72,8 +72,8 @@
     
     [self.navigationItem.backBarButtonItem setAction:@selector(perform:)];
     if (self.darkModeEnabled == YES) {
-       self.textField.textColor = [UIColor colorWithWhite:1 alpha:1];
-       self.textField.backgroundColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.2 alpha:1];
+       self.textView.textColor = [UIColor colorWithWhite:1 alpha:1];
+       self.textView.backgroundColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.2 alpha:1];
     }
     
     [super viewDidLoad];
@@ -149,7 +149,7 @@
     //FIXME: This can casue a NSRangeException or NSRangeUnkown. if the text does not have a charecter at 41;
     NSString *subjectStr = self.nameOfFile;
        [compose setSubject:subjectStr];
-    [compose setMessageBody:self.textField.text isHTML:NO];
+    [compose setMessageBody:self.textView.text isHTML:NO];
     [self presentViewController:compose animated:YES completion:nil];
 }
 
@@ -165,10 +165,10 @@
 //This is the view controller conterpart to the model's stringMatch method.
 -(void) highlight {
     
-    self.textField.text = self.document.userText;
+    self.textView.text = self.document.userText;
 
-    [self.document stringMatch:self.textField.text];
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:self.textField.text];
+    [self.document stringMatch:self.textView.text];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:self.textView.text];
   
     for (int i = 0; i < [self.document.rangesOfHighlight count]; i++) {
     
@@ -179,7 +179,7 @@
     
         [attributedString  addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:0.7 green:0.2 blue:0.3 alpha:0.9] range:range];
     }
-    self.textField.attributedText = attributedString;
+    self.textView.attributedText = attributedString;
    
 
 
@@ -191,7 +191,7 @@
         
         IDTWebViewController *webView = [segue destinationViewController];
         NSError *error;
-        webView.stringForWebView = [MMMarkdown HTMLStringWithMarkdown:self.textField.text error:&error];
+        webView.stringForWebView = [MMMarkdown HTMLStringWithMarkdown:self.textView.text error:&error];
         if (error) {
             NSLog(@"error is %@",error);
         }
@@ -203,7 +203,7 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
     [super touchesBegan:touches withEvent:event];
-    [self.textField resignFirstResponder];
+    [self.textView resignFirstResponder];
     [self.view endEditing:YES];
 
 }

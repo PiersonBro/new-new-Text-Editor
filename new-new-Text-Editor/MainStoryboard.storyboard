@@ -170,7 +170,7 @@
                     <connections>
                         <outlet property="button" destination="uJz-Fr-ZSG" id="R4s-Ah-CAh"/>
                         <outlet property="detailDescriptionLabel" destination="27" id="28"/>
-                        <outlet property="textField" destination="6AS-6Q-6Bg" id="sng-ZR-KAG"/>
+                        <outlet property="textView" destination="6AS-6Q-6Bg" id="7wL-Sp-nez"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="23" sceneMemberID="firstResponder"/>
@@ -178,6 +178,37 @@
             <point key="canvasLocation" x="1415" y="-539"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="IDTDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/IDTDetailViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="action1:"/>
+                <relationship kind="action" name="action2:"/>
+                <relationship kind="action" name="action3:"/>
+                <relationship kind="action" name="mailPressed:"/>
+                <relationship kind="outlet" name="button" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="detailDescriptionLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="IDTMasterViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/IDTMasterViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
+            </relationships>
+        </class>
+        <class className="IDTWebViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/IDTWebViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="mailPressed:"/>
+                <relationship kind="action" name="shareHTML:"/>
+                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
