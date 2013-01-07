@@ -14,11 +14,13 @@
 #import "MMMarkdown.h"
 
 @interface IDTDetailViewController : UIViewController
-
+//These properties are perhaps the only ones that should be public.
 @property (strong, nonatomic) id detailItem;
 @property (strong,nonatomic) id nameOfFile;
 
-@property (strong, nonatomic) IBOutlet UIButton *button;
+
+//FIXME: Properties should be private.
+@property (strong, nonatomic) IBOutlet UIButton *segueButton;
 
 @property (strong, nonatomic) IBOutlet UITextView *textView;
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;

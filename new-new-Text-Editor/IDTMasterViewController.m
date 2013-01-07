@@ -9,7 +9,9 @@
 #import "IDTMasterViewController.h"
 
 #import "IDTDetailViewController.h"
-@interface IDTMasterViewController () <UIAlertViewDelegate,UISearchDisplayDelegate,UISearchBarDelegate>  {
+@interface IDTMasterViewController () <UIAlertViewDelegate,UISearchDisplayDelegate,UISearchBarDelegate,UIActionSheetDelegate,UIGestureRecognizerDelegate>  {
+    
+    NSIndexPath *_indexOfFile;
     
 }
 @property (nonatomic,strong) IDTDocument *contactModel;
@@ -56,7 +58,7 @@
     self.displayController.searchResultsDataSource = self;
     self.displayController.searchResultsDelegate = self;
     self.displayController.delegate = self;
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(popup:)];
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(popup:withText:)];
     self.navigationItem.rightBarButtonItem = addButton;
     
  
@@ -73,17 +75,30 @@
 
 
 #pragma mark - table insert and setup (non-delagte)
--(void) popup:(id)sender {
+-(void) popup:(id)sender withText:(id)buttonText {
+    if (buttonText == @"Rename") {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Enter File Name"
+                                                            message:@"Enter the name of the file"
+                                                           delegate:self
+                                                  cancelButtonTitle:@"Cancel"
+                                                  otherButtonTitles:buttonText, nil];
+        [alertView  setAlertViewStyle:UIAlertViewStylePlainTextInput];
+        [alertView show];
+    }
+    else {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Enter File Name"
                                                         message:@"Enter the name of the file"
                                                        delegate:self
                                               cancelButtonTitle:@"Cancel"
-                                              otherButtonTitles:@"OK", nil];
+                                              otherButtonTitles:@"Enter", nil];
     [alertView  setAlertViewStyle:UIAlertViewStylePlainTextInput];
     [alertView show];
+    }
+   
 
     
 }
+
 - (void)insertNewObject:(id)sender
 {
     [self.contactModel createFile:@"Welcome to the green text editor":self.textForFileName :0];
@@ -120,15 +135,34 @@
 
     }
 }
+#pragma mark Rename Functionality.
+-(void)handleLongPress:(UIGestureRecognizer *)longPress {
+    if (longPress.state == UIGestureRecognizerStateEnded) {
+        
+    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Rename" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:@"Rename", nil];
+    CGPoint pressPoint = [longPress locationInView:self.tableView];
+    _indexOfFile = [self.tableView indexPathForRowAtPoint:pressPoint];
+    NSLog(@"indexPath is %@",_indexOfFile);
+    [actionSheet showFromRect:self.view.frame inView:self.view animated:YES];
+    }
+}
 
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [self popup:self withText:@"Rename"];
+    }
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
     if ( cell == nil ) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
+    
     
     //cell label.
     NSString *cellLabel = nil;
@@ -146,7 +180,10 @@
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 
     // Configure the cell
-    
+    UILongPressGestureRecognizer *gestureRecognizer = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handleLongPress:)];
+    [cell addGestureRecognizer:gestureRecognizer];
+    [gestureRecognizer setDelegate:self];
+    gestureRecognizer.delaysTouchesBegan = 4.0;
 
     return cell;
 }
@@ -173,14 +210,26 @@
 - (void)alertView:(UIAlertView *)alertView
 didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 1) {
+
+    if ([[alertView buttonTitleAtIndex:1] isEqualToString:@"Rename"]) {
+        NSLog(@"SUCCES");
+        self.textForFileName = [[alertView textFieldAtIndex:0]text];
+        NSUInteger uint = _indexOfFile.row;
+        NSLog(@"%d",uint);
+       NSString *prevNameOfFile = [self.contactModel.textFiles objectAtIndex:uint];
+        [self.contactModel renameFileName:prevNameOfFile withName:self.textForFileName atIndexPath:_indexOfFile];
+        [self.tableView reloadData];
+    }
+
+    
+    if ([[alertView buttonTitleAtIndex:1] isEqualToString:@"Enter"]) {
         
         self.textForFileName = [[alertView textFieldAtIndex:0]text];
        
         if (self.textForFileName != nil) {
             [self insertNewObject:self];
         }
-                
+        
         
         
     }

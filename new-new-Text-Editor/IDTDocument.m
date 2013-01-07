@@ -41,7 +41,7 @@
     if ([self.userText length] == 0) {
         self.userText = @"Empty";
     }
-    //Error handling/
+    //Error handling
     
 
     return [NSData dataWithBytes:[self.userText UTF8String]
@@ -59,17 +59,21 @@
     
     
     NSFileManager *filemgr = [NSFileManager defaultManager];
-    if ([filemgr contentsOfDirectoryAtPath:self.docsDir error:nil])
+    NSError *error;
+    if ([filemgr contentsOfDirectoryAtPath:self.docsDir error:&error])
         
     {
         self.textFiles = [[filemgr contentsOfDirectoryAtPath:self.docsDir error:nil]mutableCopy];
+        
 
     }
     else { [self createFile:@"Hello and welcome to my awesomely cool text editor! This is the list of stuff not yet implemented.  2. Syntax highlighting for HTML (uber difficult). 2.RTF implmentation (SUPER UBER difficult) " :@"Welcome!" :0];
         self.textFiles = [[filemgr contentsOfDirectoryAtPath:self.docsDir error:nil]mutableCopy];
     }
     
-   
+    if (error) {
+        NSLog(@"there was an %@",error);
+    }
     
     self.textFilesPaths = [[NSMutableArray alloc]init];
     for (int i = 0; i<[self.textFiles count]; i++) {
@@ -102,7 +106,9 @@
     for (int i = 0; i < [namesToHighlight count]; i++) {
         NSRegularExpression *squeezeNewlines = [NSRegularExpression regularExpressionWithPattern:[namesToHighlight objectAtIndex:i]
  options:NSRegularExpressionAllowCommentsAndWhitespace  error:&error];
-       
+        
+            
+        //FIXME: If string is nil it will though an exception
        [squeezeNewlines enumerateMatchesInString:string options:0 range:[string rangeOfString:string] usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
           
           NSRange textMatchRange = [result rangeAtIndex:0];
@@ -110,6 +116,7 @@
       }];
   
     }
+
       return self.rangesOfHighlight;
       
 }
@@ -160,6 +167,30 @@
     return self.path;
     
     
+    
+}
+-(NSString *)renameFileName:(NSString *)name withName:(NSString *)newFileName atIndexPath:(NSIndexPath *)indexPath {
+    [self general];
+    self.path = [self.docsDir stringByAppendingPathComponent:name];
+    NSString * newPath = [self.docsDir stringByAppendingPathComponent:newFileName];
+    
+    NSError *error;
+    
+    if ([[NSFileManager defaultManager]moveItemAtPath:self.path toPath:newPath error:&error])
+        NSLog(@"succes");
+    NSUInteger interger = indexPath.row;
+    [self.textFiles removeObjectAtIndex:interger];
+    [self.textFilesPaths removeObjectAtIndex:interger];
+    [self.textFiles insertObject:newFileName atIndex:interger];
+    [self.textFilesPaths insertObject:newPath atIndex:interger];
+    //Basic error functionality.
+    
+    if (error) {
+        NSLog(@"%@",error);
+    }
+
+    
+    return self.path;
 }
 
 

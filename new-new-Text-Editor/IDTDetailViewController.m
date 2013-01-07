@@ -51,7 +51,7 @@
 #pragma mark view handling
 - (void)viewDidLoad
 {
-    self.button.hidden = YES;
+    self.segueButton.hidden = YES;
        
     //Set up a UISegmentedControl and setup it's target.
     

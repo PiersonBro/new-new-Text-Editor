@@ -41,4 +41,6 @@
 -(NSMutableArray *) stringMatch:(NSString *)string;
 
 
+-(NSString *)renameFileName:(NSString *)name withName:(NSString *)newFileName atIndexPath:(NSIndexPath *)indexPath;
+
 @end

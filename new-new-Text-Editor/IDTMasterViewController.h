@@ -14,5 +14,5 @@
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 
 - (void)insertNewObject:(id)sender;
--(void) popup:(id)sender;
+-(void) popup:(id)sender withText:(id)buttonText;
 @end

@@ -17,7 +17,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="10" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="682" y="-329"/>
+            <point key="canvasLocation" x="-744" y="-397"/>
         </scene>
         <!--Master View Controller - Master-->
         <scene sceneID="18">
@@ -168,14 +168,14 @@
                     </view>
                     <navigationItem key="navigationItem" title="Detail" id="26"/>
                     <connections>
-                        <outlet property="button" destination="uJz-Fr-ZSG" id="R4s-Ah-CAh"/>
                         <outlet property="detailDescriptionLabel" destination="27" id="28"/>
+                        <outlet property="segueButton" destination="uJz-Fr-ZSG" id="22t-zc-MM7"/>
                         <outlet property="textView" destination="6AS-6Q-6Bg" id="7wL-Sp-nez"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="23" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1415" y="-539"/>
+            <point key="canvasLocation" x="1059" y="-1467"/>
         </scene>
     </scenes>
     <classes>
