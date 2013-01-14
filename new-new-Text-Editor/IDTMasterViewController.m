@@ -143,9 +143,13 @@
     
     UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Rename" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:@"Rename", nil];
     CGPoint pressPoint = [longPress locationInView:self.tableView];
+        CGRect rectFromPressPoint = {
+            pressPoint,
+            self.tableView.frame.size
+        };
     _indexOfFile = [self.tableView indexPathForRowAtPoint:pressPoint];
     NSLog(@"indexPath is %@",_indexOfFile);
-    [actionSheet showFromRect:self.view.frame inView:self.view animated:YES];
+    [actionSheet showFromRect:rectFromPressPoint inView:self.tableView animated:YES];
     }
 }
 

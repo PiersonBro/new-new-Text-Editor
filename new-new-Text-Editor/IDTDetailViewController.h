@@ -24,4 +24,6 @@
 
 @property (strong, nonatomic) IBOutlet UITextView *textView;
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+@property (nonatomic) BOOL darkModeEnabled;
+
 @end

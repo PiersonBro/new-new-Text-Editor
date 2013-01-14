@@ -84,10 +84,7 @@
                 
         
     }
-    // This deletes the terrible .DS_Store.
-    [self.textFilesPaths removeObjectAtIndex:0];
-    [self.textFiles removeObjectAtIndex:0];
-
+      
     
     
     

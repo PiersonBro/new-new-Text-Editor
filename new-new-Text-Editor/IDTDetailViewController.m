@@ -7,11 +7,12 @@
 //
 #import "IDTDetailViewController.h"
 #import "IDTWebViewController.h"
-@interface IDTDetailViewController () <MFMailComposeViewControllerDelegate,UITextViewDelegate,UIDocumentInteractionControllerDelegate,UIGestureRecognizerDelegate,UIWebViewDelegate,UIAlertViewDelegate>
+@interface IDTDetailViewController () <MFMailComposeViewControllerDelegate,UITextViewDelegate,UIDocumentInteractionControllerDelegate,UIGestureRecognizerDelegate,UIWebViewDelegate,UIAlertViewDelegate> {
+    UIBarButtonItem *barButton;
+}
 - (void)configureView;
 @property (nonatomic,strong)  IDTDocument *document;
 @property (nonatomic,strong) NSURL *url;
-@property (nonatomic) BOOL darkModeEnabled;
 
 @property (retain,nonatomic)UIDocumentInteractionController* docInteractionController;
 
@@ -54,15 +55,13 @@
     self.segueButton.hidden = YES;
     self.segueButton.enabled = NO;
        
-    //Set up a UISegmentedControl and setup it's target.
     
 
-    UIBarButtonItem *barButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(action1:)];
+    barButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(action1:)];
     UIBarButtonItem *barButton2 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(action4:)];
         UIBarButtonItem *barButton3 = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Telescope-icon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(action3:)];
         NSArray *barButtonItemArray = [[NSArray alloc]initWithObjects:barButton,barButton2,barButton3, nil];
     
-    self.navigationItem.rightBarButtonItem = barButton;
     self.navigationItem.rightBarButtonItems = barButtonItemArray;
     // Attirbuted String for header label.
     NSMutableAttributedString *displayNameOfFile = [[NSMutableAttributedString alloc]initWithString:self.nameOfFile];
@@ -117,14 +116,14 @@
     self.docInteractionController = [UIDocumentInteractionController interactionControllerWithURL:self.url];
     
             self.docInteractionController.delegate = self;
-    
-            if ([self.docInteractionController presentOptionsMenuFromRect:self.view.frame
-                                                                   inView:self.view animated:YES]){
-            }
-            else{
-                [self notifyUserOfNegativeEventWithString:@"Sorry you don't have the proper apps installed to handle this file!"];
-    
-            }
+    [self.docInteractionController presentOpenInMenuFromBarButtonItem:barButton animated:YES];
+//            if ([self.docInteractionController presentOptionsMenuFromRect:self.view.frame
+//                                                                   inView:self.view animated:YES]){
+//            }
+//            else{
+//                [self notifyUserOfNegativeEventWithString:@"Sorry you don't have the proper apps installed to handle this file!"];
+//    
+//            }
 
     
 }
