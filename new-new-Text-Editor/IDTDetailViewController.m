@@ -100,7 +100,6 @@
             [self notifyUserOfNegativeEventWithString:@"Sorry. The Document Failed to save! There is nothing you can do but wallow in your own misery and delete this stupid app. My apologies "];
         }
     }];
-    
     }
     [super viewWillDisappear:YES];
 }

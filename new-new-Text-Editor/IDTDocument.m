@@ -102,13 +102,13 @@
     NSString *path = [[NSBundle mainBundle] pathForResource:@"HTMLNames" ofType:@"plist"];
     NSArray *namesToHighlight = [[NSArray alloc]initWithContentsOfFile:path];
     self.rangesOfHighlight = [[NSMutableArray alloc]init];
-    NSError *error = nil;
+    NSError *error = nil; 
     for (int i = 0; i < [namesToHighlight count]; i++) {
         NSRegularExpression *squeezeNewlines = [NSRegularExpression regularExpressionWithPattern:[namesToHighlight objectAtIndex:i]
  options:NSRegularExpressionAllowCommentsAndWhitespace  error:&error];
         
             
-        //FIXME: If string is nil it will though an exception
+        //FIXME: If string is nil it will throq an exception
        [squeezeNewlines enumerateMatchesInString:string options:0 range:[string rangeOfString:string] usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
           
           NSRange textMatchRange = [result rangeAtIndex:0];
@@ -123,7 +123,8 @@
 
 -(NSMutableArray *)findText:(NSString *)text inText:(NSString*)inText {
     NSMutableArray *matches = [[NSMutableArray alloc]init];
-    NSError *error;
+    
+    NSError *error = nil;
     
     NSRegularExpression *findRangesWithReEx = [[NSRegularExpression alloc]initWithPattern:text options:0 error:&error];
     
@@ -136,7 +137,7 @@
 
 
 
-#pragma View Controller agnostic methods
+#pragma General File Management
 //sets up self.docsDir and self.path
 
 -(void) general {

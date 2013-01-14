@@ -76,6 +76,7 @@
 
 #pragma mark - table insert and setup (non-delagte)
 -(void) popup:(id)sender withText:(id)buttonText {
+    ///Embarassing.
     if (buttonText == @"Rename") {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Enter File Name"
                                                             message:@"Enter the name of the file"
@@ -212,7 +213,7 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     
 
-    if ([[alertView buttonTitleAtIndex:1] isEqualToString:@"Rename"]) {
+    if ([[alertView buttonTitleAtIndex:1] isEqualToString:@"Rename"] && buttonIndex == 1) {
         NSLog(@"SUCCES");
         self.textForFileName = [[alertView textFieldAtIndex:0]text];
        
@@ -227,11 +228,12 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
     }
 
     
-    if ([[alertView buttonTitleAtIndex:1] isEqualToString:@"Enter"]) {
+    if ([[alertView buttonTitleAtIndex:1] isEqualToString:@"Enter"] && buttonIndex == 1) {
         
         self.textForFileName = [[alertView textFieldAtIndex:0]text];
        
         if (self.textForFileName == nil) {
+            //FIXME: I crash if there is already a file named like me.
             self.textForFileName = @"Blank";
         }
         [self insertNewObject:self];
