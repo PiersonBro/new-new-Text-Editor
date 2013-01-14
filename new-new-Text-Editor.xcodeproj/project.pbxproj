@@ -40,7 +40,6 @@
 		207718E2166C391E00F8835A /* IDTDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IDTDocument.h; sourceTree = "<group>"; };
 		208BA30A166F1CA300118232 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		209DF223165987EF0096A78C /* HTMLNames.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = HTMLNames.plist; sourceTree = "<group>"; };
-		20C07D9B167FACE50020E517 /* IDTDataSourceArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDTDataSourceArray.h; sourceTree = "<group>"; };
 		20D6067016138F5D0091658C /* new-new-Text-Editor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "new-new-Text-Editor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		20D6067416138F5D0091658C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		20D6067616138F5D0091658C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -121,8 +120,6 @@
 				20D6069016138F5D0091658C /* IDTMasterViewController.m */,
 				20D6069216138F5D0091658C /* IDTDetailViewController.h */,
 				20D6069316138F5D0091658C /* IDTDetailViewController.m */,
-				20E71D3D16897037005640FD /* IDTWebViewController.h */,
-				20E71D3E16897037005640FD /* IDTWebViewController.m */,
 				20D6068316138F5D0091658C /* IDTAppDelegate.h */,
 				20DE1C7E16925D7B000A7F01 /* glass.png */,
 				20D6068416138F5D0091658C /* IDTAppDelegate.m */,
@@ -130,6 +127,8 @@
 				207718DF166C391100F8835A /* IDTDocument.m */,
 				206EAD52168919A100C6A06C /* MMMarkdown.h */,
 				20259D681691390200F4A1BA /* Telescope-icon.png */,
+				20E71D3E16897037005640FD /* IDTWebViewController.m */,
+				20E71D3D16897037005640FD /* IDTWebViewController.h */,
 				20D6067B16138F5D0091658C /* Supporting Files */,
 			);
 			path = "new-new-Text-Editor";
@@ -270,6 +269,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				SDKROOT = iphoneos;
+				VALID_ARCHS = armv7;
 			};
 			name = Debug;
 		};
@@ -295,6 +295,7 @@
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = armv7;
 			};
 			name = Release;
 		};
@@ -311,6 +312,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv7 ";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -328,6 +330,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv7 ";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
