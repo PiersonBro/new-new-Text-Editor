@@ -7,7 +7,7 @@
 //
 #import "IDTDetailViewController.h"
 #import "IDTWebViewController.h"
-@interface IDTDetailViewController () <MFMailComposeViewControllerDelegate,UITextViewDelegate,UIDocumentInteractionControllerDelegate,UIGestureRecognizerDelegate,UIWebViewDelegate>
+@interface IDTDetailViewController () <MFMailComposeViewControllerDelegate,UITextViewDelegate,UIDocumentInteractionControllerDelegate,UIGestureRecognizerDelegate,UIWebViewDelegate,UIAlertViewDelegate>
 - (void)configureView;
 @property (nonatomic,strong)  IDTDocument *document;
 @property (nonatomic,strong) NSURL *url;
@@ -52,15 +52,15 @@
 - (void)viewDidLoad
 {
     self.segueButton.hidden = YES;
+    self.segueButton.enabled = NO;
        
     //Set up a UISegmentedControl and setup it's target.
     
 
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(action1:)];
-    UIBarButtonItem *barButton2 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(action2:)];
-    UIBarButtonItem *barButton3 = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Telescope-icon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(action3:)];
-    
-    NSArray *barButtonItemArray = [[NSArray alloc]initWithObjects:barButton,barButton2,barButton3, nil];
+    UIBarButtonItem *barButton2 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(action4:)];
+        UIBarButtonItem *barButton3 = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Telescope-icon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(action3:)];
+        NSArray *barButtonItemArray = [[NSArray alloc]initWithObjects:barButton,barButton2,barButton3, nil];
     
     self.navigationItem.rightBarButtonItem = barButton;
     self.navigationItem.rightBarButtonItems = barButtonItemArray;
@@ -139,6 +139,13 @@
 
     
 }
+-(IBAction)action4:(id)sender {
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Search" message:@"type in stuff to search text" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Search", nil];
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+
+    [alertView show];
+  
+}
 //When the email button is selected this code is executed.
 - (IBAction)mailPressed:(id)sender {
     
@@ -208,6 +215,32 @@
 
 }
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    //ACCK this throws an exception when string is nil.
+    if (buttonIndex == 1) {
+        
+        NSString *string = [[alertView textFieldAtIndex:0]text];
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:self.textView.text];
+
+       NSMutableArray *array =  [self.document findText:string inText:self.textView.text];
+        for (int i = 0; i < [array count]; i++) {
+            
+        
+        NSRange range = [[array objectAtIndex:i]rangeValue];
+                    [attributedString  addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:1 green:1 blue:0.0 alpha:1] range:range];
+        }
+        self.textView.attributedText = attributedString;
+         
+        
+        
+//        CGRect rect = [self.textView firstRectForRange:textRange];
+//      
+//        [self.textView drawRect:rect];
+//        UIRectFill(rect);
+
+        
+    }
+}
 
 
 

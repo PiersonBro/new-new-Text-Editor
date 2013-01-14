@@ -210,12 +210,17 @@
 - (void)alertView:(UIAlertView *)alertView
 didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
+    
 
     if ([[alertView buttonTitleAtIndex:1] isEqualToString:@"Rename"]) {
         NSLog(@"SUCCES");
         self.textForFileName = [[alertView textFieldAtIndex:0]text];
+       
+            
+        
+        
         NSUInteger uint = _indexOfFile.row;
-        NSLog(@"%d",uint);
+        
        NSString *prevNameOfFile = [self.contactModel.textFiles objectAtIndex:uint];
         [self.contactModel renameFileName:prevNameOfFile withName:self.textForFileName atIndexPath:_indexOfFile];
         [self.tableView reloadData];
@@ -226,13 +231,18 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
         
         self.textForFileName = [[alertView textFieldAtIndex:0]text];
        
-        if (self.textForFileName != nil) {
-            [self insertNewObject:self];
+        if (self.textForFileName == nil) {
+            self.textForFileName = @"Blank";
         }
-        
+        [self insertNewObject:self];
         
         
     }
+    
+}
+-(void)notifyUserOfNegativeEventWithString:(NSString *)string {
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Sorry" message:string delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    [alert show];
 }
 
 #pragma mark seque.

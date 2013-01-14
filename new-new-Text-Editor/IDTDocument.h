@@ -43,4 +43,5 @@
 
 -(NSString *)renameFileName:(NSString *)name withName:(NSString *)newFileName atIndexPath:(NSIndexPath *)indexPath;
 
+-(NSMutableArray *) findText:(NSString *)text inText:(NSString *)inText;
 @end

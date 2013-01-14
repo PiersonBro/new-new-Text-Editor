@@ -121,6 +121,19 @@
       
 }
 
+-(NSMutableArray *)findText:(NSString *)text inText:(NSString*)inText {
+    NSMutableArray *matches = [[NSMutableArray alloc]init];
+    NSError *error;
+    
+    NSRegularExpression *findRangesWithReEx = [[NSRegularExpression alloc]initWithPattern:text options:0 error:&error];
+    
+    [findRangesWithReEx enumerateMatchesInString:inText options:0 range:NSMakeRange(0, inText.length) usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
+        NSRange textMatchRange = [result rangeAtIndex:0];
+        [matches addObject:[NSValue valueWithRange:textMatchRange]];
+    }];
+    return matches;
+}
+
 
 
 #pragma View Controller agnostic methods
@@ -129,9 +142,9 @@
 -(void) general {
     self.docsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
     self.docsDir = [self.docsDir stringByAppendingString:@"/"];
-    if (self.path == nil) {
+    if (self.path == nil)
         self.path = [self.docsDir stringByAppendingString:@"text.txt"];
-    }
+    
     
 }
 
@@ -160,9 +173,9 @@
     
     //Basic error functionality.
     
-    if (error != nil) {
+    if (error != nil)
         NSLog(@"%@",error);
-    }
+    
     
     return self.path;
     
@@ -185,14 +198,13 @@
     [self.textFilesPaths insertObject:newPath atIndex:interger];
     //Basic error functionality.
     
-    if (error) {
+    if (error)
         NSLog(@"%@",error);
-    }
+    
 
     
     return self.path;
 }
-
 
 
 
