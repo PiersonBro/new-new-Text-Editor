@@ -30,15 +30,15 @@
      self.url = [[NSURL alloc]initFileURLWithPath:[self.detailItem description]];
     self.document = [[IDTDocument alloc]initWithFileURL:self.url];
     [self.document openWithCompletionHandler:^(BOOL success) {
-        self.textView.text = self.document.userText;
         
 
-        if (success) {
+        if (success) 
             [self highlight];
 
-        }
-        else {            [self notifyUserOfNegativeEventWithString:@"Sorry. The Document Failed to save! There is nothing you can do but wallow in your own misery and delete this stupid app. My apologies "];
-        }
+        
+        else
+            [self notifyUserOfNegativeEventWithString:@"Sorry. The Document Failed to save! There is nothing you can do but wallow in your own misery and delete this stupid app. My apologies "];
+    
     }];
 
     self.textView.delegate = self;
@@ -94,10 +94,11 @@
     if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
 
     [self.document closeWithCompletionHandler:^(BOOL success) {
-        if (success) {
-        }else {
+        if (success) 
+            NSLog(@"YES");
+        else 
             [self notifyUserOfNegativeEventWithString:@"Sorry. The Document Failed to save! There is nothing you can do but wallow in your own misery and delete this stupid app. My apologies "];
-        }
+        
     }];
     }
     [super viewWillDisappear:YES];
@@ -116,15 +117,11 @@
     self.docInteractionController = [UIDocumentInteractionController interactionControllerWithURL:self.url];
     
             self.docInteractionController.delegate = self;
-    [self.docInteractionController presentOpenInMenuFromBarButtonItem:barButton animated:YES];
-//            if ([self.docInteractionController presentOptionsMenuFromRect:self.view.frame
-//                                                                   inView:self.view animated:YES]){
-//            }
-//            else{
-//                [self notifyUserOfNegativeEventWithString:@"Sorry you don't have the proper apps installed to handle this file!"];
-//    
-//            }
-
+    if ([self.docInteractionController presentOptionsMenuFromBarButtonItem:barButton animated:YES]) 
+        NSLog(@"Succes");
+    
+    else
+        NSLog(@"faluire is not an option");
     
 }
 -(IBAction)action2:(id)sender {

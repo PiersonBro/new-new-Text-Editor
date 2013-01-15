@@ -128,13 +128,13 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-    if (tableView == self.displayController.searchResultsTableView) {
+    if (tableView == self.displayController.searchResultsTableView) 
         return self.textFilesFiltered.count;
-    }
-    else {
+    
+    else
     return self.contactModel.textFiles.count;
 
-    }
+    
 }
 #pragma mark Rename Functionality.
 -(void)handleLongPress:(UIGestureRecognizer *)longPress {
@@ -172,14 +172,14 @@
     //cell label.
     NSString *cellLabel = nil;
    
-    if (tableView != self.searchDisplayController.searchResultsTableView) {
+    if (tableView != self.searchDisplayController.searchResultsTableView) 
         cellLabel = [self.contactModel.textFiles objectAtIndex:indexPath.row];
 
-    }
     
-    else {
+    
+    else 
         cellLabel = [self.textFilesFiltered objectAtIndex:indexPath.row];
-           } 
+    
     
     cell.textLabel.text = cellLabel;
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
@@ -207,6 +207,7 @@
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        
     }
 }
 
@@ -270,13 +271,13 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
         }
         
         IDTDetailViewController *contactDetailViewController = [segue destinationViewController];
-        if (sender == self.searchDisplayController.searchResultsTableView) {
+        if (sender == self.searchDisplayController.searchResultsTableView) 
             contactDetailViewController.nameOfFile = [self.textFilesFiltered objectAtIndex:indexPath.row];
 
-        }
-        else {
-        contactDetailViewController.nameOfFile = [self.contactModel.textFiles objectAtIndex:indexPath.row];
-        }
+        
+        else
+           contactDetailViewController.nameOfFile = [self.contactModel.textFiles objectAtIndex:indexPath.row];
+        
         [[segue destinationViewController] setDetailItem:object];
                                                     
                                                            

@@ -17,14 +17,14 @@
 - (BOOL)loadFromContents:(id)contents ofType:(NSString *)typeName error:(NSError **)outError
 {
     
-    if ([contents length] > 0) {
+    if ([contents length] > 0) 
         self.userText = [[NSString alloc] initWithBytes:[contents bytes]
                                                     length:[contents length]
                                                   encoding:NSUTF8StringEncoding];
         
-    } else {
+     else
         self.userText = @"Empty"; // When the note is created we assign some default content
-    }
+    
    
     //I am keeping this here in the off chance that I will implment NSNotification functionnality.
     [[NSNotificationCenter defaultCenter] postNotificationName:@"noteModified"
@@ -62,18 +62,18 @@
     NSError *error;
     if ([filemgr contentsOfDirectoryAtPath:self.docsDir error:&error])
         
-    {
+    
         self.textFiles = [[filemgr contentsOfDirectoryAtPath:self.docsDir error:nil]mutableCopy];
         
 
-    }
-    else { [self createFile:@"Hello and welcome to my awesomely cool text editor! This is the list of stuff not yet implemented.  2. Syntax highlighting for HTML (uber difficult). 2.RTF implmentation (SUPER UBER difficult) " :@"Welcome!" :0];
-        self.textFiles = [[filemgr contentsOfDirectoryAtPath:self.docsDir error:nil]mutableCopy];
-    }
     
-    if (error) {
+    else  [self createFile:@"Hello and welcome to my awesomely cool text editor! This is the list of stuff not yet implemented.  2. Syntax highlighting for HTML (uber difficult). 2.RTF implmentation (SUPER UBER difficult) " :@"Welcome!" :0];
+        self.textFiles = [[filemgr contentsOfDirectoryAtPath:self.docsDir error:nil]mutableCopy];
+    
+    
+    if (error)
         NSLog(@"there was an %@",error);
-    }
+    
     
     self.textFilesPaths = [[NSMutableArray alloc]init];
     for (int i = 0; i<[self.textFiles count]; i++) {
