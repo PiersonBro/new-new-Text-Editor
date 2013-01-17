@@ -123,10 +123,10 @@
 				20D6068416138F5D0091658C /* IDTAppDelegate.m */,
 				207718E2166C391E00F8835A /* IDTDocument.h */,
 				207718DF166C391100F8835A /* IDTDocument.m */,
-				206EAD52168919A100C6A06C /* MMMarkdown.h */,
 				20259D681691390200F4A1BA /* Telescope-icon.png */,
 				20E71D3D16897037005640FD /* IDTWebViewController.h */,
 				20E71D3E16897037005640FD /* IDTWebViewController.m */,
+				206EAD52168919A100C6A06C /* MMMarkdown.h */,
 				20D6067B16138F5D0091658C /* Supporting Files */,
 			);
 			path = "new-new-Text-Editor";
