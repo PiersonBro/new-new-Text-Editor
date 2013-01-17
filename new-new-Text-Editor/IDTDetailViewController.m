@@ -33,7 +33,7 @@
         
 
         if (success) 
-            [self highlight];
+            [self highlightWithRegularExpression:@"(?i)<(?![BIP]\\b ).*?/?>" andColor:[UIColor colorWithRed:0.7 green:0.2 blue:0.3 alpha:0.9]];
 
         
         else
@@ -69,7 +69,6 @@
         self.detailDescriptionLabel.attributedText = displayNameOfFile;
 
     
-    [self.navigationItem.backBarButtonItem setAction:@selector(perform:)];
     if (self.darkModeEnabled == YES) {
        self.textView.textColor = [UIColor colorWithWhite:1 alpha:1];
        self.textView.backgroundColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.2 alpha:1];
@@ -79,25 +78,14 @@
     [self configureView];
 }
 //Not sure if this works but I am keeping it here just in case.
--(void) perform:(id)sender {
-    
-    //do your saving and such here
-    NSLog(@"it kinda worked!");
-    [self.document closeWithCompletionHandler:^(BOOL success) {
-        if (success) {
-            NSLog(@"PARTY");
-        }
-    }];
-    [self.navigationController popViewControllerAnimated:NO];
-}
+
 -(void) viewWillDisappear:(BOOL)animated {
+    
     if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
 
     [self.document closeWithCompletionHandler:^(BOOL success) {
-        if (success) 
-            NSLog(@"YES");
-        else 
-            [self notifyUserOfNegativeEventWithString:@"Sorry. The Document Failed to save! There is nothing you can do but wallow in your own misery and delete this stupid app. My apologies "];
+        if (!success)
+        [self notifyUserOfNegativeEventWithString:@"Sorry. The Document Failed to save! There is nothing you can do but wallow in your own misery and delete this stupid app. My apologies "];
         
     }];
     }
@@ -165,11 +153,11 @@
 
 #pragma mark syntax highlighting
 //This is the view controller conterpart to the model's stringMatch method.
--(void) highlight {
+-(void) highlightWithRegularExpression:(NSString *)regEx andColor:(UIColor *)color{
     
     self.textView.text = self.document.userText;
 
-    [self.document stringMatch:self.textView.text];
+    [self.document stringMatchInString:self.textView.text WithRegularExpr:regEx];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:self.textView.text];
   
     for (int i = 0; i < [self.document.rangesOfHighlight count]; i++) {
@@ -179,7 +167,7 @@
         
        
     
-        [attributedString  addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:0.7 green:0.2 blue:0.3 alpha:0.9] range:range];
+        [attributedString  addAttribute:NSForegroundColorAttributeName value:color range:range];
     }
     self.textView.attributedText = attributedString;
    
@@ -187,7 +175,7 @@
 
     
 }
-
+#pragma mark Segue
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"goToWebView"]) {
         
@@ -215,17 +203,7 @@
     if (buttonIndex == 1) {
         
         NSString *string = [[alertView textFieldAtIndex:0]text];
-        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:self.textView.text];
-
-       NSMutableArray *array =  [self.document findText:string inText:self.textView.text];
-          for (int i = 0; i < [array count]; i++) {
-            
-        
-              NSRange range = [[array objectAtIndex:i]rangeValue];
-                    [attributedString  addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:1 green:1 blue:0.0 alpha:1] range:range];
-        }
-        self.textView.attributedText = attributedString;
-         
+        [self highlightWithRegularExpression:string andColor:[UIColor colorWithRed:1 green:1 blue:0 alpha:1]];
         
 
         

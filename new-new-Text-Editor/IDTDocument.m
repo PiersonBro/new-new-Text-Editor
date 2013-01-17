@@ -95,17 +95,17 @@
 
 #pragma mark Basic String match.
 
--(NSMutableArray *) stringMatch:(NSString *)string {
+-(NSMutableArray *) stringMatchInString:(NSString *)inString WithRegularExpr:(NSString *)regex{
        NSError *error = nil; 
     
-        NSRegularExpression *squeezeNewlines = [NSRegularExpression regularExpressionWithPattern:@"(?i)<(?![BIP]\\b ).*?/?>"
+        NSRegularExpression *squeezeNewlines = [NSRegularExpression regularExpressionWithPattern:regex
  options:NSRegularExpressionCaseInsensitive | NSRegularExpressionSearch error:&error];
     
         
     
     self.rangesOfHighlight = [[NSMutableArray alloc]initWithCapacity:50];
         //FIXME: If string is nil it will throw an exception
-       [squeezeNewlines enumerateMatchesInString:string options:0 range:[string rangeOfString:string] usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
+       [squeezeNewlines enumerateMatchesInString:inString options:0 range:[inString rangeOfString:inString] usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
                           
                
           NSRange textMatchRange = [result rangeAtIndex:0];
@@ -119,19 +119,6 @@
       
 }
 
--(NSMutableArray *)findText:(NSString *)text inText:(NSString*)inText {
-    NSMutableArray *matches = [[NSMutableArray alloc]init];
-    
-    NSError *error = nil;
-    
-    NSRegularExpression *findRangesWithReEx = [[NSRegularExpression alloc]initWithPattern:text options:0 error:&error];
-    
-    [findRangesWithReEx enumerateMatchesInString:inText options:0 range:NSMakeRange(0, inText.length) usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
-        NSRange textMatchRange = [result rangeAtIndex:0];
-        [matches addObject:[NSValue valueWithRange:textMatchRange]];
-    }];
-    return matches;
-}
 
 
 

@@ -38,10 +38,8 @@
 
 
 //Alpha String matching returns a Mutable array full of the ranges of matched strings.
--(NSMutableArray *) stringMatch:(NSString *)string;
-
+-(NSMutableArray *) stringMatchInString:(NSString *)inString  WithRegularExpr:(NSString *)regex;
 
 -(NSString *)renameFileName:(NSString *)name withName:(NSString *)newFileName atIndexPath:(NSIndexPath *)indexPath;
 
--(NSMutableArray *) findText:(NSString *)text inText:(NSString *)inText;
 @end
