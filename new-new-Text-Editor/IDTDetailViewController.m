@@ -194,9 +194,9 @@
         IDTWebViewController *webView = [segue destinationViewController];
         NSError *error;
         webView.stringForWebView = [MMMarkdown HTMLStringWithMarkdown:self.textView.text error:&error];
-        if (error) {
+        if (error)
             NSLog(@"error is %@",error);
-        }
+        
     }
     
 }
@@ -218,20 +218,15 @@
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:self.textView.text];
 
        NSMutableArray *array =  [self.document findText:string inText:self.textView.text];
-        for (int i = 0; i < [array count]; i++) {
+          for (int i = 0; i < [array count]; i++) {
             
         
-        NSRange range = [[array objectAtIndex:i]rangeValue];
+              NSRange range = [[array objectAtIndex:i]rangeValue];
                     [attributedString  addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:1 green:1 blue:0.0 alpha:1] range:range];
         }
         self.textView.attributedText = attributedString;
          
         
-        
-//        CGRect rect = [self.textView firstRectForRange:textRange];
-//      
-//        [self.textView drawRect:rect];
-//        UIRectFill(rect);
 
         
     }

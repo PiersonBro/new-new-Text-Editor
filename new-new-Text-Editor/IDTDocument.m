@@ -96,23 +96,24 @@
 #pragma mark Basic String match.
 
 -(NSMutableArray *) stringMatch:(NSString *)string {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"HTMLNames" ofType:@"plist"];
-    NSArray *namesToHighlight = [[NSArray alloc]initWithContentsOfFile:path];
-    self.rangesOfHighlight = [[NSMutableArray alloc]init];
-    NSError *error = nil; 
-    for (int i = 0; i < [namesToHighlight count]; i++) {
-        NSRegularExpression *squeezeNewlines = [NSRegularExpression regularExpressionWithPattern:[namesToHighlight objectAtIndex:i]
- options:NSRegularExpressionAllowCommentsAndWhitespace  error:&error];
+       NSError *error = nil; 
+    
+        NSRegularExpression *squeezeNewlines = [NSRegularExpression regularExpressionWithPattern:@"(?i)<(?![BIP]\\b ).*?/?>"
+ options:NSRegularExpressionCaseInsensitive | NSRegularExpressionSearch error:&error];
+    
         
-            
-        //FIXME: If string is nil it will throq an exception
+    
+    self.rangesOfHighlight = [[NSMutableArray alloc]initWithCapacity:50];
+        //FIXME: If string is nil it will throw an exception
        [squeezeNewlines enumerateMatchesInString:string options:0 range:[string rangeOfString:string] usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
-          
+                          
+               
           NSRange textMatchRange = [result rangeAtIndex:0];
           [self.rangesOfHighlight addObject:[NSValue valueWithRange:textMatchRange]];
+           
       }];
   
-    }
+    
 
       return self.rangesOfHighlight;
       
