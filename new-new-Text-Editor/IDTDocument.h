@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "IDTFileData.h"
 @interface IDTDocument : UIDocument
 
 #pragma mark Properties 
@@ -24,7 +24,9 @@
 @property (nonatomic) NSMutableArray *rangesOfHighlight;
 @property (strong,nonatomic) NSString * userText;
 
+@property (strong, nonatomic) NSMutableArray *fileData;
 
+@property (strong, nonatomic) IDTFileData *contactFileData;
 
 #pragma mark Public methods
 

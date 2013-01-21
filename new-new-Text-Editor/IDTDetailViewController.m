@@ -5,6 +5,8 @@
 //  Created by E&Z Pierson on 9/26/12.
 //  Copyright (c) 2012 E&Z Pierson. All rights reserved.
 //
+
+#import "KOKeyboardRow.h"
 #import "IDTDetailViewController.h"
 #import "IDTWebViewController.h"
 @interface IDTDetailViewController () <MFMailComposeViewControllerDelegate,UITextViewDelegate,UIDocumentInteractionControllerDelegate,UIGestureRecognizerDelegate,UIWebViewDelegate,UIAlertViewDelegate> {
@@ -47,7 +49,6 @@
 - (void)textViewDidChange:(UITextView *)textView {
     self.document.userText = textView.text;
     [self.document updateChangeCount:UIDocumentChangeDone];
-    
 }
 #pragma mark view handling
 - (void)viewDidLoad
@@ -74,6 +75,14 @@
        self.textView.backgroundColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.2 alpha:1];
     }
     
+    self.OneFinger = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(action2:)];
+    [self.textView addGestureRecognizer:self.OneFinger];
+
+    
+   self.twoFingerswipe = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(action1:)];
+    
+    [self.view addSubview:_textView];
+    [KOKeyboardRow applyToTextView:_textView];
     [super viewDidLoad];
     [self configureView];
 }
@@ -120,8 +129,16 @@
 -(IBAction)action3:(id)sender {
     [self performSegueWithIdentifier:@"goToWebView" sender:self];
 
-    
+
 }
+
+    //This code is supposed to go back to main view
+//}
+//-(IBAction)action5:(id)sender {
+    //[self prepareForSegue:<#(UIStoryboardSegue *)#> sender:<#(id)#>]
+//}
+
+
 -(IBAction)action4:(id)sender {
     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Search" message:@"type in stuff to search text" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Search", nil];
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;

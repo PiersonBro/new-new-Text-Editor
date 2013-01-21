@@ -60,7 +60,6 @@
     self.displayController.delegate = self;
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(popup:withText:)];
     self.navigationItem.rightBarButtonItem = addButton;
-    
  
     
     
@@ -132,7 +131,7 @@
         return self.textFilesFiltered.count;
     
     else
-    return self.contactModel.textFiles.count;
+    return self.contactModel.fileData.count;
 
     
 }
@@ -172,19 +171,20 @@
     //cell label.
     NSString *cellLabel = nil;
    
-    if (tableView != self.searchDisplayController.searchResultsTableView) 
-        cellLabel = [self.contactModel.textFiles objectAtIndex:indexPath.row];
-
+    if (tableView != self.searchDisplayController.searchResultsTableView) {
+       // NSString *string = self.contactModel.contactFileData.fileName;
+        
+        cellLabel = [[self.contactModel.fileData objectAtIndex:indexPath.row]fileName];
+        
+    }
     
-    
-    else 
+    else {
         cellLabel = [self.textFilesFiltered objectAtIndex:indexPath.row];
     
-    
+    }
     cell.textLabel.text = cellLabel;
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 
-    // Configure the cell
     UILongPressGestureRecognizer *gestureRecognizer = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handleLongPress:)];
     [cell addGestureRecognizer:gestureRecognizer];
     [gestureRecognizer setDelegate:self];
@@ -202,7 +202,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSString *identify = [self.contactModel.textFiles objectAtIndex:indexPath.row];
+        NSString *identify = [[self.contactModel.fileData objectAtIndex:indexPath.row]fileName];
         [self.contactModel deleteFile:identify :indexPath.row];
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -227,7 +227,7 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
         
         NSUInteger uint = _indexOfFile.row;
         
-       NSString *prevNameOfFile = [self.contactModel.textFiles objectAtIndex:uint];
+       NSString *prevNameOfFile = [[self.contactModel.fileData objectAtIndex:uint]fileName];
         [self.contactModel renameFileName:prevNameOfFile withName:self.textForFileName atIndexPath:_indexOfFile];
         [self.tableView reloadData];
     }
@@ -267,7 +267,7 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
         else {
              indexPath = [self.tableView indexPathForSelectedRow];
 
-        object = [self.contactModel.textFilesPaths objectAtIndex:indexPath.row];
+        object = [[self.contactModel.fileData objectAtIndex:indexPath.row]filePath];
         }
         
         IDTDetailViewController *contactDetailViewController = [segue destinationViewController];
@@ -276,7 +276,7 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
 
         
         else
-           contactDetailViewController.nameOfFile = [self.contactModel.textFiles objectAtIndex:indexPath.row];
+            contactDetailViewController.nameOfFile = [[self.contactModel.fileData objectAtIndex:indexPath.row]fileName];
         
         [[segue destinationViewController] setDetailItem:object];
                                                     
