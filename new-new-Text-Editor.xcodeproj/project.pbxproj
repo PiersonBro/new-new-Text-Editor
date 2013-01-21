@@ -7,6 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2001B96816ABB0EE00874DA9 /* hal-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 2001B95C16ABB0EE00874DA9 /* hal-black.png */; };
+		2001B96916ABB0EE00874DA9 /* hal-black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2001B95D16ABB0EE00874DA9 /* hal-black@2x.png */; };
+		2001B96A16ABB0EE00874DA9 /* hal-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 2001B95E16ABB0EE00874DA9 /* hal-blue.png */; };
+		2001B96B16ABB0EE00874DA9 /* hal-blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2001B95F16ABB0EE00874DA9 /* hal-blue@2x.png */; };
+		2001B96C16ABB0EE00874DA9 /* hal-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 2001B96016ABB0EE00874DA9 /* hal-white.png */; };
+		2001B96D16ABB0EE00874DA9 /* hal-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2001B96116ABB0EE00874DA9 /* hal-white@2x.png */; };
+		2001B96E16ABB0EE00874DA9 /* key-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 2001B96216ABB0EE00874DA9 /* key-blue.png */; };
+		2001B96F16ABB0EE00874DA9 /* key-blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2001B96316ABB0EE00874DA9 /* key-blue@2x.png */; };
+		2001B97016ABB0EE00874DA9 /* key-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 2001B96416ABB0EE00874DA9 /* key-pressed.png */; };
+		2001B97116ABB0EE00874DA9 /* key-pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2001B96516ABB0EE00874DA9 /* key-pressed@2x.png */; };
+		2001B97216ABB0EE00874DA9 /* key.png in Resources */ = {isa = PBXBuildFile; fileRef = 2001B96616ABB0EE00874DA9 /* key.png */; };
+		2001B97316ABB0EE00874DA9 /* key@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2001B96716ABB0EE00874DA9 /* key@2x.png */; };
+		2001B97A16ABB21000874DA9 /* KOKeyboardRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2001B97716ABB20D00874DA9 /* KOKeyboardRow.m */; };
+		2001B97B16ABB21000874DA9 /* KOSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2001B97916ABB20F00874DA9 /* KOSwipeButton.m */; };
 		20259D691691390200F4A1BA /* Telescope-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 20259D681691390200F4A1BA /* Telescope-icon.png */; };
 		2062AB061615088500CDC8E2 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2062AB051615088500CDC8E2 /* AddressBookUI.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		2062AB081615089400CDC8E2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2062AB071615089400CDC8E2 /* MessageUI.framework */; };
@@ -27,9 +41,26 @@
 		20D6069B16138F950091658C /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20D6069A16138F950091658C /* MainStoryboard.storyboard */; };
 		20DE1C7F16925D7B000A7F01 /* glass.png in Resources */ = {isa = PBXBuildFile; fileRef = 20DE1C7E16925D7B000A7F01 /* glass.png */; };
 		20E71D3F16897037005640FD /* IDTWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E71D3E16897037005640FD /* IDTWebViewController.m */; };
+		20F8D9B116A89EFD007D024F /* IDTFileData.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F8D9B016A89EFD007D024F /* IDTFileData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2001B95C16ABB0EE00874DA9 /* hal-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hal-black.png"; sourceTree = "<group>"; };
+		2001B95D16ABB0EE00874DA9 /* hal-black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hal-black@2x.png"; sourceTree = "<group>"; };
+		2001B95E16ABB0EE00874DA9 /* hal-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hal-blue.png"; sourceTree = "<group>"; };
+		2001B95F16ABB0EE00874DA9 /* hal-blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hal-blue@2x.png"; sourceTree = "<group>"; };
+		2001B96016ABB0EE00874DA9 /* hal-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hal-white.png"; sourceTree = "<group>"; };
+		2001B96116ABB0EE00874DA9 /* hal-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hal-white@2x.png"; sourceTree = "<group>"; };
+		2001B96216ABB0EE00874DA9 /* key-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "key-blue.png"; sourceTree = "<group>"; };
+		2001B96316ABB0EE00874DA9 /* key-blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "key-blue@2x.png"; sourceTree = "<group>"; };
+		2001B96416ABB0EE00874DA9 /* key-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "key-pressed.png"; sourceTree = "<group>"; };
+		2001B96516ABB0EE00874DA9 /* key-pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "key-pressed@2x.png"; sourceTree = "<group>"; };
+		2001B96616ABB0EE00874DA9 /* key.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = key.png; sourceTree = "<group>"; };
+		2001B96716ABB0EE00874DA9 /* key@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "key@2x.png"; sourceTree = "<group>"; };
+		2001B97616ABB20D00874DA9 /* KOKeyboardRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOKeyboardRow.h; sourceTree = "<group>"; };
+		2001B97716ABB20D00874DA9 /* KOKeyboardRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOKeyboardRow.m; sourceTree = "<group>"; };
+		2001B97816ABB20E00874DA9 /* KOSwipeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOSwipeButton.h; sourceTree = "<group>"; };
+		2001B97916ABB20F00874DA9 /* KOSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOSwipeButton.m; sourceTree = "<group>"; };
 		20259D681691390200F4A1BA /* Telescope-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Telescope-icon.png"; sourceTree = "<group>"; };
 		2062AB051615088500CDC8E2 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		2062AB071615089400CDC8E2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -59,6 +90,8 @@
 		20DE1C7E16925D7B000A7F01 /* glass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glass.png; sourceTree = "<group>"; };
 		20E71D3D16897037005640FD /* IDTWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDTWebViewController.h; sourceTree = "<group>"; };
 		20E71D3E16897037005640FD /* IDTWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDTWebViewController.m; sourceTree = "<group>"; };
+		20F8D9AF16A89EFD007D024F /* IDTFileData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDTFileData.h; sourceTree = "<group>"; };
+		20F8D9B016A89EFD007D024F /* IDTFileData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDTFileData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,10 +112,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		20D6066516138F5D0091658C = {
+		2001B97516ABB10B00874DA9 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				2001B96416ABB0EE00874DA9 /* key-pressed.png */,
+				2001B96216ABB0EE00874DA9 /* key-blue.png */,
+				2001B96316ABB0EE00874DA9 /* key-blue@2x.png */,
+				2001B96516ABB0EE00874DA9 /* key-pressed@2x.png */,
+				2001B96616ABB0EE00874DA9 /* key.png */,
+				2001B96716ABB0EE00874DA9 /* key@2x.png */,
+				2001B96116ABB0EE00874DA9 /* hal-white@2x.png */,
+				2001B95F16ABB0EE00874DA9 /* hal-blue@2x.png */,
+				2001B95E16ABB0EE00874DA9 /* hal-blue.png */,
+				2001B95D16ABB0EE00874DA9 /* hal-black@2x.png */,
+				20D6068A16138F5D0091658C /* Default-568h@2x.png */,
+				2001B96016ABB0EE00874DA9 /* hal-white.png */,
+				2001B95C16ABB0EE00874DA9 /* hal-black.png */,
+				20D6068816138F5D0091658C /* Default@2x.png */,
+				20D6068616138F5D0091658C /* Default.png */,
+			);
+			name = Assets;
+			sourceTree = "<group>";
+		};
+		2001B97C16ABB22200874DA9 /* Text Editor */ = {
 			isa = PBXGroup;
 			children = (
 				20D6067A16138F5D0091658C /* new-new-Text-Editor */,
+			);
+			name = "Text Editor";
+			sourceTree = "<group>";
+		};
+		2001B97D16ABB25F00874DA9 /* Keyboard */ = {
+			isa = PBXGroup;
+			children = (
+				2001B97816ABB20E00874DA9 /* KOSwipeButton.h */,
+				2001B97916ABB20F00874DA9 /* KOSwipeButton.m */,
+				2001B97616ABB20D00874DA9 /* KOKeyboardRow.h */,
+				2001B97716ABB20D00874DA9 /* KOKeyboardRow.m */,
+			);
+			name = Keyboard;
+			sourceTree = "<group>";
+		};
+		20D6066516138F5D0091658C = {
+			isa = PBXGroup;
+			children = (
+				2001B97C16ABB22200874DA9 /* Text Editor */,
 				20D6067316138F5D0091658C /* Frameworks */,
 				20D6067116138F5D0091658C /* Products */,
 			);
@@ -123,10 +197,13 @@
 				20D6068416138F5D0091658C /* IDTAppDelegate.m */,
 				207718E2166C391E00F8835A /* IDTDocument.h */,
 				207718DF166C391100F8835A /* IDTDocument.m */,
+				20F8D9AF16A89EFD007D024F /* IDTFileData.h */,
+				20F8D9B016A89EFD007D024F /* IDTFileData.m */,
 				20259D681691390200F4A1BA /* Telescope-icon.png */,
 				20E71D3D16897037005640FD /* IDTWebViewController.h */,
 				20E71D3E16897037005640FD /* IDTWebViewController.m */,
 				206EAD52168919A100C6A06C /* MMMarkdown.h */,
+				2001B97D16ABB25F00874DA9 /* Keyboard */,
 				20D6067B16138F5D0091658C /* Supporting Files */,
 			);
 			path = "new-new-Text-Editor";
@@ -135,13 +212,11 @@
 		20D6067B16138F5D0091658C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2001B97516ABB10B00874DA9 /* Assets */,
 				20D6067C16138F5D0091658C /* new-new-Text-Editor-Info.plist */,
 				20D6067D16138F5D0091658C /* InfoPlist.strings */,
 				20D6068016138F5D0091658C /* main.m */,
 				20D6068216138F5D0091658C /* new-new-Text-Editor-Prefix.pch */,
-				20D6068616138F5D0091658C /* Default.png */,
-				20D6068816138F5D0091658C /* Default@2x.png */,
-				20D6068A16138F5D0091658C /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -205,6 +280,18 @@
 				20D6069B16138F950091658C /* MainStoryboard.storyboard in Resources */,
 				20259D691691390200F4A1BA /* Telescope-icon.png in Resources */,
 				20DE1C7F16925D7B000A7F01 /* glass.png in Resources */,
+				2001B96816ABB0EE00874DA9 /* hal-black.png in Resources */,
+				2001B96916ABB0EE00874DA9 /* hal-black@2x.png in Resources */,
+				2001B96A16ABB0EE00874DA9 /* hal-blue.png in Resources */,
+				2001B96B16ABB0EE00874DA9 /* hal-blue@2x.png in Resources */,
+				2001B96C16ABB0EE00874DA9 /* hal-white.png in Resources */,
+				2001B96D16ABB0EE00874DA9 /* hal-white@2x.png in Resources */,
+				2001B96E16ABB0EE00874DA9 /* key-blue.png in Resources */,
+				2001B96F16ABB0EE00874DA9 /* key-blue@2x.png in Resources */,
+				2001B97016ABB0EE00874DA9 /* key-pressed.png in Resources */,
+				2001B97116ABB0EE00874DA9 /* key-pressed@2x.png in Resources */,
+				2001B97216ABB0EE00874DA9 /* key.png in Resources */,
+				2001B97316ABB0EE00874DA9 /* key@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,6 +308,9 @@
 				20D6069416138F5D0091658C /* IDTDetailViewController.m in Sources */,
 				207718E0166C391100F8835A /* IDTDocument.m in Sources */,
 				20E71D3F16897037005640FD /* IDTWebViewController.m in Sources */,
+				20F8D9B116A89EFD007D024F /* IDTFileData.m in Sources */,
+				2001B97A16ABB21000874DA9 /* KOKeyboardRow.m in Sources */,
+				2001B97B16ABB21000874DA9 /* KOSwipeButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
