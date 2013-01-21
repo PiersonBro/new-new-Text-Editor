@@ -42,8 +42,8 @@
     
     [self.contactModel readFolder];
     // This are the mutable arrays for the search view
-    self.textFilesFiltered = [[NSMutableArray alloc]initWithCapacity:[self.contactModel.textFiles count]];
-    self.filteredTextFilesPaths = [[NSMutableArray alloc]initWithCapacity:[self.contactModel.textFilesPaths count]];
+    self.textFilesFiltered = [[NSMutableArray alloc]initWithCapacity:[self.contactModel.fileData count]];
+    self.filteredTextFilesPaths = [[NSMutableArray alloc]initWithCapacity:[self.contactModel.fileData count]];
     
     CGRect newBounds = self.tableView.bounds;
     newBounds.origin.y = newBounds.origin.y + self.searchBar.bounds.size.height;
@@ -172,7 +172,7 @@
     NSString *cellLabel = nil;
    
     if (tableView != self.searchDisplayController.searchResultsTableView) {
-       // NSString *string = self.contactModel.contactFileData.fileName;
+       
         
         cellLabel = [[self.contactModel.fileData objectAtIndex:indexPath.row]fileName];
         
@@ -291,13 +291,23 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
     // Remove all objects from the filtered search array
 	[self.textFilesFiltered removeAllObjects];
     [self.filteredTextFilesPaths removeAllObjects];
+    NSMutableArray *paths = [[NSMutableArray alloc]init];
+    NSMutableArray *names = [[NSMutableArray alloc]init];
+    for (int i = 0; i < [self.contactModel.fileData count]; i++) {
+        NSString *path = [[self.contactModel.fileData objectAtIndex:i]filePath];
+        NSString *name = [[self.contactModel.fileData objectAtIndex:i]fileName];
+        
+        [paths addObject:path];
+        [names addObject:name];
+    }
+
 	// Filter the array using NSPredicate
-    NSString *searchTextPaths = [self.contactModel.docsDir stringByAppendingString:searchText];
+    NSString *searchTextPathsString = [self.contactModel.docsDir stringByAppendingString:searchText];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF contains[c] %@",searchText];
-    NSPredicate *predicatePaths = [NSPredicate predicateWithFormat:@"SELF contains[c] %@",searchTextPaths];
-    NSArray *tempArray = [self.contactModel.textFiles  filteredArrayUsingPredicate:predicate];
+    NSPredicate *predicatePaths = [NSPredicate predicateWithFormat:@"SELF contains[c] %@",searchTextPathsString];
+    NSArray *tempArray = [names  filteredArrayUsingPredicate:predicate];
     
-    NSArray *tempArrayPaths = [self.contactModel.textFilesPaths filteredArrayUsingPredicate:predicatePaths];
+    NSArray *tempArrayPaths = [paths filteredArrayUsingPredicate:predicatePaths];
         self.textFilesFiltered = [NSMutableArray arrayWithArray:tempArray];
     self.filteredTextFilesPaths = [NSMutableArray arrayWithArray:tempArrayPaths];
     

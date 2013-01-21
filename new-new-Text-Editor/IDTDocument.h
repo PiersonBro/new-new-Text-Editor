@@ -17,16 +17,18 @@
 @property (nonatomic,strong) NSString *docsDir;
 
 //These properties are only used in the MasterVC
-@property (nonatomic,strong) NSMutableArray *textFiles;
-@property (nonatomic,strong) NSMutableArray *textFilesPaths;
+
+//This is the dataSource for the tableView
+@property (strong, nonatomic) NSMutableArray *fileData;
+//FIXME This should be a private property 
+@property (strong, nonatomic) IDTFileData *contactFileData;
+
 
 //These properties are used in the DetailVC.
 @property (nonatomic) NSMutableArray *rangesOfHighlight;
 @property (strong,nonatomic) NSString * userText;
 
-@property (strong, nonatomic) NSMutableArray *fileData;
 
-@property (strong, nonatomic) IDTFileData *contactFileData;
 
 #pragma mark Public methods
 

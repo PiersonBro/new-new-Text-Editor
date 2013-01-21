@@ -62,9 +62,8 @@
     
     NSError *error = nil;
         
-    
-        self.textFiles = [[filemgr contentsOfDirectoryAtPath:self.docsDir error:nil]mutableCopy];
-    for (int iOne = 0; iOne < [[filemgr contentsOfDirectoryAtPath:self.docsDir error:nil]count]; iOne++) {
+    NSArray *textFiles = [filemgr contentsOfDirectoryAtPath:self.docsDir error:nil];
+    for (int iOne = 0; iOne < [textFiles count]; iOne++) {
 
          NSString *nameString = [[filemgr contentsOfDirectoryAtPath:self.docsDir error:&error]objectAtIndex:iOne];
         [nameArray addObject:nameString];
@@ -73,15 +72,13 @@
 
        
     
-    self.textFilesPaths = [[NSMutableArray alloc]init];
-    for (int iTwo = 0; iTwo<[self.textFiles count]; iTwo++) {
+    for (int iTwo = 0; iTwo < [textFiles count]; iTwo++) {
         NSString *preVal = [[NSString alloc] initWithString:self.docsDir];
-        NSString *val = [preVal stringByAppendingString:[self.textFiles objectAtIndex:iTwo]];
+        NSString *val = [preVal stringByAppendingString:[textFiles objectAtIndex:iTwo]];
         self.contactFileData = [[IDTFileData alloc]init];
         [self.contactFileData fileName:[nameArray objectAtIndex:iTwo] filePath:val];
                
         [self.fileData addObject:self.contactFileData];
-        [self.textFilesPaths addObject:val];
         
  
         
@@ -94,13 +91,12 @@
     //Error Handling.
     if (![filemgr contentsOfDirectoryAtPath:self.docsDir error:nil]) {
         [self createFile:@"Hello and welcome to my awesomely cool text editor! This is the list of stuff not yet implemented.  2. Syntax highlighting for HTML (uber difficult). 2.RTF implmentation (SUPER UBER difficult) " :@"Welcome!" :0];
-        self.textFiles = [[filemgr contentsOfDirectoryAtPath:self.docsDir error:nil]mutableCopy];
         
     }
     if (error)
         NSLog(@"there was an %@",error);
 
-    return self.textFiles;
+    return self.fileData;
 }
 
 
@@ -156,17 +152,15 @@
     [[NSFileManager defaultManager]createFileAtPath:self.path contents:textData attributes:nil];
     
     //After creating the file insert them into our arrays for the table View.
-    [self.textFiles insertObject:name atIndex:indexPath];
-    [self.textFilesPaths insertObject:self.path atIndex:indexPath];
+    
     self.fileData = [[NSMutableArray alloc]init];
     
     self.fileData = nil;
+    
     [self readFolder];
-    self.contactFileData = [[IDTFileData alloc]init];
     
-    [self.contactFileData fileName:name filePath:self.path];
     
-    [self.fileData insertObject:self.contactFileData atIndex:indexPath];
+    
     
     return self.path;
     
@@ -179,8 +173,7 @@
     self.path = [self.docsDir stringByAppendingPathComponent:name];
     NSError *error;
     [[NSFileManager defaultManager]removeItemAtPath:self.path error:&error];
-    [self.textFiles removeObjectAtIndex:indexPath];
-    [self.textFilesPaths removeObjectAtIndex:indexPath];
+   
     
     [self.fileData removeObjectAtIndex:indexPath];
     
@@ -196,6 +189,7 @@
 }
 -(NSString *)renameFileName:(NSString *)name withName:(NSString *)newFileName atIndexPath:(NSIndexPath *)indexPath {
     [self general];
+    [self readFolder];
     self.path = [self.docsDir stringByAppendingPathComponent:name];
     NSString * newPath = [self.docsDir stringByAppendingPathComponent:newFileName];
     
@@ -204,10 +198,7 @@
     if ([[NSFileManager defaultManager]moveItemAtPath:self.path toPath:newPath error:&error])
         NSLog(@"succes");
     NSUInteger interger = indexPath.row;
-    [self.textFiles removeObjectAtIndex:interger];
-    [self.textFilesPaths removeObjectAtIndex:interger];
-    [self.textFiles insertObject:newFileName atIndex:interger];
-    [self.textFilesPaths insertObject:newPath atIndex:interger];
+  
     
     
     self.contactFileData = [[IDTFileData alloc]init];
