@@ -147,7 +147,7 @@
             self.tableView.frame.size
         };
     _indexOfFile = [self.tableView indexPathForRowAtPoint:pressPoint];
-    NSLog(@"indexPath is %@",_indexOfFile);
+        
     [actionSheet showFromRect:rectFromPressPoint inView:self.tableView animated:YES];
     }
 }
