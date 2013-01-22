@@ -85,55 +85,55 @@
     
     self.labels = [[NSMutableArray alloc] init];
     
-    UIFont *f = [UIFont systemFontOfSize:15];
+    UIFont *font = [UIFont systemFontOfSize:15];
     
-    UILabel *l = [[UILabel alloc] initWithFrame:CGRectMake(leftInset, topInset, labelWidth, labelHeight)];
-    l.textAlignment = NSTextAlignmentLeft;
-    l.text = @"1";
-    l.font = f;
-    [self addSubview:l];
-    [l setHighlightedTextColor:[UIColor blueColor]];
-    l.backgroundColor = [UIColor clearColor];
-    [labels addObject:l];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(leftInset, topInset, labelWidth, labelHeight)];
+    label.textAlignment = NSTextAlignmentLeft;
+    label.text = @"1";
+    label.font = font;
+    [self addSubview:label];
+    [label setHighlightedTextColor:[UIColor blueColor]];
+    label.backgroundColor = [UIColor clearColor];
+    [labels addObject:label];
     
-    l = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width - labelWidth - rightInset, topInset, labelWidth, labelHeight)];
-    l.textAlignment = NSTextAlignmentRight;
-    l.text = @"2";
-    l.font = f;
-    l.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-    [self addSubview:l];
-    [l setHighlightedTextColor:[UIColor blueColor]];
-    l.backgroundColor = [UIColor clearColor];
-    [labels addObject:l];
+    label = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width - labelWidth - rightInset, topInset, labelWidth, labelHeight)];
+    label.textAlignment = NSTextAlignmentRight;
+    label.text = @"2";
+    label.font = font;
+    label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+    [self addSubview:label];
+    [label setHighlightedTextColor:[UIColor blueColor]];
+    label.backgroundColor = [UIColor clearColor];
+    [labels addObject:label];
     
-    l = [[UILabel alloc] initWithFrame:CGRectIntegral(CGRectMake((self.frame.size.width - labelWidth - leftInset - rightInset) / 2 + leftInset, (self.frame.size.height - labelHeight - topInset - bottomInset) / 2 + topInset, labelWidth, labelHeight))];
-    l.textAlignment = NSTextAlignmentCenter;
-    l.text = @"3";
-    l.font = f;
-    l.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [self addSubview:l];
-    [l setHighlightedTextColor:[UIColor blueColor]];
-    l.backgroundColor = [UIColor clearColor];
-    [labels addObject:l];
+    label = [[UILabel alloc] initWithFrame:CGRectIntegral(CGRectMake((self.frame.size.width - labelWidth - leftInset - rightInset) / 2 + leftInset, (self.frame.size.height - labelHeight - topInset - bottomInset) / 2 + topInset, labelWidth, labelHeight))];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = @"3";
+    label.font = font;
+    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [self addSubview:label];
+    [label setHighlightedTextColor:[UIColor blueColor]];
+    label.backgroundColor = [UIColor clearColor];
+    [labels addObject:label];
     
-    l = [[UILabel alloc] initWithFrame:CGRectMake(leftInset, (self.frame.size.height - labelHeight - bottomInset), labelWidth, labelHeight)];
-    l.textAlignment = NSTextAlignmentLeft;
-    l.text = @"4";
-    l.font = f;
-    [self addSubview:l];
-    [l setHighlightedTextColor:[UIColor blueColor]];
-    l.backgroundColor = [UIColor clearColor];
-    [labels addObject:l];
+    label = [[UILabel alloc] initWithFrame:CGRectMake(leftInset, (self.frame.size.height - labelHeight - bottomInset), labelWidth, labelHeight)];
+    label.textAlignment = NSTextAlignmentLeft;
+    label.text = @"4";
+    label.font = font;
+    [self addSubview:label];
+    [label setHighlightedTextColor:[UIColor blueColor]];
+    label.backgroundColor = [UIColor clearColor];
+    [labels addObject:label];
     
-    l = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width - labelWidth - rightInset, (self.frame.size.height - labelHeight - bottomInset), labelWidth, labelHeight)];
-    l.textAlignment = NSTextAlignmentRight;
-    l.text = @"5";
-    l.font = f;
-    l.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-    [self addSubview:l];
-    [l setHighlightedTextColor:[UIColor blueColor]];
-    l.backgroundColor = [UIColor clearColor];
-    [labels addObject:l];
+    label = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width - labelWidth - rightInset, (self.frame.size.height - labelHeight - bottomInset), labelWidth, labelHeight)];
+    label.textAlignment = NSTextAlignmentRight;
+    label.text = @"5";
+    label.font = font;
+    label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+    [self addSubview:label];
+    [label setHighlightedTextColor:[UIColor blueColor]];
+    label.backgroundColor = [UIColor clearColor];
+    [labels addObject:label];
     
     firstTapDate = [[NSDate date] dateByAddingTimeInterval:-1];
     
