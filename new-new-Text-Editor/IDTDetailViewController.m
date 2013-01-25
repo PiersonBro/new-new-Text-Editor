@@ -106,7 +106,7 @@
 }
 
 -(void)notifyUserOfNegativeEventWithString:(NSString *)string {
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Sorry" message:string delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Sorry" message:string delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [alert show];
 }
 #pragma mark SegmentAction and Sharing 

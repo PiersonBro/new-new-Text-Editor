@@ -144,56 +144,83 @@
 }
 
 //None of the passed vars can be nil.
--(NSString *) createFile:(NSString *)text:(NSString *)name:(NSUInteger)indexPath {
-  
+-(BOOL) createFile:(NSString *)text:(NSString *)name:(NSUInteger)indexPath {
+    
+    
+    //This block of code checks too see if the Name of the file already exists if it does it will abort the operation.
+    NSMutableArray *names = [[NSMutableArray alloc]initWithCapacity:self.fileData.count];
+    
+    for (int i = 0; i < [self.fileData count]; i++) {
+        NSString *name = [[self.fileData objectAtIndex:i]fileName];
+        
+        [names addObject:name];
+    }
+    if ([names containsObject:name]) {
+        NSLog(@"ABRT ABRT ABORT ABORT ABORT ABORT ");
+        return NO;
+    }
+    
+    
+    BOOL returnValue;
+    //This code actually creates the document. 
     NSData *textData =  [text dataUsingEncoding:NSUTF8StringEncoding];
     self.path = [self.docsDir stringByAppendingPathComponent:name];
 
-    [[NSFileManager defaultManager]createFileAtPath:self.path contents:textData attributes:nil];
     
-    //After creating the file insert them into our arrays for the table View.
+    if ([[NSFileManager defaultManager]createFileAtPath:self.path contents:textData attributes:nil] == YES) {
     
-    self.fileData = [[NSMutableArray alloc]init];
+    //After creating the file insert them into our datasource for the table View.
+        self.contactFileData = [[IDTFileData alloc]init];
+        
+        self.contactFileData.fileName = name;
+        
+        self.contactFileData.filePath = self.path;
+        
+        [self.fileData insertObject:self.contactFileData atIndex:indexPath];
+        returnValue = YES;
+    }
+    else {
+        NSLog(@"FAIL");
+        returnValue = NO;
+    }
     
-    self.fileData = nil;
-    
-    [self readFolder];
-    
-    
-    
-    
-    return self.path;
-    
+    return returnValue;
 }
 
 //None of the passed vars can be nil.
--(NSString *) deleteFile:(NSString *)name:(NSUInteger)indexPath {
+-(BOOL) deleteFile:(NSString *)name:(NSUInteger)indexPath {
     
     
     self.path = [self.docsDir stringByAppendingPathComponent:name];
-    NSError *error;
-    [[NSFileManager defaultManager]removeItemAtPath:self.path error:&error];
+    NSError *error = nil;
+    
+    if([[NSFileManager defaultManager]removeItemAtPath:self.path error:&error]) {
+        
+    
    
     
     [self.fileData removeObjectAtIndex:indexPath];
-    
+        return TRUE;
+    }
+    else {
+        return FALSE;
+    }
     //Basic error functionality.
     if (error != nil)
         NSLog(@"%@",error);
     
     
-    return self.path;
     
     
     
 }
--(NSString *)renameFileName:(NSString *)name withName:(NSString *)newFileName atIndexPath:(NSIndexPath *)indexPath {
+-(BOOL)renameFileName:(NSString *)name withName:(NSString *)newFileName atIndexPath:(NSIndexPath *)indexPath {
     [self general];
     [self readFolder];
     self.path = [self.docsDir stringByAppendingPathComponent:name];
     NSString * newPath = [self.docsDir stringByAppendingPathComponent:newFileName];
     
-    NSError *error;
+    NSError *error = nil;
     
     if ([[NSFileManager defaultManager]moveItemAtPath:self.path toPath:newPath error:&error])
         NSLog(@"succes");
@@ -216,7 +243,7 @@
     
 
     
-    return self.path;
+    return TRUE;
 }
 
 

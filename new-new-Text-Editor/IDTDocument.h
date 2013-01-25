@@ -35,15 +35,15 @@
 //These methods are used in the MasterVC
 -(NSArray *) readFolder;
 
--(NSString *) createFile:(NSString *)text:(NSString *)name:(NSUInteger)indexPath;
+-(BOOL) createFile:(NSString *)text:(NSString *)name:(NSUInteger)indexPath;
 
--(NSString *) deleteFile:(NSString *)name:(NSUInteger)indexPath;
+-(BOOL) deleteFile:(NSString *)name:(NSUInteger)indexPath;
 
 
 
 //Alpha String matching returns a Mutable array full of the ranges of matched strings.
 -(NSMutableArray *) stringMatchInString:(NSString *)inString  WithRegularExpr:(NSString *)regex;
 
--(NSString *)renameFileName:(NSString *)name withName:(NSString *)newFileName atIndexPath:(NSIndexPath *)indexPath;
+-(BOOL)renameFileName:(NSString *)name withName:(NSString *)newFileName atIndexPath:(NSIndexPath *)indexPath;
 
 @end

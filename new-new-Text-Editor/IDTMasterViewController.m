@@ -12,6 +12,7 @@
 @interface IDTMasterViewController () <UIAlertViewDelegate,UISearchDisplayDelegate,UISearchBarDelegate,UIActionSheetDelegate,UIGestureRecognizerDelegate>  {
     
     NSIndexPath *_indexOfFile;
+    CGSize cellBounds;
     
 }
 @property (nonatomic,strong) IDTDocument *contactModel;
@@ -101,10 +102,16 @@
 
 - (void)insertNewObject:(id)sender
 {
-    [self.contactModel createFile:@"Welcome to the green text editor":self.textForFileName :0];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    
+    BOOL succesOrFailure = [self.contactModel createFile:@"Welcome to the green text editor":self.textForFileName :0];
+    if(succesOrFailure == YES) {
+        NSLog(@"DID NOT DO MY HOMEWORK %d",succesOrFailure);
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    else {
+        [self notifyUserOfNegativeEventWithString:@"Oops something failed! The most likely reason is that you were trying to create a file that already exists! (has the same name) If so just change the name of the file and try again! "];
+        NSLog(@"FAIL AS in YES!!");
+    }
 }
 
 #pragma mark - Table View (delagate)
@@ -137,6 +144,7 @@
 }
 #pragma mark Rename Functionality.
 -(void)handleLongPress:(UIGestureRecognizer *)longPress {
+    
     if (longPress.state == UIGestureRecognizerStateEnded) {
         
     
@@ -144,7 +152,7 @@
     CGPoint pressPoint = [longPress locationInView:self.tableView];
         CGRect rectFromPressPoint = {
             pressPoint,
-            self.tableView.frame.size
+            cellBounds
         };
     _indexOfFile = [self.tableView indexPathForRowAtPoint:pressPoint];
         
@@ -184,6 +192,7 @@
     }
     cell.textLabel.text = cellLabel;
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    cellBounds = cell.frame.size;
 
     UILongPressGestureRecognizer *gestureRecognizer = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handleLongPress:)];
     [cell addGestureRecognizer:gestureRecognizer];
@@ -216,6 +225,8 @@
 - (void)alertView:(UIAlertView *)alertView
 didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
+    if (alertView.alertViewStyle == UIAlertViewStylePlainTextInput) {
+        
     
 
     if ([[alertView buttonTitleAtIndex:1] isEqualToString:@"Rename"] && buttonIndex == 1) {
@@ -245,7 +256,7 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
         
         
     }
-    
+    }
 }
 -(void)notifyUserOfNegativeEventWithString:(NSString *)string {
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Sorry" message:string delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -267,7 +278,7 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
         else {
              indexPath = [self.tableView indexPathForSelectedRow];
 
-        object = [[self.contactModel.fileData objectAtIndex:indexPath.row]filePath];
+             object = [[self.contactModel.fileData objectAtIndex:indexPath.row]filePath];
         }
         
         IDTDetailViewController *contactDetailViewController = [segue destinationViewController];
@@ -300,14 +311,16 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
         [paths addObject:path];
         [names addObject:name];
     }
-
 	// Filter the array using NSPredicate
-    NSString *searchTextPathsString = [self.contactModel.docsDir stringByAppendingString:searchText];
+    
+   // NSString *searchTextPathsString = [self.contactModel.docsDir stringByAppendingString:searchText];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF contains[c] %@",searchText];
-    NSPredicate *predicatePaths = [NSPredicate predicateWithFormat:@"SELF contains[c] %@",searchTextPathsString];
+    NSPredicate *predicatePaths = [NSPredicate predicateWithFormat:@"SELF contains[c] %@",searchText];
+    NSLog(@"predicatePaths %@ and predicate %@",predicatePaths,predicate);
     NSArray *tempArray = [names  filteredArrayUsingPredicate:predicate];
     
     NSArray *tempArrayPaths = [paths filteredArrayUsingPredicate:predicatePaths];
+    NSLog(@"temparrayPaths is %@",tempArrayPaths);
         self.textFilesFiltered = [NSMutableArray arrayWithArray:tempArray];
     self.filteredTextFilesPaths = [NSMutableArray arrayWithArray:tempArrayPaths];
     
