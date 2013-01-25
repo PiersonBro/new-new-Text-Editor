@@ -63,7 +63,7 @@
     NSError *error = nil;
         
     NSArray *textFiles = [filemgr contentsOfDirectoryAtPath:self.docsDir error:nil];
-    for (int iOne = 0; iOne < [textFiles count]; iOne++) {
+    for (NSUInteger iOne = 0; iOne < [textFiles count]; iOne++) {
 
          NSString *nameString = [[filemgr contentsOfDirectoryAtPath:self.docsDir error:&error]objectAtIndex:iOne];
         [nameArray addObject:nameString];
@@ -72,7 +72,7 @@
 
        
     
-    for (int iTwo = 0; iTwo < [textFiles count]; iTwo++) {
+    for (NSUInteger iTwo = 0; iTwo < [textFiles count]; iTwo++) {
         NSString *preVal = [[NSString alloc] initWithString:self.docsDir];
         NSString *val = [preVal stringByAppendingString:[textFiles objectAtIndex:iTwo]];
         self.contactFileData = [[IDTFileData alloc]init];
@@ -150,10 +150,10 @@
     //This block of code checks too see if the Name of the file already exists if it does it will abort the operation.
     NSMutableArray *names = [[NSMutableArray alloc]initWithCapacity:self.fileData.count];
     
-    for (int i = 0; i < [self.fileData count]; i++) {
-        NSString *name = [[self.fileData objectAtIndex:i]fileName];
+    for (NSUInteger i = 0; i < [self.fileData count]; i++) {
+        NSString *currentName = [[self.fileData objectAtIndex:i]fileName];
         
-        [names addObject:name];
+        [names addObject:currentName];
     }
     if ([names containsObject:name]) {
         NSLog(@"ABRT ABRT ABORT ABORT ABORT ABORT ");

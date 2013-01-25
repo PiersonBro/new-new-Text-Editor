@@ -177,7 +177,7 @@
     [self.document stringMatchInString:self.textView.text WithRegularExpr:regEx];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:self.textView.text];
   
-    for (int i = 0; i < [self.document.rangesOfHighlight count]; i++) {
+    for (NSUInteger i = 0; i < [self.document.rangesOfHighlight count]; i++) {
     
 
         NSRange range = [[self.document.rangesOfHighlight objectAtIndex:i]rangeValue];

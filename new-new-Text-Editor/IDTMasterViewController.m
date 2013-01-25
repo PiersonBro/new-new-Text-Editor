@@ -148,7 +148,7 @@
     if (longPress.state == UIGestureRecognizerStateEnded) {
         
     
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Rename" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:@"Rename", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"Rename" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:@"Rename",@"Fork", nil];
     CGPoint pressPoint = [longPress locationInView:self.tableView];
         CGRect rectFromPressPoint = {
             pressPoint,
@@ -164,6 +164,10 @@
     if (buttonIndex == 1) {
         [self popup:self withText:@"Rename"];
     }
+    if (buttonIndex == 2) {
+        
+    }
+   
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -263,7 +267,7 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
     [alert show];
 }
 
-#pragma mark seque.
+#pragma mark Segue.
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
@@ -304,13 +308,14 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
     [self.filteredTextFilesPaths removeAllObjects];
     NSMutableArray *paths = [[NSMutableArray alloc]init];
     NSMutableArray *names = [[NSMutableArray alloc]init];
-    for (int i = 0; i < [self.contactModel.fileData count]; i++) {
+    for (NSUInteger i = 0; i < [self.contactModel.fileData count]; i++) {
         NSString *path = [[self.contactModel.fileData objectAtIndex:i]filePath];
         NSString *name = [[self.contactModel.fileData objectAtIndex:i]fileName];
         
         [paths addObject:path];
         [names addObject:name];
     }
+   
 	// Filter the array using NSPredicate
     
    // NSString *searchTextPathsString = [self.contactModel.docsDir stringByAppendingString:searchText];
