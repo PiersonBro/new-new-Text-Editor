@@ -142,7 +142,7 @@
 
 - (void)setKeys:(NSString *)newKeys
 {
-    for (int i = 0; i < MIN(newKeys.length, 5); i++) {
+    for (NSUInteger i = 0; i < MIN(newKeys.length, (uint)5); i++) {
         [[labels objectAtIndex:i] setText:[newKeys substringWithRange:NSMakeRange(i, 1)]];
         
         if ([[newKeys substringToIndex:1] isEqualToString:@"◉"] |
@@ -181,11 +181,11 @@
     }
 }
 
-- (void)selectLabel:(int)idx
+- (void)selectLabel:(uint)idx
 {
     selectedLabel = nil;
     
-    for (int i = 0; i < labels.count; i++) {
+    for (uint i = 0; i < labels.count; i++) {
         UILabel *l = [labels objectAtIndex:i];
         l.highlighted = (idx == i);
         
