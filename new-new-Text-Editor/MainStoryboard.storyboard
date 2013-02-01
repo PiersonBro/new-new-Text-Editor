@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="3">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -17,7 +17,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="10" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-744" y="-397"/>
+            <point key="canvasLocation" x="3896" y="-485"/>
         </scene>
         <!--Master View Controller - Master-->
         <scene sceneID="18">
@@ -69,6 +69,7 @@
                     <connections>
                         <outlet property="searchBar" destination="WVV-zo-Yf0" id="igx-0u-r6X"/>
                         <outlet property="searchDisplayController" destination="ZwT-d1-W7F" id="x3H-w3-UCz"/>
+                        <segue destination="5qE-gO-I03" kind="push" identifier="showNewVC" id="z3q-i3-LGi"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="17" sceneMemberID="firstResponder"/>
@@ -82,7 +83,60 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="513" y="-825"/>
+            <point key="canvasLocation" x="521" y="-809"/>
+        </scene>
+        <!--Hoard View Controller-->
+        <scene sceneID="w5x-zx-DNE">
+            <objects>
+                <collectionViewController autoresizesArchivedViewToFullSize="NO" id="5qE-gO-I03" customClass="IDTHoardViewController" sceneMemberID="viewController">
+                    <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="XHA-EZ-DNu">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="edi-EO-QCk">
+                            <size key="itemSize" width="78" height="67"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="collectionCell" reuseIdentifier="collectionCell" id="Ckw-r4-2lI" customClass="IDTCollectionCell">
+                                <rect key="frame" x="0.0" y="0.0" width="78" height="67"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="78" height="67"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bgg-nv-SfD">
+                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        </textView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <constraints>
+                                    <constraint firstItem="bgg-nv-SfD" firstAttribute="bottom" secondItem="Ckw-r4-2lI" secondAttribute="bottom" type="default" id="30Q-1R-j1f"/>
+                                    <constraint firstItem="bgg-nv-SfD" firstAttribute="trailing" secondItem="Ckw-r4-2lI" secondAttribute="trailing" type="default" id="BJZ-SQ-05w"/>
+                                    <constraint firstItem="bgg-nv-SfD" firstAttribute="top" secondItem="Ckw-r4-2lI" secondAttribute="top" type="default" id="ttp-ku-PxE"/>
+                                    <constraint firstItem="bgg-nv-SfD" firstAttribute="leading" secondItem="Ckw-r4-2lI" secondAttribute="leading" type="default" id="vnk-NP-xWV"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="textView" destination="bgg-nv-SfD" id="kdv-re-9U3"/>
+                                    <segue destination="21" kind="push" identifier="goToTextView" id="I0a-rw-ysg"/>
+                                </connections>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="5qE-gO-I03" id="XUO-YU-80K"/>
+                            <outlet property="delegate" destination="5qE-gO-I03" id="Q7H-Nd-V3s"/>
+                        </connections>
+                    </collectionView>
+                    <navigationItem key="navigationItem" id="SDL-XY-ASd"/>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="veL-Dk-VUP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="999" y="-623"/>
         </scene>
         <!--Web View Controller - Preview-->
         <scene sceneID="Alf-Ua-Shf">
@@ -175,38 +229,15 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="23" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="902" y="-1480"/>
+            <point key="canvasLocation" x="919" y="-1234"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="IDTDetailViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/IDTDetailViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="detailDescriptionLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="segueButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
-            </relationships>
-        </class>
-        <class className="IDTMasterViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/IDTMasterViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
-            </relationships>
-        </class>
-        <class className="IDTWebViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/IDTWebViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="shareHTML:"/>
-                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="I0a-rw-ysg"/>
+    </inferredMetricsTieBreakers>
 </document>

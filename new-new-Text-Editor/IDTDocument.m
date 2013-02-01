@@ -90,7 +90,7 @@
     
     //Error Handling.
     if (![filemgr contentsOfDirectoryAtPath:self.docsDir error:nil]) {
-        [self createFile:@"Hello and welcome to my awesomely cool text editor! This is the list of stuff not yet implemented.  2. Syntax highlighting for HTML (uber difficult). 2.RTF implmentation (SUPER UBER difficult) " :@"Welcome!" :0];
+        [self createFileWithText:@"Hello and welcome to my awesomely cool text editor! This is the list of stuff not yet implemented.  2. Syntax highlighting for HTML (uber difficult). 2.RTF implmentation (SUPER UBER difficult) " Name:@"Welcome!" AtIndex:0];
         
     }
     if (error)
@@ -144,7 +144,7 @@
 }
 
 //None of the passed vars can be nil.
--(BOOL) createFile:(NSString *)text:(NSString *)name:(NSUInteger)indexPath {
+-(BOOL) createFileWithText:(NSString *)text Name:(NSString *)name AtIndex:(NSUInteger)indexPath {
     
     
     //This block of code checks too see if the Name of the file already exists if it does it will abort the operation.
@@ -188,7 +188,7 @@
 }
 
 //None of the passed vars can be nil.
--(BOOL) deleteFile:(NSString *)name:(NSUInteger)indexPath {
+-(BOOL) deleteFileWithName:(NSString *)name AtIndex:(NSUInteger)indexPath {
     
     
     self.path = [self.docsDir stringByAppendingPathComponent:name];

@@ -60,7 +60,8 @@
     self.displayController.searchResultsDelegate = self;
     self.displayController.delegate = self;
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(popup:withText:)];
-    self.navigationItem.rightBarButtonItem = addButton;
+    UIBarButtonItem *switchButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonItemStylePlain target:self action:@selector(segueToOtherVC:)];
+    self.navigationItem.rightBarButtonItems = @[addButton,switchButton];
  
     
     
@@ -77,7 +78,7 @@
 #pragma mark - table insert and setup (non-delagte)
 -(void) popup:(id)sender withText:(id)buttonText {
     ///Embarassing.
-    if (buttonText == @"Rename") {
+    if ([buttonText isEqual: @"Rename"]) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Enter File Name"
                                                             message:@"Enter the name of the file"
                                                            delegate:self
@@ -102,7 +103,7 @@
 
 - (void)insertNewObject:(id)sender
 {
-    BOOL succesOrFailure = [self.contactModel createFile:@"Welcome to the green text editor":self.textForFileName :0];
+    BOOL succesOrFailure = [self.contactModel createFileWithText:@"Welcome to the green text editor"Name:self.textForFileName AtIndex:0];
     if(succesOrFailure == YES) {
         NSLog(@"DID NOT DO MY HOMEWORK %d",succesOrFailure);
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
@@ -216,7 +217,7 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         NSString *identify = [[self.contactModel.fileData objectAtIndex:indexPath.row]fileName];
-        [self.contactModel deleteFile:identify :indexPath.row];
+        [self.contactModel deleteFileWithName:identify AtIndex:indexPath.row];
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
@@ -229,12 +230,12 @@
 - (void)alertView:(UIAlertView *)alertView
 didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
+    
     if (alertView.alertViewStyle == UIAlertViewStylePlainTextInput) {
         
     
 
     if ([[alertView buttonTitleAtIndex:1] isEqualToString:@"Rename"] && buttonIndex == 1) {
-        NSLog(@"SUCCES");
         self.textForFileName = [[alertView textFieldAtIndex:0]text];
        
             
@@ -270,7 +271,7 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
 #pragma mark Segue.
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
+    if ([segue.identifier isEqualToString:@"showDetail"]) {
         NSString *object = nil;
         NSIndexPath *indexPath = nil;
 
@@ -355,6 +356,12 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
     return YES;
 }
 
+-(void)segueToOtherVC:(id)sender {
+    NSLog(@"HELLO THERE!");
+    
+    [self performSegueWithIdentifier:@"showNewVC" sender:self];
+
+}
 
 
 @end

@@ -56,7 +56,6 @@
     self.segueButton.hidden = YES;
     self.segueButton.enabled = NO;
        
-    
 
     barButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(action1:)];
     UIBarButtonItem *barButton2 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(action4:)];
@@ -226,6 +225,7 @@
         
     }
 }
+
 
 
 

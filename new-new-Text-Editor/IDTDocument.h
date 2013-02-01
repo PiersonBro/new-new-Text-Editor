@@ -35,9 +35,9 @@
 //These methods are used in the MasterVC
 -(NSArray *) readFolder;
 
--(BOOL) createFile:(NSString *)text:(NSString *)name:(NSUInteger)indexPath;
+-(BOOL) createFileWithText:(NSString *)text Name:(NSString *)name AtIndex:(NSUInteger)indexPath;
 
--(BOOL) deleteFile:(NSString *)name:(NSUInteger)indexPath;
+-(BOOL) deleteFileWithName:(NSString *)name AtIndex:(NSUInteger)indexPath;
 
 
 
