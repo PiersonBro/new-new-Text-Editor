@@ -12,10 +12,11 @@
 @interface IDTDetailViewController () <MFMailComposeViewControllerDelegate,UITextViewDelegate,UIDocumentInteractionControllerDelegate,UIGestureRecognizerDelegate,UIWebViewDelegate,UIAlertViewDelegate> {
     UIBarButtonItem *barButton;
 }
-- (void)configureView;
 @property (nonatomic,strong)  IDTDocument *document;
 @property (nonatomic,strong) NSURL *url;
-
+@property (strong, nonatomic) IBOutlet UIButton *segueButton;
+@property(strong, nonatomic) UIPanGestureRecognizer * twoFingerswipe;
+@property (strong, nonatomic) IBOutlet UITextView *textView;
 @property (retain,nonatomic)UIDocumentInteractionController* docInteractionController;
 
 @end
@@ -24,28 +25,40 @@
 
 #pragma mark - Managing the detail item
 
-
 - (void)configureView
 {
     // Update the user interface for the detail item.
-      
+    self.textView.delegate = self;
+
      self.url = [[NSURL alloc]initFileURLWithPath:[self.detailItem description]];
     self.document = [[IDTDocument alloc]initWithFileURL:self.url];
     [self.document openWithCompletionHandler:^(BOOL success) {
+        BOOL HTMLDoc;
+        HTMLDoc = YES;
         
-
-        if (success) 
-            [self highlightWithRegularExpression:@"(?i)<(?![BIP]\\b ).*?/?>" andColor:[UIColor colorWithRed:0.7 green:0.2 blue:0.3 alpha:0.9]];
-
         
-        else
+        if (success && HTMLDoc == YES) {
+            self.textView.text = self.document.userText;
+            NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+            __block NSMutableAttributedString *mutableAttributedString = [[NSMutableAttributedString alloc]initWithString:self.textView.text];
+            [queue setName:@"Data Processing Queue"];
+            [queue addOperationWithBlock:^{
+                mutableAttributedString = [self highlightOnBackgroundThreadWithRegularExpression:@"(?i)<(?![BIP]\\b ).*?/?>" inString:self.document.userText withHighlightColor:[UIColor colorWithRed:0.7 green:0.2 blue:0.3 alpha:0.9]];
+            
+               [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+                  [self updateUIWithAttriubtedString:mutableAttributedString];
+               }];
+            }];
+
+        }
+        else {
             [self notifyUserOfNegativeEventWithString:@"Sorry. The Document Failed to save! There is nothing you can do but wallow in your own misery and delete this stupid app. My apologies "];
-    
+        }
     }];
 
-    self.textView.delegate = self;
 }
 #pragma mark textView Delagate
+
 - (void)textViewDidChange:(UITextView *)textView {
     self.document.userText = textView.text;
     [self.document updateChangeCount:UIDocumentChangeDone];
@@ -53,9 +66,12 @@
 #pragma mark view handling
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
+
     self.segueButton.hidden = YES;
     self.segueButton.enabled = NO;
-       
+    
+          
 
     barButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(action1:)];
     UIBarButtonItem *barButton2 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(action4:)];
@@ -72,23 +88,28 @@
     if (self.darkModeEnabled == YES) {
        self.textView.textColor = [UIColor colorWithWhite:1 alpha:1];
        self.textView.backgroundColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.2 alpha:1];
+       // [self highlightWithRegularExpression:@"(?i)<(?![BIP]\\b ).*?/?>" andColor:[UIColor colorWithRed:0.1 green:0.2 blue:0.5 alpha:0.2]];
     }
     
-    self.OneFinger = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(action2:)];
-    [self.textView addGestureRecognizer:self.OneFinger];
+    
 
     
-   self.twoFingerswipe = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(action1:)];
+   self.twoFingerswipe = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(action2:)];
+    self.twoFingerswipe.minimumNumberOfTouches = 2;
+    [self.textView addGestureRecognizer:self.twoFingerswipe];
+    if ( [[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        [self.view addSubview:self.textView];
+        [KOKeyboardRow applyToTextView:self.textView];
+    }
     
-    [self.view addSubview:_textView];
-    [KOKeyboardRow applyToTextView:_textView];
-    [super viewDidLoad];
+    //This reads the file and applies the syntax highlighting.
     [self configureView];
-}
-//Not sure if this works but I am keeping it here just in case.
+   
 
+}
+//This saves the open document and dismisses popups. IT does work.
 -(void) viewWillDisappear:(BOOL)animated {
-    
+   
     if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
 
     [self.document closeWithCompletionHandler:^(BOOL success) {
@@ -101,6 +122,7 @@
 }
 - (void)didReceiveMemoryWarning
 {
+    NSLog(@"Detail view did receive memeory warning");
     [super didReceiveMemoryWarning];
 }
 
@@ -169,28 +191,28 @@
 
 #pragma mark syntax highlighting
 //This is the view controller conterpart to the model's stringMatch method.
--(void) highlightWithRegularExpression:(NSString *)regEx andColor:(UIColor *)color{
+-(NSMutableAttributedString *) highlightOnBackgroundThreadWithRegularExpression:(NSString *)regEx inString:(NSString *)string withHighlightColor:(UIColor *)color {
     
-    self.textView.text = self.document.userText;
-
-    [self.document stringMatchInString:self.textView.text WithRegularExpr:regEx];
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:self.textView.text];
-  
-    for (NSUInteger i = 0; i < [self.document.rangesOfHighlight count]; i++) {
-    
-
-        NSRange range = [[self.document.rangesOfHighlight objectAtIndex:i]rangeValue];
+      NSMutableArray *mutableArray = [self.document stringMatchInString:string WithRegularExpr:regEx];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:string];
+    for (NSUInteger i = 0; i < [mutableArray count]; i++) {
+        NSRange range = [[mutableArray objectAtIndex:i]rangeValue];
         
-       
-    
-        [attributedString  addAttribute:NSForegroundColorAttributeName value:color range:range];
+        
+        [attributedString addAttribute:NSForegroundColorAttributeName value:color range:range];
+        
     }
-    self.textView.attributedText = attributedString;
-   
 
+    return attributedString;
 
     
 }
+-(void) updateUIWithAttriubtedString:(NSMutableAttributedString *)attributedString {
+   
+    self.textView.attributedText = attributedString;
+}
+
+
 #pragma mark Segue
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"goToWebView"]) {
@@ -217,14 +239,30 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     //ACCK this throws an exception when string is nil.
     if (buttonIndex == 1) {
+        //Add threads to this to make it fast.
+       __block NSString *searchString = [[alertView textFieldAtIndex:0]text];
+      __block NSMutableAttributedString *mutableAttributedString = [[NSMutableAttributedString alloc]initWithString:self.textView.text];
+        NSString *textViewString = [self.textView.text copy];
+        NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+        [queue setName:@"Search Queue"];
+        [queue addOperationWithBlock:^{
+           mutableAttributedString = [self highlightOnBackgroundThreadWithRegularExpression:searchString inString:textViewString withHighlightColor:[UIColor colorWithRed:1 green:1 blue:0 alpha:1]];
+
+          [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+              [self updateUIWithAttriubtedString:mutableAttributedString];
+
+          }];
+          
         
-        NSString *string = [[alertView textFieldAtIndex:0]text];
-        [self highlightWithRegularExpression:string andColor:[UIColor colorWithRed:1 green:1 blue:0 alpha:1]];
+        
+        }];
         
 
         
     }
 }
+
+
 
 
 

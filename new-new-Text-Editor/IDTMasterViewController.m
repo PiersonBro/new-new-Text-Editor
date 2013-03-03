@@ -15,7 +15,6 @@
     CGSize cellBounds;
     
 }
-@property (nonatomic,strong) IDTDocument *contactModel;
 @property (nonatomic,strong) UISearchDisplayController *displayController;
 @property (nonatomic,strong) NSString *textForFileName;
 @property (nonatomic,strong) NSMutableArray *textFilesFiltered;
@@ -27,27 +26,50 @@
 #pragma mark - Set up
 - (void)awakeFromNib
 {
-    [super awakeFromNib];
+    NSLog(@"HMM");
+  [super awakeFromNib];
 }
+-(void)addFileFromURL:(NSURL *)fromURL  {
+    self.contactModel = [[IDTDocument alloc]initWithFileURL:fromURL];
+    [self.contactModel readFolder];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    [self.contactModel copyFileFromURL:fromURL];
+    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 
+}
 - (void)viewDidLoad
 {
     
     [super viewDidLoad];
+    
     // This allocs and init's the model.
+    if (self.contactModel == nil) {
+        
+    
     NSString *docsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
     docsDir = [docsDir stringByAppendingString:@"/"];
     NSString *path = [docsDir stringByAppendingString:@"new.txt"];
     NSURL *url = [[NSURL alloc]initFileURLWithPath:path];
     self.contactModel = [[IDTDocument alloc]initWithFileURL:url];
-    
     [self.contactModel readFolder];
+
+    }
+    else {
+        NSLog(@"self.contactModel is not nil!");
+    }
+         
+    self.refreshControl  = [[UIRefreshControl alloc]init];
+
+    self.refreshControl.tintColor = [UIColor colorWithRed:0.1 green:0.5 blue:0.5 alpha:1];
+    [self.refreshControl addTarget:self action:@selector(reloadTableViewData:) forControlEvents:UIControlEventValueChanged];
+    
     // This are the mutable arrays for the search view
     self.textFilesFiltered = [[NSMutableArray alloc]initWithCapacity:[self.contactModel.fileData count]];
     self.filteredTextFilesPaths = [[NSMutableArray alloc]initWithCapacity:[self.contactModel.fileData count]];
     
     CGRect newBounds = self.tableView.bounds;
     newBounds.origin.y = newBounds.origin.y + self.searchBar.bounds.size.height;
+    
     self.tableView.bounds = newBounds;
     
     
@@ -65,11 +87,12 @@
  
     
     
-    [[self tableView] reloadData];
+    [self.tableView reloadData];
 
 }
 - (void)didReceiveMemoryWarning
 {
+    NSLog(@"Detail view did receive memeory warning");
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -84,7 +107,8 @@
                                                            delegate:self
                                                   cancelButtonTitle:@"Cancel"
                                                   otherButtonTitles:buttonText, nil];
-        [alertView  setAlertViewStyle:UIAlertViewStylePlainTextInput];
+        alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+        [alertView textFieldAtIndex:0].text = [[self.contactModel.fileData objectAtIndex:_indexOfFile.row]fileName];
         [alertView show];
     }
     else {
@@ -105,23 +129,26 @@
 {
     BOOL succesOrFailure = [self.contactModel createFileWithText:@"Welcome to the green text editor"Name:self.textForFileName AtIndex:0];
     if(succesOrFailure == YES) {
-        NSLog(@"DID NOT DO MY HOMEWORK %d",succesOrFailure);
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     else {
         [self notifyUserOfNegativeEventWithString:@"Oops something failed! The most likely reason is that you were trying to create a file that already exists! (has the same name) If so just change the name of the file and try again! "];
-        NSLog(@"FAIL AS in YES!!");
     }
 }
 
 #pragma mark - Table View (delagate)
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    //The main (non search seque is setup in the storyboard thus no code is here.
+    //PrepareForSegue is atuomaticly called.
+    
+    
+    
     // Perform segue to text editor detail
     
     if (tableView == self.displayController.searchResultsTableView) {
-    
     [self performSegueWithIdentifier:@"showDetail" sender:tableView];
     }
    
@@ -134,14 +161,20 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (self.contactModel == nil) {
+        NSLog(@"The model is nil! Abort! Abort!");
+    }
     
-    if (tableView == self.displayController.searchResultsTableView) 
-        return self.textFilesFiltered.count;
-    
-    else
-    return self.contactModel.fileData.count;
-
-    
+    if (tableView == self.displayController.searchResultsTableView) {
+        
+        return [self.textFilesFiltered count];
+    }
+    else {
+        NSInteger numberOfFiles = [self.contactModel.fileData count];
+        NSLog(@"the value of %d",numberOfFiles);
+        return [self.contactModel.fileData count];
+        
+    }
 }
 #pragma mark Rename Functionality.
 -(void)handleLongPress:(UIGestureRecognizer *)longPress {
@@ -311,6 +344,7 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
     NSMutableArray *names = [[NSMutableArray alloc]init];
     for (NSUInteger i = 0; i < [self.contactModel.fileData count]; i++) {
         NSString *path = [[self.contactModel.fileData objectAtIndex:i]filePath];
+        
         NSString *name = [[self.contactModel.fileData objectAtIndex:i]fileName];
         
         [paths addObject:path];
@@ -322,11 +356,9 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
    // NSString *searchTextPathsString = [self.contactModel.docsDir stringByAppendingString:searchText];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF contains[c] %@",searchText];
     NSPredicate *predicatePaths = [NSPredicate predicateWithFormat:@"SELF contains[c] %@",searchText];
-    NSLog(@"predicatePaths %@ and predicate %@",predicatePaths,predicate);
     NSArray *tempArray = [names  filteredArrayUsingPredicate:predicate];
     
     NSArray *tempArrayPaths = [paths filteredArrayUsingPredicate:predicatePaths];
-    NSLog(@"temparrayPaths is %@",tempArrayPaths);
         self.textFilesFiltered = [NSMutableArray arrayWithArray:tempArray];
     self.filteredTextFilesPaths = [NSMutableArray arrayWithArray:tempArrayPaths];
     
@@ -362,6 +394,16 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
     [self performSegueWithIdentifier:@"showNewVC" sender:self];
 
 }
+
+
+//This is mainly here so that when Dropbox functionality is implmented it can reload the Dropbox data.
+-(void)reloadTableViewData:(id)selector {
+    [self.contactModel readFolder];
+    [self.tableView  reloadData];
+    [self.refreshControl endRefreshing];
+}
+
+
 
 
 @end

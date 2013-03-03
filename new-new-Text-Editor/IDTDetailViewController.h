@@ -17,15 +17,13 @@
 //These properties are perhaps the only ones that should be public.
 @property (strong, nonatomic) id detailItem;
 @property (strong,nonatomic) id nameOfFile;
-@property (nonatomic,strong) UIPanGestureRecognizer * OneFinger;
 
 
-//FIXME: Properties should be private.
-@property (strong, nonatomic) IBOutlet UIButton *segueButton;
-@property(strong, nonatomic) UIPanGestureRecognizer * twoFingerswipe;
-@property (strong, nonatomic) IBOutlet UITextView *textView;
+
 
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 @property (nonatomic) BOOL darkModeEnabled;
 
+
+- (void)configureView;
 @end

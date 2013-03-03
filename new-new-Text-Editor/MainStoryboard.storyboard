@@ -17,7 +17,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="10" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3896" y="-485"/>
+            <point key="canvasLocation" x="592" y="-445"/>
         </scene>
         <!--Master View Controller - Master-->
         <scene sceneID="18">
@@ -83,7 +83,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="521" y="-809"/>
+            <point key="canvasLocation" x="1259" y="-207"/>
         </scene>
         <!--Hoard View Controller-->
         <scene sceneID="w5x-zx-DNE">
@@ -136,7 +136,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="veL-Dk-VUP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="999" y="-623"/>
+            <point key="canvasLocation" x="1415" y="-851"/>
         </scene>
         <!--Web View Controller - Preview-->
         <scene sceneID="Alf-Ua-Shf">
@@ -171,7 +171,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5bo-5E-e3M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1840" y="-663"/>
+            <point key="canvasLocation" x="3466" y="-543"/>
         </scene>
         <!--Detail View Controller - Detail-->
         <scene sceneID="24">
@@ -229,7 +229,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="23" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="919" y="-1234"/>
+            <point key="canvasLocation" x="2463" y="-346"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -238,6 +238,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="I0a-rw-ysg"/>
+        <segue reference="jZb-fq-zAk"/>
     </inferredMetricsTieBreakers>
 </document>

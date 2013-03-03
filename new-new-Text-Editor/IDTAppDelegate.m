@@ -7,7 +7,6 @@
 //
 
 #import "IDTAppDelegate.h"
-
 @implementation IDTAppDelegate
 
 -(void)customizeApperance {
@@ -25,14 +24,18 @@
 //      UITextAttributeFont,
 //      nil]];
 }
-
+#define MEASURE_LAUNCH_TIME 1
+extern CFAbsoluteTime startTime;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-//    // Override point for customization after application launch.
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSLog(@"Launched in %f seconds",CFAbsoluteTimeGetCurrent() -startTime);
+    });
     [self customizeApperance];
+    
     return YES;
 }
-							
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -58,6 +61,25 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+
+
+-(BOOL)application:(UIApplication *)application
+           openURL:(NSURL *)url
+ sourceApplication:(NSString *)sourceApplication
+        annotation:(id)annotation
+{
+    UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
+    IDTMasterViewController *firstViewController = (IDTMasterViewController *)[[navigationController viewControllers] objectAtIndex:0];
+    // Make sure url indicates a file (as opposed to, e.g., http://)
+    if (url != nil && [url isFileURL]) {
+        //Contact the MasterVC and tell it to add a url to the datasource. 
+        [firstViewController addFileFromURL:url];
+        
+    }
+    // Indicateas that we have successfully opened the URL
+    return YES;
 }
 
 @end
