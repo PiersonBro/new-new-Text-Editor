@@ -197,27 +197,22 @@
 		20D6067A16138F5D0091658C /* new-new-Text-Editor */ = {
 			isa = PBXGroup;
 			children = (
+				20F2B88E16CC12C10091F6F4 /* Model */,
 				20D6069A16138F950091658C /* MainStoryboard.storyboard */,
 				20D6068F16138F5D0091658C /* IDTMasterViewController.h */,
 				20D6069016138F5D0091658C /* IDTMasterViewController.m */,
 				20D6069216138F5D0091658C /* IDTDetailViewController.h */,
 				20D6069316138F5D0091658C /* IDTDetailViewController.m */,
-				207718E2166C391E00F8835A /* IDTDocument.h */,
-				207718DF166C391100F8835A /* IDTDocument.m */,
-				20F8D9AF16A89EFD007D024F /* IDTFileData.h */,
-				2084823216B5ED3000D0E679 /* IDTHoardViewController.h */,
-				2084823316B5ED3000D0E679 /* IDTHoardViewController.m */,
-				20F8D9B016A89EFD007D024F /* IDTFileData.m */,
 				20E71D3D16897037005640FD /* IDTWebViewController.h */,
 				20E71D3E16897037005640FD /* IDTWebViewController.m */,
-				20259D681691390200F4A1BA /* Telescope-icon.png */,
-				20DE1C7E16925D7B000A7F01 /* glass.png */,
-				2084823816B5F10300D0E679 /* GOOD.jpg */,
-				2084823516B5EFA700D0E679 /* IDTCollectionCell.h */,
-				2084823616B5EFA700D0E679 /* IDTCollectionCell.m */,
 				20D6068316138F5D0091658C /* IDTAppDelegate.h */,
 				20D6068416138F5D0091658C /* IDTAppDelegate.m */,
+				2084823216B5ED3000D0E679 /* IDTHoardViewController.h */,
+				2084823316B5ED3000D0E679 /* IDTHoardViewController.m */,
+				2084823516B5EFA700D0E679 /* IDTCollectionCell.h */,
+				2084823616B5EFA700D0E679 /* IDTCollectionCell.m */,
 				206EAD52168919A100C6A06C /* MMMarkdown.h */,
+				20F2B88D16CC12620091F6F4 /* Images */,
 				2001B97D16ABB25F00874DA9 /* Keyboard */,
 				20D6067B16138F5D0091658C /* Supporting Files */,
 			);
@@ -235,6 +230,27 @@
 				20D6068216138F5D0091658C /* new-new-Text-Editor-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		20F2B88D16CC12620091F6F4 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				20DE1C7E16925D7B000A7F01 /* glass.png */,
+				20259D681691390200F4A1BA /* Telescope-icon.png */,
+				2084823816B5F10300D0E679 /* GOOD.jpg */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		20F2B88E16CC12C10091F6F4 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				207718E2166C391E00F8835A /* IDTDocument.h */,
+				207718DF166C391100F8835A /* IDTDocument.m */,
+				20F8D9AF16A89EFD007D024F /* IDTFileData.h */,
+				20F8D9B016A89EFD007D024F /* IDTFileData.m */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
