@@ -46,4 +46,12 @@
 
 -(BOOL)renameFileName:(NSString *)name withName:(NSString *)newFileName atIndexPath:(NSIndexPath *)indexPath;
 
+
+-(BOOL)copyFileFromURL:(NSURL *)fromURL;
+
+
+
+
+
+
 @end

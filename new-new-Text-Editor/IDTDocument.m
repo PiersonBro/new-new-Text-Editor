@@ -146,7 +146,7 @@
 //None of the passed vars can be nil.
 -(BOOL) createFileWithText:(NSString *)text Name:(NSString *)name AtIndex:(NSUInteger)indexPath {
     
-    
+    assert(text != nil && name != nil);
     //This block of code checks too see if the Name of the file already exists if it does it will abort the operation.
     NSMutableArray *names = [[NSMutableArray alloc]initWithCapacity:self.fileData.count];
     
@@ -155,8 +155,9 @@
         
         [names addObject:currentName];
     }
+    //Once the array has been built: We test it. If it returns true we abort.
     if ([names containsObject:name]) {
-        NSLog(@"ABRT ABRT ABORT ABORT ABORT ABORT ");
+        //Abort.
         return NO;
     }
     
@@ -180,7 +181,8 @@
         returnValue = YES;
     }
     else {
-        NSLog(@"FAIL");
+        //Abort.
+        NSLog(@"The creation of the file failed.");
         returnValue = NO;
     }
     
@@ -199,8 +201,8 @@
     
    
     
-    [self.fileData removeObjectAtIndex:indexPath];
-        return TRUE;
+       [self.fileData removeObjectAtIndex:indexPath];
+       return TRUE;
     }
     else {
         return FALSE;
@@ -238,12 +240,37 @@
     
     //Basic error functionality.
     
-    if (error)
+    if (error) {
         NSLog(@"%@",error);
-    
+        return NO;
+    }
 
     
-    return TRUE;
+    return YES;
+}
+
+-(BOOL)copyFileFromURL:(NSURL *)fromURL {
+    
+    NSError *error = Nil;
+    NSString *toString = [fromURL absoluteString];
+    NSString *nameOfFile = [toString lastPathComponent];
+    NSString *string = [NSHomeDirectory() stringByAppendingFormat:@"/Documents/%@",nameOfFile];
+    NSURL *toURL = [NSURL fileURLWithPath:string];
+   BOOL success = [[NSFileManager defaultManager]copyItemAtURL:fromURL toURL:toURL error:&error];
+    if (success) {
+        NSLog(@"The value of my array is %d",[self.fileData count]);
+        IDTFileData *fileData = [[IDTFileData alloc]init];
+        [fileData fileName:nameOfFile filePath:string];
+        [self.fileData insertObject:fileData atIndex:0];
+    }
+    
+    if (error) {
+        NSLog(@"error %@",error);
+    }
+    
+    
+    
+    return success;
 }
 
 
