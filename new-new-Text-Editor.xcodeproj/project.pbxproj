@@ -21,6 +21,8 @@
 		2001B97316ABB0EE00874DA9 /* key@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2001B96716ABB0EE00874DA9 /* key@2x.png */; };
 		2001B97A16ABB21000874DA9 /* KOKeyboardRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2001B97716ABB20D00874DA9 /* KOKeyboardRow.m */; };
 		2001B97B16ABB21000874DA9 /* KOSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2001B97916ABB20F00874DA9 /* KOSwipeButton.m */; };
+		201E59E516E5088A00BD8183 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 201E59E416E5088900BD8183 /* SystemConfiguration.framework */; };
+		201E59E716E5089500BD8183 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 201E59E616E5089500BD8183 /* MobileCoreServices.framework */; };
 		20259D691691390200F4A1BA /* Telescope-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 20259D681691390200F4A1BA /* Telescope-icon.png */; };
 		2062AB061615088500CDC8E2 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2062AB051615088500CDC8E2 /* AddressBookUI.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		2062AB081615089400CDC8E2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2062AB071615089400CDC8E2 /* MessageUI.framework */; };
@@ -65,6 +67,8 @@
 		2001B97716ABB20D00874DA9 /* KOKeyboardRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOKeyboardRow.m; sourceTree = "<group>"; };
 		2001B97816ABB20E00874DA9 /* KOSwipeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOSwipeButton.h; sourceTree = "<group>"; };
 		2001B97916ABB20F00874DA9 /* KOSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOSwipeButton.m; sourceTree = "<group>"; };
+		201E59E416E5088900BD8183 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		201E59E616E5089500BD8183 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		20259D681691390200F4A1BA /* Telescope-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Telescope-icon.png"; sourceTree = "<group>"; };
 		2062AB051615088500CDC8E2 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		2062AB071615089400CDC8E2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -109,6 +113,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				201E59E716E5089500BD8183 /* MobileCoreServices.framework in Frameworks */,
+				201E59E516E5088A00BD8183 /* SystemConfiguration.framework in Frameworks */,
 				208BA30B166F1CA300118232 /* Social.framework in Frameworks */,
 				2062AB081615089400CDC8E2 /* MessageUI.framework in Frameworks */,
 				2062AB061615088500CDC8E2 /* AddressBookUI.framework in Frameworks */,
@@ -163,6 +169,41 @@
 			name = Keyboard;
 			sourceTree = "<group>";
 		};
+		20238C6616F02521003A9276 /* CollectionView  */ = {
+			isa = PBXGroup;
+			children = (
+				2084823216B5ED3000D0E679 /* IDTHoardViewController.h */,
+				2084823316B5ED3000D0E679 /* IDTHoardViewController.m */,
+				2084823516B5EFA700D0E679 /* IDTCollectionCell.h */,
+				2084823616B5EFA700D0E679 /* IDTCollectionCell.m */,
+			);
+			name = "CollectionView ";
+			sourceTree = "<group>";
+		};
+		20238C6716F0254A003A9276 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				20D6068F16138F5D0091658C /* IDTMasterViewController.h */,
+				20D6069016138F5D0091658C /* IDTMasterViewController.m */,
+				20D6069216138F5D0091658C /* IDTDetailViewController.h */,
+				20D6069316138F5D0091658C /* IDTDetailViewController.m */,
+				20E71D3D16897037005640FD /* IDTWebViewController.h */,
+				20E71D3E16897037005640FD /* IDTWebViewController.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		20238C6816F025AB003A9276 /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				20D6069A16138F950091658C /* MainStoryboard.storyboard */,
+				20D6068316138F5D0091658C /* IDTAppDelegate.h */,
+				20D6068416138F5D0091658C /* IDTAppDelegate.m */,
+				206EAD52168919A100C6A06C /* MMMarkdown.h */,
+			);
+			name = Misc;
+			sourceTree = "<group>";
+		};
 		20D6066516138F5D0091658C = {
 			isa = PBXGroup;
 			children = (
@@ -183,6 +224,8 @@
 		20D6067316138F5D0091658C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				201E59E616E5089500BD8183 /* MobileCoreServices.framework */,
+				201E59E416E5088900BD8183 /* SystemConfiguration.framework */,
 				206EAD501689199600C6A06C /* libMMMarkdown-iOS.a */,
 				2062AB071615089400CDC8E2 /* MessageUI.framework */,
 				208BA30A166F1CA300118232 /* Social.framework */,
@@ -198,20 +241,9 @@
 			isa = PBXGroup;
 			children = (
 				20F2B88E16CC12C10091F6F4 /* Model */,
-				20D6069A16138F950091658C /* MainStoryboard.storyboard */,
-				20D6068F16138F5D0091658C /* IDTMasterViewController.h */,
-				20D6069016138F5D0091658C /* IDTMasterViewController.m */,
-				20D6069216138F5D0091658C /* IDTDetailViewController.h */,
-				20D6069316138F5D0091658C /* IDTDetailViewController.m */,
-				20E71D3D16897037005640FD /* IDTWebViewController.h */,
-				20E71D3E16897037005640FD /* IDTWebViewController.m */,
-				20D6068316138F5D0091658C /* IDTAppDelegate.h */,
-				20D6068416138F5D0091658C /* IDTAppDelegate.m */,
-				2084823216B5ED3000D0E679 /* IDTHoardViewController.h */,
-				2084823316B5ED3000D0E679 /* IDTHoardViewController.m */,
-				2084823516B5EFA700D0E679 /* IDTCollectionCell.h */,
-				2084823616B5EFA700D0E679 /* IDTCollectionCell.m */,
-				206EAD52168919A100C6A06C /* MMMarkdown.h */,
+				20238C6716F0254A003A9276 /* ViewControllers */,
+				20238C6816F025AB003A9276 /* Misc */,
+				20238C6616F02521003A9276 /* CollectionView  */,
 				20F2B88D16CC12620091F6F4 /* Images */,
 				2001B97D16ABB25F00874DA9 /* Keyboard */,
 				20D6067B16138F5D0091658C /* Supporting Files */,
