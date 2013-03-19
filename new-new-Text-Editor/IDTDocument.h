@@ -28,18 +28,19 @@
 @property (nonatomic) NSMutableArray *rangesOfHighlight;
 @property (strong,nonatomic) NSString * userText;
 
-
+@property (nonatomic, strong) NSMutableArray  *fileArray;
+@property (nonatomic, strong) NSMutableArray *nameArray;
+@property (nonatomic,strong) NSMutableArray *combinedArray;
 
 #pragma mark Public methods
 
 //These methods are used in the MasterVC
 -(NSArray *) readFolder;
 
--(BOOL) createFileWithText:(NSString *)text Name:(NSString *)name AtIndex:(NSUInteger)indexPath;
 
 -(BOOL) deleteFileWithName:(NSString *)name AtIndex:(NSUInteger)indexPath;
 
-
+-(BOOL) createFileWithText:(NSString *)text Name:(NSString *)name AtIndex:(NSUInteger)indexPath;
 
 //Alpha String matching returns a Mutable array full of the ranges of matched strings.
 -(NSMutableArray *) stringMatchInString:(NSString *)inString  WithRegularExpr:(NSString *)regex;
@@ -48,7 +49,6 @@
 
 
 -(BOOL)copyFileFromURL:(NSURL *)fromURL;
-
 
 
 

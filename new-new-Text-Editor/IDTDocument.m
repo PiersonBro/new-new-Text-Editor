@@ -7,7 +7,8 @@
 //
 
 #import "IDTDocument.h"
-@implementation IDTDocument
+@implementation IDTDocument 
+
 
 #pragma mark UIDocument overrides 
 #pragma mark Model methods for Detail VC
@@ -16,7 +17,7 @@
 // Called whenever the application reads data from the file system
 - (BOOL)loadFromContents:(id)contents ofType:(NSString *)typeName error:(NSError **)outError
 {
-    
+    NSLog(@"THe val of contents is %@",contents);
     if ([contents length] > 0) 
         self.userText = [[NSString alloc] initWithBytes:[contents bytes]
                                                     length:[contents length]
@@ -26,7 +27,7 @@
         self.userText = @"Empty"; // When the note is created we assign some default content
     
    
-    //I am keeping this here in the off chance that I will implment NSNotification functionnality.
+    //I am keeping this here in the off chance that I will implment NSNotification  functionnality.
     [[NSNotificationCenter defaultCenter] postNotificationName:@"noteModified"
                                                         object:self];
     
@@ -67,6 +68,7 @@
 
          NSString *nameString = [[filemgr contentsOfDirectoryAtPath:self.docsDir error:&error]objectAtIndex:iOne];
         [nameArray addObject:nameString];
+        [self.nameArray addObject:nameString];
     
     }
 
@@ -75,6 +77,7 @@
     for (NSUInteger iTwo = 0; iTwo < [textFiles count]; iTwo++) {
         NSString *preVal = [[NSString alloc] initWithString:self.docsDir];
         NSString *val = [preVal stringByAppendingString:[textFiles objectAtIndex:iTwo]];
+        [self.fileArray addObject:val];
         self.contactFileData = [[IDTFileData alloc]init];
         [self.contactFileData fileName:[nameArray objectAtIndex:iTwo] filePath:val];
                
@@ -85,10 +88,12 @@
     
     
     }
+    [self.combinedArray addObject:self.nameArray];
+    [self.combinedArray addObject:self.fileArray];
       //  NSLog(@"the data is %@ and %@",self.contactFileData.fileName,self.contactFileData.filePath);
-
     
-    //Error Handling.
+    
+    //If no files exists, create one.
     if (![filemgr contentsOfDirectoryAtPath:self.docsDir error:nil]) {
         [self createFileWithText:@"Hello and welcome to my awesomely cool text editor! This is the list of stuff not yet implemented.  2. Syntax highlighting for HTML (uber difficult). 2.RTF implmentation (SUPER UBER difficult) " Name:@"Welcome!" AtIndex:0];
         
@@ -135,6 +140,9 @@
 
 -(void) general {
     self.fileData = [[NSMutableArray alloc]init];
+    self.fileArray = [[NSMutableArray alloc]init];
+    self.nameArray = [[NSMutableArray alloc]init];
+    self.combinedArray = [[NSMutableArray alloc]init];
     self.docsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
     self.docsDir = [self.docsDir stringByAppendingString:@"/"];
     if (self.path == nil)
@@ -160,33 +168,37 @@
         //Abort.
         return NO;
     }
-    
+    //End abort block.
     
     BOOL returnValue;
-    //This code actually creates the document. 
-    NSData *textData =  [text dataUsingEncoding:NSUTF8StringEncoding];
+    //This code actually creates the document.
+     NSData *textData =  [text dataUsingEncoding:NSUTF8StringEncoding];
     self.path = [self.docsDir stringByAppendingPathComponent:name];
+    NSURL *newFile = [[NSURL alloc]initFileURLWithPath:self.path];
+    returnValue = [self writeContents:textData toURL:newFile forSaveOperation:UIDocumentSaveForCreating originalContentsURL:nil error:nil];
+    
+    
+    
+    if (returnValue) {
+        
+    
 
-    
-    if ([[NSFileManager defaultManager]createFileAtPath:self.path contents:textData attributes:nil] == YES) {
-    
     //After creating the file insert them into our datasource for the table View.
-        self.contactFileData = [[IDTFileData alloc]init];
+    self.contactFileData = [[IDTFileData alloc]init];
         
-        self.contactFileData.fileName = name;
+    self.contactFileData.fileName = name;
         
-        self.contactFileData.filePath = self.path;
+    self.contactFileData.filePath = self.path;
         
-        [self.fileData insertObject:self.contactFileData atIndex:indexPath];
-        returnValue = YES;
-    }
-    else {
+    [self.fileData insertObject:self.contactFileData atIndex:indexPath];
+    } else {
         //Abort.
         NSLog(@"The creation of the file failed.");
         returnValue = NO;
     }
+        
     
-    return returnValue;
+   return returnValue;
 }
 
 //None of the passed vars can be nil.
@@ -257,14 +269,30 @@
     NSString *string = [NSHomeDirectory() stringByAppendingFormat:@"/Documents/%@",nameOfFile];
     NSURL *toURL = [NSURL fileURLWithPath:string];
    BOOL success = [[NSFileManager defaultManager]copyItemAtURL:fromURL toURL:toURL error:&error];
-    if (success) {
+       if (success) {
         NSLog(@"The value of my array is %d",[self.fileData count]);
         IDTFileData *fileData = [[IDTFileData alloc]init];
         [fileData fileName:nameOfFile filePath:string];
         [self.fileData insertObject:fileData atIndex:0];
     }
     
-    if (error) {
+    NSError *deletionError = nil;
+    
+    
+    NSString *finalString = [NSHomeDirectory() stringByAppendingFormat:@"/Documents/%@",@"Inbox"];
+    NSURL *deleteURL = [NSURL fileURLWithPath:finalString];
+    
+    
+    BOOL deleteSuccess = [[NSFileManager defaultManager]removeItemAtURL:deleteURL error:&deletionError];
+    
+    if (deleteSuccess) {
+        NSLog(@"YAYAY");
+        [self readFolder];
+        
+    }
+
+    
+       if (error ) {
         NSLog(@"error %@",error);
     }
     
@@ -272,6 +300,11 @@
     
     return success;
 }
+
+
+
+
+
 
 
 @end
