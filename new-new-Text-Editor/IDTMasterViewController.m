@@ -31,10 +31,13 @@
 }
 -(void)addFileFromURL:(NSURL *)fromURL  {
     self.contactModel = [[IDTDocument alloc]initWithFileURL:fromURL];
-    [self.contactModel readFolder];
+    
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    [self.contactModel readFolder];
     [self.contactModel copyFileFromURL:fromURL];
+    
     [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    
 
 }
 - (void)viewDidLoad
@@ -206,11 +209,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *cellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if ( cell == nil ) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
     
@@ -315,8 +318,8 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
         }
         else {
              indexPath = [self.tableView indexPathForSelectedRow];
-
-             object = [[self.contactModel.fileData objectAtIndex:indexPath.row]filePath];
+            NSMutableArray *mutableArray = [self.contactModel.combinedArray objectAtIndex:1];
+            object = [mutableArray objectAtIndex:indexPath.row];
         }
         
         IDTDetailViewController *contactDetailViewController = [segue destinationViewController];
@@ -324,9 +327,10 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
             contactDetailViewController.nameOfFile = [self.textFilesFiltered objectAtIndex:indexPath.row];
 
         
-        else
-            contactDetailViewController.nameOfFile = [[self.contactModel.fileData objectAtIndex:indexPath.row]fileName];
-        
+        else {
+            NSMutableArray *nameOfFileArray = [self.contactModel.combinedArray objectAtIndex:0];
+            contactDetailViewController.nameOfFile = [nameOfFileArray objectAtIndex:indexPath.row];
+        }
         [[segue destinationViewController] setDetailItem:object];
                                                     
                                                            

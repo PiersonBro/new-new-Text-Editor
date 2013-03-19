@@ -11,6 +11,7 @@
 #import "IDTWebViewController.h"
 @interface IDTDetailViewController () <MFMailComposeViewControllerDelegate,UITextViewDelegate,UIDocumentInteractionControllerDelegate,UIGestureRecognizerDelegate,UIWebViewDelegate,UIAlertViewDelegate> {
     UIBarButtonItem *barButton;
+    IDTDocument *secondDocument;
 }
 @property (nonatomic,strong)  IDTDocument *document;
 @property (nonatomic,strong) NSURL *url;
@@ -32,15 +33,31 @@
 
      self.url = [[NSURL alloc]initFileURLWithPath:[self.detailItem description]];
     self.document = [[IDTDocument alloc]initWithFileURL:self.url];
+    NSURL *url = [[NSURL alloc]initFileURLWithPath:[NSHomeDirectory() stringByAppendingPathComponent:@"Documents/main.txt"]];
+        url = [NSURL fileURLWithPath:@"https://gist.github.com/PiersonBro/5079388/raw/b8cba0763bf353c6cbaba84fc4fd4a7b07bfa331/gistfile1.txt"];
+    secondDocument = [[IDTDocument alloc]initWithFileURL:url];
+    NSOperationQueue *specialQueue = [[NSOperationQueue alloc]init];
+    [specialQueue addOperationWithBlock:^{
+        [secondDocument openWithCompletionHandler:^(BOOL success) {
+            NSLog(@"Success!");
+            NSLog(@"what is the value of userText (secondDocument) %@",secondDocument.userText);
+        }];
+    }];
+    [specialQueue addOperationWithBlock:^{
+    //This prevents a threading warning.
+    NSString *textViewString = [self.textView.text copy];
     [self.document openWithCompletionHandler:^(BOOL success) {
         BOOL HTMLDoc;
         HTMLDoc = YES;
         
         
         if (success && HTMLDoc == YES) {
-            self.textView.text = self.document.userText;
+            [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+             self.textView.text = self.document.userText;
+            }];
+
             NSOperationQueue *queue = [[NSOperationQueue alloc]init];
-            __block NSMutableAttributedString *mutableAttributedString = [[NSMutableAttributedString alloc]initWithString:self.textView.text];
+            __block NSMutableAttributedString *mutableAttributedString = [[NSMutableAttributedString alloc]initWithString:textViewString];
             [queue setName:@"Data Processing Queue"];
             [queue addOperationWithBlock:^{
                 mutableAttributedString = [self highlightOnBackgroundThreadWithRegularExpression:@"(?i)<(?![BIP]\\b ).*?/?>" inString:self.document.userText withHighlightColor:[UIColor colorWithRed:0.7 green:0.2 blue:0.3 alpha:0.9]];
@@ -54,19 +71,24 @@
         else {
             [self notifyUserOfNegativeEventWithString:@"Sorry. The Document Failed to save! There is nothing you can do but wallow in your own misery and delete this stupid app. My apologies "];
         }
+      }];
     }];
-
 }
 #pragma mark textView Delagate
 
 - (void)textViewDidChange:(UITextView *)textView {
+    NSLog(@"secondDocument is %@",secondDocument.userText);
     self.document.userText = textView.text;
     [self.document updateChangeCount:UIDocumentChangeDone];
+    secondDocument.userText = textView.text;
+    [secondDocument updateChangeCount:UIDocumentChangeDone];
 }
 #pragma mark view handling
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //This reads the file and applies the syntax highlighting.
+    [self configureView];
 
     self.segueButton.hidden = YES;
     self.segueButton.enabled = NO;
@@ -102,8 +124,6 @@
         [KOKeyboardRow applyToTextView:self.textView];
     }
     
-    //This reads the file and applies the syntax highlighting.
-    [self configureView];
    
 
 }
@@ -123,6 +143,8 @@
 - (void)didReceiveMemoryWarning
 {
     NSLog(@"Detail view did receive memeory warning");
+    self.textView = nil;
+    self.document = nil;
     [super didReceiveMemoryWarning];
 }
 
@@ -232,7 +254,7 @@
     
     [super touchesBegan:touches withEvent:event];
     [self.textView resignFirstResponder];
-    [self.view endEditing:YES];
+    [self.view endEditing  :YES];
 
 }
 
