@@ -16,10 +16,7 @@
 @interface IDTDetailViewController : UIViewController
 //These properties are perhaps the only ones that should be public.
 @property (strong, nonatomic) id detailItem;
-@property (strong,nonatomic) id nameOfFile;
-
-
-
+@property (strong, nonatomic) id nameOfFile;
 
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 @property (nonatomic) BOOL darkModeEnabled;

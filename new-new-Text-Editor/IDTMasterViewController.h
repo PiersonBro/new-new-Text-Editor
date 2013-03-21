@@ -12,12 +12,12 @@
 
 //The SearchBar for the tableView.
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (nonatomic,strong) IDTDocument *contactModel;
+@property (nonatomic, strong) IDTDocument *contactModel;
 @property (nonatomic) BOOL shouldReloadDataSource;
 
 - (void)insertNewObject:(id)sender;
--(void) popup:(id)sender withText:(id)buttonText;
+- (void)popup:(id)sender withText:(id)buttonText;
 
--(void)addFileFromURL:(NSURL *)fromURL;
+- (void)addFileFromURL:(NSURL *)fromURL;
 
 @end
