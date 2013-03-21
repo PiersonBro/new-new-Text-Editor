@@ -13,7 +13,7 @@
     
     NSIndexPath *_indexOfFile;
     CGSize cellBounds;
-    NSArray *paths;s
+    NSArray *paths;
     NSArray *names;
     
 }
@@ -57,8 +57,8 @@
     NSURL *url = [[NSURL alloc]initFileURLWithPath:path];
     self.contactModel = [[IDTDocument alloc]initWithFileURL:url];
     [self.contactModel readFolder];
-    [names = self.contactModel.combinedArray objectAtIndex:0];
-    [paths = self.contactModel.combinedArray objectAtIndex:1];
+    names = [self.contactModel.combinedArray objectAtIndex:0];
+    paths = [self.contactModel.combinedArray objectAtIndex:1];
 
     }
     else {
@@ -72,8 +72,8 @@
     
     // This are the mutable arrays for the search view
     // FIXME: These don't use the proper API methods.
-       self.textFilesFiltered = [[NSMutableArray alloc]initWithCapacity:[[self.contactModel.combinedArray objectAtIndex:0]count]];
-    self.filteredTextFilesPaths = [[NSMutableArray alloc]initWithCapacity:[[self.contactModel.combinedArray objectAtIndex:0]count]];
+    self.textFilesFiltered = [[NSMutableArray alloc]initWithCapacity:[[self.contactModel.combinedArray objectAtIndex:0]count]];
+    self.filteredTextFilesPaths = [[NSMutableArray alloc]initWithCapacity:[[self.contactModel.combinedArray objectAtIndex:1]count]];
     
     CGRect newBounds = self.tableView.bounds;
     newBounds.origin.y = newBounds.origin.y + self.searchBar.bounds.size.height;
@@ -179,9 +179,8 @@
         return [self.textFilesFiltered count];
     }
     else {
-        NSInteger numberOfFiles = [self.contactModel.fileData count];
-        NSLog(@"the value of %d",numberOfFiles);
-        return [self.contactModel.fileData count];
+        [self.contactModel readFolder];
+        return [names count];
         
     }
 }
@@ -229,7 +228,7 @@
     if (tableView != self.searchDisplayController.searchResultsTableView) {
        
         
-        cellLabel = [[self.contactModel.fileData objectAtIndex:indexPath.row]fileName];
+        cellLabel = [names objectAtIndex:indexPath.row];
         
     }
     
@@ -258,7 +257,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSString *identify = [[self.contactModel.fileData objectAtIndex:indexPath.row]fileName];
+        NSString *identify = [names objectAtIndex:indexPath.row];
         [self.contactModel deleteFileWithName:identify AtIndex:indexPath.row];
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -285,8 +284,10 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
         
         NSUInteger uint = _indexOfFile.row;
         
-       NSString *prevNameOfFile = [[self.contactModel.fileData objectAtIndex:uint]fileName];
+       NSString *prevNameOfFile = [names objectAtIndex:uint];
         [self.contactModel renameFileName:prevNameOfFile withName:self.textForFileName atIndexPath:_indexOfFile];
+        names = [self.contactModel.combinedArray objectAtIndex:0];
+        paths = [self.contactModel.combinedArray objectAtIndex:1];
         [self.tableView reloadData];
     }
 
@@ -357,15 +358,28 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
    
 	// Filter the array using NSPredicate
     
-   // NSString *searchTextPathsString = [self.contactModel.docsDir stringByAppendingString:searchText];
+  // NSString *searchTextPathsString = [self.contactModel.docsDir stringByAppendingString:searchText];
+    NSMutableArray *mutableArray = [[NSMutableArray alloc]init];
+    for (NSString *string in paths) {
+        NSString *addString = [string lastPathComponent];
+        [mutableArray addObject:addString];
+    }
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF contains[c] %@",searchText];
     NSPredicate *predicatePaths = [NSPredicate predicateWithFormat:@"SELF contains[c] %@",searchText];
     NSArray *tempArray = [names filteredArrayUsingPredicate:predicate];
     
-    NSArray *tempArrayPaths = [paths filteredArrayUsingPredicate:predicatePaths];
+    
+    NSArray *tempArrayPaths = [mutableArray filteredArrayUsingPredicate:predicatePaths];
+    NSMutableArray *finalTempArrayPaths = [[NSMutableArray alloc]init];
+    for (NSString *fileString in tempArrayPaths) {
+        NSString *completeFileString = [self.contactModel.docsDir stringByAppendingPathComponent:fileString];
+        [finalTempArrayPaths addObject:completeFileString];
+    }
+    
+    
     
     self.textFilesFiltered = [NSMutableArray arrayWithArray:tempArray];
-    self.filteredTextFilesPaths = [NSMutableArray arrayWithArray:tempArrayPaths];
+    self.filteredTextFilesPaths = [NSMutableArray arrayWithArray:finalTempArrayPaths];
     
 
 }
@@ -376,7 +390,7 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
     
-    [self filterContentForSearchText:searchString scope:nil]
+    [self filterContentForSearchText:searchString scope:nil];
     
     // Return YES to cause the search result table view to be reloaded.
     return YES;
