@@ -12,6 +12,8 @@
 #import "IDTDetailViewController.h"
 @interface IDTHoardViewController () {
     NSIndexPath *_path;
+    NSArray *names;
+    NSArray *paths;
 }
 @property (nonatomic,strong) IDTDocument *contactModel;
 @end
@@ -38,6 +40,8 @@
     self.contactModel = [[IDTDocument alloc]initWithFileURL:url];
     self.collectionView.dataSource = self;
     [self.contactModel readFolder];
+    names = [self.contactModel.combinedArray objectAtIndex:0];
+    paths = [self.contactModel.combinedArray objectAtIndex:1];
 	// Do any additional setup after loading the view.
 }
 
@@ -50,7 +54,7 @@
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [self.contactModel.fileData count];
+    return [names count];
 }
 
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
@@ -58,7 +62,7 @@
     IDTCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"collectionCell" forIndexPath:indexPath];
     
     cell.textView.userInteractionEnabled = NO;
-        cell.textView.text = [[self.contactModel.fileData objectAtIndex:indexPath.row]fileName];
+        cell.textView.text = [names objectAtIndex:indexPath.row];
 
     return cell;
     
@@ -70,10 +74,10 @@
     
        IDTDetailViewController *contactDetailVC = [segue destinationViewController];
         NSIndexPath *indexPath = [[self.collectionView indexPathsForSelectedItems]lastObject];
-        NSString *object = [[self.contactModel.fileData objectAtIndex:indexPath.row]filePath];
+        NSString *object = [paths objectAtIndex:indexPath.row];
         
         [[segue destinationViewController]setDetailItem:object];
-        contactDetailVC.nameOfFile = [[self.contactModel.fileData objectAtIndex:indexPath.row]fileName];
+        contactDetailVC.nameOfFile = [names objectAtIndex:indexPath.row];
 
     }
 }
