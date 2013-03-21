@@ -7,6 +7,13 @@
 //
 
 #import "IDTDocument.h"
+@interface IDTDocument ()
+    @property (nonatomic, strong) NSMutableArray  *fileArray;
+    @property (nonatomic, strong) NSMutableArray *nameArray;
+
+
+
+@end
 @implementation IDTDocument 
 
 
@@ -78,18 +85,14 @@
         NSString *preVal = [[NSString alloc] initWithString:self.docsDir];
         NSString *val = [preVal stringByAppendingString:[textFiles objectAtIndex:iTwo]];
         [self.fileArray addObject:val];
-        self.contactFileData = [[IDTFileData alloc]init];
-        [self.contactFileData fileName:[nameArray objectAtIndex:iTwo] filePath:val];
-               
-        [self.fileData addObject:self.contactFileData];
         
  
         
     
     
     }
-    [self.combinedArray addObject:self.nameArray];
-    [self.combinedArray addObject:self.fileArray];
+    [self.combinedArray insertObject:self.nameArray atIndex:0];
+    [self.combinedArray insertObject:self.fileArray atIndex:1];
       //  NSLog(@"the data is %@ and %@",self.contactFileData.fileName,self.contactFileData.filePath);
     
     
@@ -101,7 +104,7 @@
     if (error)
         NSLog(@"there was an %@",error);
 
-    return self.fileData;
+    return self.combinedArray;
 }
 
 
@@ -139,7 +142,6 @@
 //sets up self.docsDir and self.path
 
 -(void) general {
-    self.fileData = [[NSMutableArray alloc]init];
     self.fileArray = [[NSMutableArray alloc]init];
     self.nameArray = [[NSMutableArray alloc]init];
     self.combinedArray = [[NSMutableArray alloc]init];
@@ -156,10 +158,10 @@
     
     assert(text != nil && name != nil);
     //This block of code checks too see if the Name of the file already exists if it does it will abort the operation.
-    NSMutableArray *names = [[NSMutableArray alloc]initWithCapacity:self.fileData.count];
+    NSMutableArray *names = [[NSMutableArray alloc]initWithCapacity:[self.nameArray count]];
     
-    for (NSUInteger i = 0; i < [self.fileData count]; i++) {
-        NSString *currentName = [[self.fileData objectAtIndex:i]fileName];
+    for (NSUInteger i = 0; i < [self.nameArray count]; i++) {
+        NSString *currentName = [self.nameArray objectAtIndex:i];
         
         [names addObject:currentName];
     }
@@ -180,17 +182,12 @@
     
     
     if (returnValue) {
-        
-    
-
     //After creating the file insert them into our datasource for the table View.
-    self.contactFileData = [[IDTFileData alloc]init];
-        
-    self.contactFileData.fileName = name;
-        
-    self.contactFileData.filePath = self.path;
-        
-    [self.fileData insertObject:self.contactFileData atIndex:indexPath];
+        [self.nameArray insertObject:name atIndex:indexPath];
+        [self.fileArray insertObject:self.path atIndex:indexPath];
+        [self.combinedArray replaceObjectAtIndex:0 withObject:self.nameArray];
+        [self.combinedArray replaceObjectAtIndex:1 withObject:self.fileArray];
+    
     } else {
         //Abort.
         NSLog(@"The creation of the file failed.");
@@ -202,18 +199,17 @@
 }
 
 //None of the passed vars can be nil.
--(BOOL) deleteFileWithName:(NSString *)name AtIndex:(NSUInteger)indexPath {
+-(BOOL) deleteFileWithName:(NSString *)name AtIndex:(NSUInteger)index {
     
     
     self.path = [self.docsDir stringByAppendingPathComponent:name];
     NSError *error = nil;
     
     if([[NSFileManager defaultManager]removeItemAtPath:self.path error:&error]) {
-        
-    
-   
-    
-       [self.fileData removeObjectAtIndex:indexPath];
+        [self.nameArray removeObjectAtIndex:index];
+        [self.fileArray removeObjectAtIndex:index];
+        [self.combinedArray replaceObjectAtIndex:0 withObject:self.nameArray];
+        [self.combinedArray replaceObjectAtIndex:1 withObject:self.fileArray];
        return TRUE;
     }
     else {
@@ -232,32 +228,27 @@
     [self general];
     [self readFolder];
     self.path = [self.docsDir stringByAppendingPathComponent:name];
-    NSString * newPath = [self.docsDir stringByAppendingPathComponent:newFileName];
+    NSString *newPath = [self.docsDir stringByAppendingPathComponent:newFileName];
     
     NSError *error = nil;
     
-    if ([[NSFileManager defaultManager]moveItemAtPath:self.path toPath:newPath error:&error])
+    if ([[NSFileManager defaultManager]moveItemAtPath:self.path toPath:newPath error:&error]) {
         NSLog(@"succes");
-    NSUInteger interger = indexPath.row;
   
     
     
-    self.contactFileData = [[IDTFileData alloc]init];
-    [self.contactFileData fileName:newFileName filePath:newPath];
-   
-    
-    [self.fileData removeObjectAtIndex:interger];
-    [self.fileData insertObject:self.contactFileData atIndex:interger];
-    
-    
-    //Basic error functionality.
-    
-    if (error) {
+        [self.fileArray removeObjectAtIndex:indexPath.row];
+        [self.nameArray removeObjectAtIndex:indexPath.row];
+        [self.fileArray insertObject:newPath atIndex:indexPath.row];
+        [self.nameArray insertObject:newFileName atIndex:indexPath.row];
+        [self.combinedArray replaceObjectAtIndex:0 withObject:self.nameArray];
+        [self.combinedArray replaceObjectAtIndex:1 withObject:self.fileArray];
+    }
+    else if (error) {
         NSLog(@"%@",error);
         return NO;
     }
 
-    
     return YES;
 }
 
@@ -266,14 +257,15 @@
     NSError *error = Nil;
     NSString *toString = [fromURL absoluteString];
     NSString *nameOfFile = [toString lastPathComponent];
-    NSString *string = [NSHomeDirectory() stringByAppendingFormat:@"/Documents/%@",nameOfFile];
-    NSURL *toURL = [NSURL fileURLWithPath:string];
+    NSString *pathString = [NSHomeDirectory() stringByAppendingFormat:@"/Documents/%@",nameOfFile];
+    NSURL *toURL = [NSURL fileURLWithPath:pathString];
    BOOL success = [[NSFileManager defaultManager]copyItemAtURL:fromURL toURL:toURL error:&error];
        if (success) {
-        NSLog(@"The value of my array is %d",[self.fileData count]);
-        IDTFileData *fileData = [[IDTFileData alloc]init];
-        [fileData fileName:nameOfFile filePath:string];
-        [self.fileData insertObject:fileData atIndex:0];
+
+        [self.fileArray insertObject:pathString atIndex:0];
+        [self.nameArray insertObject:nameOfFile atIndex:0];
+        [self.combinedArray replaceObjectAtIndex:0 withObject:self.nameArray];
+        [self.combinedArray replaceObjectAtIndex:1 withObject:self.fileArray];
     }
     
     NSError *deletionError = nil;

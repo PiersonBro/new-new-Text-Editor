@@ -19,17 +19,12 @@
 //These properties are only used in the MasterVC
 
 //This is the dataSource for the tableView
-@property (strong, nonatomic) NSMutableArray *fileData;
-//FIXME This should be a private property 
-@property (strong, nonatomic) IDTFileData *contactFileData;
 
 
 //These properties are used in the DetailVC.
 @property (nonatomic) NSMutableArray *rangesOfHighlight;
 @property (strong,nonatomic) NSString * userText;
 
-@property (nonatomic, strong) NSMutableArray  *fileArray;
-@property (nonatomic, strong) NSMutableArray *nameArray;
 @property (nonatomic,strong) NSMutableArray *combinedArray;
 
 #pragma mark Public methods
@@ -38,7 +33,7 @@
 -(NSArray *) readFolder;
 
 
--(BOOL) deleteFileWithName:(NSString *)name AtIndex:(NSUInteger)indexPath;
+-(BOOL) deleteFileWithName:(NSString *)name AtIndex:(NSUInteger)index;
 
 -(BOOL) createFileWithText:(NSString *)text Name:(NSString *)name AtIndex:(NSUInteger)indexPath;
 
