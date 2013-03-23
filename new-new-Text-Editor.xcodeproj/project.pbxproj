@@ -46,8 +46,6 @@
 		20D6069416138F5D0091658C /* IDTDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D6069316138F5D0091658C /* IDTDetailViewController.m */; };
 		20D6069B16138F950091658C /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20D6069A16138F950091658C /* MainStoryboard.storyboard */; };
 		20DE1C7F16925D7B000A7F01 /* glass.png in Resources */ = {isa = PBXBuildFile; fileRef = 20DE1C7E16925D7B000A7F01 /* glass.png */; };
-		20E71D3F16897037005640FD /* IDTWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E71D3E16897037005640FD /* IDTWebViewController.m */; };
-		20F8D9B116A89EFD007D024F /* IDTFileData.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F8D9B016A89EFD007D024F /* IDTFileData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -104,8 +102,6 @@
 		20DE1C7E16925D7B000A7F01 /* glass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glass.png; sourceTree = "<group>"; };
 		20E71D3D16897037005640FD /* IDTWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDTWebViewController.h; sourceTree = "<group>"; };
 		20E71D3E16897037005640FD /* IDTWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDTWebViewController.m; sourceTree = "<group>"; };
-		20F8D9AF16A89EFD007D024F /* IDTFileData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDTFileData.h; sourceTree = "<group>"; };
-		20F8D9B016A89EFD007D024F /* IDTFileData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDTFileData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -279,8 +275,6 @@
 			children = (
 				207718E2166C391E00F8835A /* IDTDocument.h */,
 				207718DF166C391100F8835A /* IDTDocument.m */,
-				20F8D9AF16A89EFD007D024F /* IDTFileData.h */,
-				20F8D9B016A89EFD007D024F /* IDTFileData.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -374,7 +368,6 @@
 				20D6069416138F5D0091658C /* IDTDetailViewController.m in Sources */,
 				207718E0166C391100F8835A /* IDTDocument.m in Sources */,
 				20E71D3F16897037005640FD /* IDTWebViewController.m in Sources */,
-				20F8D9B116A89EFD007D024F /* IDTFileData.m in Sources */,
 				2001B97A16ABB21000874DA9 /* KOKeyboardRow.m in Sources */,
 				2001B97B16ABB21000874DA9 /* KOSwipeButton.m in Sources */,
 				2084823416B5ED3000D0E679 /* IDTHoardViewController.m in Sources */,
