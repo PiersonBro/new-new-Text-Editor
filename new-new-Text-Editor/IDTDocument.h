@@ -7,22 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UAGithubEngine.h"
 #import "IDTFileData.h"
 @interface IDTDocument : UIDocument
 
 #pragma mark Properties 
-
+- (id)initWithFileURL:(NSURL *)url;
 //The general file manange ment properties
 @property (nonatomic,strong)  NSString *path;
 @property (nonatomic,strong) NSString *docsDir;
 
 //These properties are only used in the MasterVC
 
-//This is the dataSource for the tableView
+@property (nonatomic,strong) UAGithubEngine *githubEngine;
 
 
 //These properties are used in the DetailVC.
-@property (nonatomic) NSMutableArray *rangesOfHighlight;
+@property (strong,nonatomic) NSMutableArray *rangesOfHighlight;
 @property (strong,nonatomic) NSString * userText;
 
 @property (nonatomic,strong) NSMutableArray *combinedArray;
@@ -33,7 +34,7 @@
 -(NSArray *) readFolder;
 
 
--(BOOL) deleteFileWithName:(NSString *)name AtIndex:(NSUInteger)index;
+-(BOOL) deleteFile:(NSString *)name AtIndex:(NSUInteger)index;
 
 -(BOOL) createFileWithText:(NSString *)text Name:(NSString *)name AtIndex:(NSUInteger)indexPath;
 

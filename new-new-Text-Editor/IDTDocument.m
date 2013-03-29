@@ -10,10 +10,24 @@
 @interface IDTDocument ()
 @property (nonatomic, strong) NSMutableArray *fileArray;
 @property (nonatomic, strong) NSMutableArray *nameArray;
+@property (nonatomic,strong) NSString *gistID;
 @end
 
 @implementation IDTDocument
+#pragma mark Initalizer
 
+- (id)initWithFileURL:(NSURL *)url {
+    self = [super initWithFileURL:url];
+    self.githubEngine = [[UAGithubEngine alloc]initWithUsername:@"PiersonBro" password:@"[self 1github];" withReachability:NO];
+    self.fileArray = [[NSMutableArray alloc]init];
+    self.nameArray = [[NSMutableArray alloc]init];
+    self.combinedArray = [[NSMutableArray alloc]init];
+    self.docsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    self.docsDir = [self.docsDir stringByAppendingString:@"/"];
+    self.path = [self.docsDir stringByAppendingString:@"text.txt"];
+    [self readFolder];
+    return self;
+}
 
 #pragma mark UIDocument overrides
 #pragma mark Model methods for Detail VC
@@ -21,7 +35,6 @@
 
 // Called whenever the application reads data from the file system
 - (BOOL)loadFromContents:(id)contents ofType:(NSString *)typeName error:(NSError **)outError {
-    NSLog(@"THe val of contents is %@", contents);
     if ([contents length] > 0)
         self.userText = [[NSString alloc] initWithBytes:[contents bytes]
                                                  length:[contents length]
@@ -42,8 +55,15 @@
     if ([self.userText length] == 0) {
         self.userText = @"Empty";
     }
-    //Error handling
-
+       dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
+    dispatch_async(queue, ^{
+        NSLog(@"self.GistID is %@",self.gistID);
+        [self.githubEngine editGist:self.gistID withDictionary:[self createDictionaryRepresationOfFileWithContent:self.userText AndNameOfFile:@"Static Name"] success:^(id result) {
+            NSLog(@"SUCCESS (in the edit gist place");
+        } failure:^(NSError *error) {
+            NSLog(@"Failure (in the edit gist place %@", error);
+        } ];
+    });
 
     return [NSData dataWithBytes:[self.userText UTF8String]
                           length:[self.userText length]];
@@ -54,9 +74,9 @@
 //Read the Documents directory of the app and create a new mutableArray that holds the paths to files. also populates the array for the tableView
 //The procces of reading the documents directory is broken up into two parts: 1. The array that the tableView uses to display the names and the paths of those files.
 - (NSArray *)readFolder {
-    [self general];
-    NSMutableArray *nameArray = [[NSMutableArray alloc]initWithCapacity:20];
-
+    self.combinedArray = [[NSMutableArray alloc]initWithCapacity:2];
+    self.nameArray = [[NSMutableArray alloc]initWithCapacity:20];
+    self.fileArray = [[NSMutableArray alloc]initWithCapacity:100];
     NSFileManager *filemgr = [NSFileManager defaultManager];
 
     NSError *error = nil;
@@ -64,12 +84,8 @@
     NSArray *textFiles = [filemgr contentsOfDirectoryAtPath:self.docsDir error:nil];
     for (NSUInteger iOne = 0; iOne < [textFiles count]; iOne++) {
         NSString *nameString = [[filemgr contentsOfDirectoryAtPath:self.docsDir error:&error]objectAtIndex:iOne];
-        [nameArray addObject:nameString];
         [self.nameArray addObject:nameString];
     }
-
-
-
     for (NSUInteger iTwo = 0; iTwo < [textFiles count]; iTwo++) {
         NSString *preVal = [[NSString alloc] initWithString:self.docsDir];
         NSString *val = [preVal stringByAppendingString:[textFiles objectAtIndex:iTwo]];
@@ -77,7 +93,6 @@
     }
     [self.combinedArray insertObject:self.nameArray atIndex:0];
     [self.combinedArray insertObject:self.fileArray atIndex:1];
-    //  NSLog(@"the data is %@ and %@",self.contactFileData.fileName,self.contactFileData.filePath);
 
 
     //If no files exists, create one.
@@ -114,14 +129,7 @@
 #pragma General File Management
 //sets up self.docsDir and self.path
 
-- (void)general {
-    self.fileArray = [[NSMutableArray alloc]init];
-    self.nameArray = [[NSMutableArray alloc]init];
-    self.combinedArray = [[NSMutableArray alloc]init];
-    self.docsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-    self.docsDir = [self.docsDir stringByAppendingString:@"/"];
-    if (self.path == nil) self.path = [self.docsDir stringByAppendingString:@"text.txt"];
-}
+
 
 //None of the passed vars can be nil.
 - (BOOL)createFileWithText:(NSString *)text Name:(NSString *)name AtIndex:(NSUInteger)indexPath {
@@ -149,14 +157,25 @@
     returnValue = [self writeContents:textData toURL:newFile forSaveOperation:UIDocumentSaveForCreating originalContentsURL:nil error:nil];
 
 
-
     if (returnValue) {
         //After creating the file insert them into our datasource for the table View.
         [self.nameArray insertObject:name atIndex:indexPath];
         [self.fileArray insertObject:self.path atIndex:indexPath];
         [self.combinedArray replaceObjectAtIndex:0 withObject:self.nameArray];
         [self.combinedArray replaceObjectAtIndex:1 withObject:self.fileArray];
-    } else {
+        dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
+        dispatch_async(queue, ^{
+            [self.githubEngine createGist:[self createDictionaryRepresationOfFileWithContent:nil AndNameOfFile:name] success:^(id result) {
+                NSLog(@"Success %@",result);
+                NSDictionary *dictionary = [result objectAtIndex:0];
+                self.gistID = [dictionary objectForKey:@"id"];
+                NSLog(@"%@",self.gistID);
+            } failure:^(NSError *error) {
+                NSLog(@"CREATE failed with error %@", error);
+            }];
+
+        });
+        } else {
         //Abort.
         NSLog(@"The creation of the file failed.");
         returnValue = NO;
@@ -167,7 +186,7 @@
 }
 
 //None of the passed vars can be nil.
-- (BOOL)deleteFileWithName:(NSString *)name AtIndex:(NSUInteger)index {
+- (BOOL)deleteFile:(NSString *)name AtIndex:(NSUInteger)index {
     self.path = [self.docsDir stringByAppendingPathComponent:name];
     NSError *error = nil;
 
@@ -176,6 +195,15 @@
         [self.fileArray removeObjectAtIndex:index];
         [self.combinedArray replaceObjectAtIndex:0 withObject:self.nameArray];
         [self.combinedArray replaceObjectAtIndex:1 withObject:self.fileArray];
+        dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
+        dispatch_async(queue, ^{
+            self.gistID = [self getGistIDFromName:name];
+            [self.githubEngine deleteGist:self.gistID success:^(BOOL sucess) {
+               NSLog(@"INCREIDBLE");
+           } failure:^(NSError *error) {
+               NSLog(@"ERRROR is %@",error);
+           }];
+        });
         return TRUE;
     } else {
         return FALSE;
@@ -185,8 +213,6 @@
 }
 
 - (BOOL)renameFileName:(NSString *)name withName:(NSString *)newFileName atIndexPath:(NSIndexPath *)indexPath {
-    [self general];
-    [self readFolder];
     self.path = [self.docsDir stringByAppendingPathComponent:name];
     NSString *newPath = [self.docsDir stringByAppendingPathComponent:newFileName];
 
@@ -226,8 +252,6 @@
     }
 
     NSError *deletionError = nil;
-
-
     NSString *finalString = [NSHomeDirectory() stringByAppendingFormat:@"/Documents/%@", @"Inbox"];
     NSURL *deleteURL = [NSURL fileURLWithPath:finalString];
 
@@ -236,6 +260,7 @@
 
     if (deleteSuccess) {
         NSLog(@"YAYAY");
+
         [self readFolder];
     }
 
@@ -247,6 +272,61 @@
 
 
     return success;
+}
+
+#pragma mark Github
+
+
+- (BOOL)saveChangesToGist:(NSString *)gistID {
+    return YES;
+}
+
+- (NSDictionary *)createDictionaryRepresationOfFileWithContent:(NSString *)content AndNameOfFile:(NSString *)nameOfFile {
+    if (content == nil) {
+        content = @"This is the filler string you SHOULD NOT see this!";
+    }
+    NSDictionary *firstDictionary = @{ @"content": content };
+    //The key here is the name of the file. The subdictionary is the content of the file.
+    NSDictionary *secondDictionary = @{ nameOfFile: firstDictionary };
+    NSDictionary *creationDictionary = @{ @"description": @"This is a gist that was created via an API!", @"public": @"true", @"files": secondDictionary };
+
+
+    return creationDictionary;
+}
+
+- (NSArray *)getGists {
+    __block NSArray *returnDict = [[NSArray alloc]init];
+    [self.githubEngine gistsForUser:@"PiersonBro" success:^(id result) {
+        returnDict = [NSArray arrayWithArray:result];
+    } failure:^(NSError *error) {
+        NSLog(@"The getGists method failed with error: %@", error);
+    }];
+
+    return returnDict;
+}
+
+- (NSString *)getGistIDFromName:(NSString *)name {
+    NSArray *array = [self getGists];
+    NSString *IDString = nil;
+    for (NSDictionary *fileDictionary in array) {
+        NSDictionary *dictionary = [fileDictionary valueForKey:@"files"];
+
+        NSEnumerator *enumerator = [dictionary keyEnumerator];
+        id value;
+        NSString *valueKeyString = [[NSString alloc]init];
+        while (value = [enumerator nextObject])
+            valueKeyString = value;
+        NSLog(@"Name is %@", name);
+        NSLog(@"Name is %@", valueKeyString);
+        if ([name isEqualToString:valueKeyString]) {
+            NSLog(@"SUCCESSSSSSSSSSSSSSSSSSSSSSSSSS");
+            IDString = [fileDictionary objectForKey:@"id"];
+            NSLog(@"IDStirng is %@", IDString);
+        }
+    }
+
+
+    return IDString;
 }
 
 @end
