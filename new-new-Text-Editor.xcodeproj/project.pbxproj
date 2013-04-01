@@ -47,6 +47,18 @@
 		20D6069B16138F950091658C /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20D6069A16138F950091658C /* MainStoryboard.storyboard */; };
 		20DE1C7F16925D7B000A7F01 /* glass.png in Resources */ = {isa = PBXBuildFile; fileRef = 20DE1C7E16925D7B000A7F01 /* glass.png */; };
 		20E71D3F16897037005640FD /* IDTWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E71D3E16897037005640FD /* IDTWebViewController.m */; };
+		20EC928216FE5B2900C351F0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 20EC926916FE5B2900C351F0 /* InfoPlist.strings */; };
+		20EC928316FE5B2900C351F0 /* NSArray+Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EC926C16FE5B2900C351F0 /* NSArray+Utilities.m */; };
+		20EC928416FE5B2900C351F0 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EC926E16FE5B2900C351F0 /* NSData+Base64.m */; };
+		20EC928516FE5B2900C351F0 /* NSInvocation+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EC927016FE5B2900C351F0 /* NSInvocation+Blocks.m */; };
+		20EC928616FE5B2900C351F0 /* NSString+UAGithubEngineUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EC927216FE5B2900C351F0 /* NSString+UAGithubEngineUtilities.m */; };
+		20EC928716FE5B2900C351F0 /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EC927416FE5B2900C351F0 /* NSString+UUID.m */; };
+		20EC928816FE5B2900C351F0 /* UAGithubEngine-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20EC927516FE5B2900C351F0 /* UAGithubEngine-Info.plist */; };
+		20EC928916FE5B2900C351F0 /* UAGithubEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EC927816FE5B2900C351F0 /* UAGithubEngine.m */; };
+		20EC928A16FE5B2900C351F0 /* UAGithubEngineConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EC927A16FE5B2900C351F0 /* UAGithubEngineConstants.m */; };
+		20EC928B16FE5B2900C351F0 /* UAGithubJSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EC927D16FE5B2900C351F0 /* UAGithubJSONParser.m */; };
+		20EC928C16FE5B2900C351F0 /* UAGithubURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EC927F16FE5B2900C351F0 /* UAGithubURLConnection.m */; };
+		20EC928D16FE5B2900C351F0 /* UAReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EC928116FE5B2900C351F0 /* UAReachability.m */; };
 		20F8D9B116A89EFD007D024F /* IDTFileData.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F8D9B016A89EFD007D024F /* IDTFileData.m */; };
 /* End PBXBuildFile section */
 
@@ -74,7 +86,7 @@
 		2062AB071615089400CDC8E2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		206EAD501689199600C6A06C /* libMMMarkdown-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libMMMarkdown-iOS.a"; sourceTree = "<group>"; };
 		206EAD52168919A100C6A06C /* MMMarkdown.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMMarkdown.h; sourceTree = "<group>"; };
-		207718DF166C391100F8835A /* IDTDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDTDocument.m; sourceTree = "<group>"; };
+		207718DF166C391100F8835A /* IDTDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = IDTDocument.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		207718E2166C391E00F8835A /* IDTDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IDTDocument.h; sourceTree = "<group>"; };
 		2084823216B5ED3000D0E679 /* IDTHoardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDTHoardViewController.h; sourceTree = "<group>"; };
 		2084823316B5ED3000D0E679 /* IDTHoardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDTHoardViewController.m; sourceTree = "<group>"; };
@@ -104,6 +116,30 @@
 		20DE1C7E16925D7B000A7F01 /* glass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glass.png; sourceTree = "<group>"; };
 		20E71D3D16897037005640FD /* IDTWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDTWebViewController.h; sourceTree = "<group>"; };
 		20E71D3E16897037005640FD /* IDTWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDTWebViewController.m; sourceTree = "<group>"; };
+		20EC926A16FE5B2900C351F0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		20EC926B16FE5B2900C351F0 /* NSArray+Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Utilities.h"; sourceTree = "<group>"; };
+		20EC926C16FE5B2900C351F0 /* NSArray+Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Utilities.m"; sourceTree = "<group>"; };
+		20EC926D16FE5B2900C351F0 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
+		20EC926E16FE5B2900C351F0 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
+		20EC926F16FE5B2900C351F0 /* NSInvocation+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSInvocation+Blocks.h"; sourceTree = "<group>"; };
+		20EC927016FE5B2900C351F0 /* NSInvocation+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSInvocation+Blocks.m"; sourceTree = "<group>"; };
+		20EC927116FE5B2900C351F0 /* NSString+UAGithubEngineUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UAGithubEngineUtilities.h"; sourceTree = "<group>"; };
+		20EC927216FE5B2900C351F0 /* NSString+UAGithubEngineUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UAGithubEngineUtilities.m"; sourceTree = "<group>"; };
+		20EC927316FE5B2900C351F0 /* NSString+UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UUID.h"; sourceTree = "<group>"; };
+		20EC927416FE5B2900C351F0 /* NSString+UUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UUID.m"; sourceTree = "<group>"; };
+		20EC927516FE5B2900C351F0 /* UAGithubEngine-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "UAGithubEngine-Info.plist"; sourceTree = "<group>"; };
+		20EC927616FE5B2900C351F0 /* UAGithubEngine-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UAGithubEngine-Prefix.pch"; sourceTree = "<group>"; };
+		20EC927716FE5B2900C351F0 /* UAGithubEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UAGithubEngine.h; sourceTree = "<group>"; };
+		20EC927816FE5B2900C351F0 /* UAGithubEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UAGithubEngine.m; sourceTree = "<group>"; };
+		20EC927916FE5B2900C351F0 /* UAGithubEngineConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UAGithubEngineConstants.h; sourceTree = "<group>"; };
+		20EC927A16FE5B2900C351F0 /* UAGithubEngineConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UAGithubEngineConstants.m; sourceTree = "<group>"; };
+		20EC927B16FE5B2900C351F0 /* UAGithubEngineRequestTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UAGithubEngineRequestTypes.h; sourceTree = "<group>"; };
+		20EC927C16FE5B2900C351F0 /* UAGithubJSONParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UAGithubJSONParser.h; sourceTree = "<group>"; };
+		20EC927D16FE5B2900C351F0 /* UAGithubJSONParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UAGithubJSONParser.m; sourceTree = "<group>"; };
+		20EC927E16FE5B2900C351F0 /* UAGithubURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UAGithubURLConnection.h; sourceTree = "<group>"; };
+		20EC927F16FE5B2900C351F0 /* UAGithubURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UAGithubURLConnection.m; sourceTree = "<group>"; };
+		20EC928016FE5B2900C351F0 /* UAReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UAReachability.h; sourceTree = "<group>"; };
+		20EC928116FE5B2900C351F0 /* UAReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UAReachability.m; sourceTree = "<group>"; };
 		20F8D9AF16A89EFD007D024F /* IDTFileData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDTFileData.h; sourceTree = "<group>"; };
 		20F8D9B016A89EFD007D024F /* IDTFileData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDTFileData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -207,6 +243,7 @@
 		20D6066516138F5D0091658C = {
 			isa = PBXGroup;
 			children = (
+				20EC926816FE5B2900C351F0 /* UAGithubEngine */,
 				2001B97C16ABB22200874DA9 /* Text Editor */,
 				20D6067316138F5D0091658C /* Frameworks */,
 				20D6067116138F5D0091658C /* Products */,
@@ -262,6 +299,37 @@
 				20D6068216138F5D0091658C /* new-new-Text-Editor-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		20EC926816FE5B2900C351F0 /* UAGithubEngine */ = {
+			isa = PBXGroup;
+			children = (
+				20EC926916FE5B2900C351F0 /* InfoPlist.strings */,
+				20EC926B16FE5B2900C351F0 /* NSArray+Utilities.h */,
+				20EC926C16FE5B2900C351F0 /* NSArray+Utilities.m */,
+				20EC926D16FE5B2900C351F0 /* NSData+Base64.h */,
+				20EC926E16FE5B2900C351F0 /* NSData+Base64.m */,
+				20EC926F16FE5B2900C351F0 /* NSInvocation+Blocks.h */,
+				20EC927016FE5B2900C351F0 /* NSInvocation+Blocks.m */,
+				20EC927116FE5B2900C351F0 /* NSString+UAGithubEngineUtilities.h */,
+				20EC927216FE5B2900C351F0 /* NSString+UAGithubEngineUtilities.m */,
+				20EC927316FE5B2900C351F0 /* NSString+UUID.h */,
+				20EC927416FE5B2900C351F0 /* NSString+UUID.m */,
+				20EC927516FE5B2900C351F0 /* UAGithubEngine-Info.plist */,
+				20EC927616FE5B2900C351F0 /* UAGithubEngine-Prefix.pch */,
+				20EC927716FE5B2900C351F0 /* UAGithubEngine.h */,
+				20EC927816FE5B2900C351F0 /* UAGithubEngine.m */,
+				20EC927916FE5B2900C351F0 /* UAGithubEngineConstants.h */,
+				20EC927A16FE5B2900C351F0 /* UAGithubEngineConstants.m */,
+				20EC927B16FE5B2900C351F0 /* UAGithubEngineRequestTypes.h */,
+				20EC927C16FE5B2900C351F0 /* UAGithubJSONParser.h */,
+				20EC927D16FE5B2900C351F0 /* UAGithubJSONParser.m */,
+				20EC927E16FE5B2900C351F0 /* UAGithubURLConnection.h */,
+				20EC927F16FE5B2900C351F0 /* UAGithubURLConnection.m */,
+				20EC928016FE5B2900C351F0 /* UAReachability.h */,
+				20EC928116FE5B2900C351F0 /* UAReachability.m */,
+			);
+			path = UAGithubEngine;
 			sourceTree = "<group>";
 		};
 		20F2B88D16CC12620091F6F4 /* Images */ = {
@@ -358,6 +426,8 @@
 				2001B97316ABB0EE00874DA9 /* key@2x.png in Resources */,
 				20D4FDC616ADEA9800031046 /* GreenIconNew.png in Resources */,
 				2084823916B5F10300D0E679 /* GOOD.jpg in Resources */,
+				20EC928216FE5B2900C351F0 /* InfoPlist.strings in Resources */,
+				20EC928816FE5B2900C351F0 /* UAGithubEngine-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,6 +449,16 @@
 				2001B97B16ABB21000874DA9 /* KOSwipeButton.m in Sources */,
 				2084823416B5ED3000D0E679 /* IDTHoardViewController.m in Sources */,
 				2084823716B5EFA700D0E679 /* IDTCollectionCell.m in Sources */,
+				20EC928316FE5B2900C351F0 /* NSArray+Utilities.m in Sources */,
+				20EC928416FE5B2900C351F0 /* NSData+Base64.m in Sources */,
+				20EC928516FE5B2900C351F0 /* NSInvocation+Blocks.m in Sources */,
+				20EC928616FE5B2900C351F0 /* NSString+UAGithubEngineUtilities.m in Sources */,
+				20EC928716FE5B2900C351F0 /* NSString+UUID.m in Sources */,
+				20EC928916FE5B2900C351F0 /* UAGithubEngine.m in Sources */,
+				20EC928A16FE5B2900C351F0 /* UAGithubEngineConstants.m in Sources */,
+				20EC928B16FE5B2900C351F0 /* UAGithubJSONParser.m in Sources */,
+				20EC928C16FE5B2900C351F0 /* UAGithubURLConnection.m in Sources */,
+				20EC928D16FE5B2900C351F0 /* UAReachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,6 +469,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				20D6067E16138F5D0091658C /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		20EC926916FE5B2900C351F0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				20EC926A16FE5B2900C351F0 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -423,11 +511,11 @@
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
 				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
 				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = YES;
-				GCC_WARN_SHADOW = YES;
+				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
+				GCC_WARN_SHADOW = NO;
 				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = NO;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
@@ -459,11 +547,11 @@
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
 				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
 				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = YES;
-				GCC_WARN_SHADOW = YES;
+				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
+				GCC_WARN_SHADOW = NO;
 				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = NO;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;

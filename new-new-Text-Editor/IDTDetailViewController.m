@@ -42,14 +42,14 @@
             NSLog(@"what is the value of userText (secondDocument) %@", secondDocument.userText);
         }];
     }];
+    NSString *textViewString = [self.textView.text copy];
     [specialQueue addOperationWithBlock:^{
         //This prevents a threading warning.
-        NSString *textViewString = [self.textView.text copy];
         [self.document openWithCompletionHandler:^(BOOL success) {
             BOOL HTMLDoc;
             HTMLDoc = YES;
 
-
+      
             if (success && HTMLDoc == YES) {
                 [[NSOperationQueue mainQueue]addOperationWithBlock:^{
                     self.textView.text = self.document.userText;
@@ -64,8 +64,8 @@
                     [[NSOperationQueue mainQueue]addOperationWithBlock:^{
                         [self updateUIWithAttriubtedString:mutableAttributedString];
                     }];
-                }];
-            } else {
+                }]; //open failed.
+            }else {
                 [self notifyUserOfNegativeEventWithString:@"Sorry. The Document Failed to save! There is nothing you can do but wallow in your own misery and delete this stupid app. My apologies "];
             }
         }];

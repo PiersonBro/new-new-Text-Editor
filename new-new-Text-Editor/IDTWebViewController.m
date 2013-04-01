@@ -11,7 +11,7 @@
 #import <AddressBook/AddressBook.h>
 #import <AddressBookUI/AddressBookUI.h>
 @interface IDTWebViewController () <MFMailComposeViewControllerDelegate>
-
+@property (nonatomic,strong) UAGithubEngine *githubEngine;
 @end
 
 @implementation IDTWebViewController
@@ -26,10 +26,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.githubEngine = [[UAGithubEngine alloc]initWithUsername:@"PiersonBro" password:@"[self 1github];" withReachability:NO];
     //This load the string set by the detail view controller.
+    [self.githubEngine renderAsMarkdown:self.stringForWebView success:^(id result) {
+        NSLog(@"SUCCESS is %@",result);
+    } failure:^(NSError *error) {
+        NSLog(@"ERROR is %@",error);
+    }];
     [self.webView loadHTMLString:self.stringForWebView baseURL:nil];
 
-    // Do any additional setup after loading the view.
+
 }
 
 - (void)didReceiveMemoryWarning {

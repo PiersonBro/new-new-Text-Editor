@@ -39,7 +39,6 @@
     NSURL *url = [[NSURL alloc]initFileURLWithPath:path];
     self.contactModel = [[IDTDocument alloc]initWithFileURL:url];
     self.collectionView.dataSource = self;
-    [self.contactModel readFolder];
     names = [self.contactModel.combinedArray objectAtIndex:0];
     paths = [self.contactModel.combinedArray objectAtIndex:1];
 	// Do any additional setup after loading the view.

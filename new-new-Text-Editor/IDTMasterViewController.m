@@ -28,12 +28,11 @@
     NSLog(@"HMM");
     [super awakeFromNib];
 }
-
+//Called when a Users is using IOS's open in feature.
 - (void)addFileFromURL:(NSURL *)fromURL  {
     self.contactModel = [[IDTDocument alloc]initWithFileURL:fromURL];
 
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.contactModel readFolder];
     [self.contactModel copyFileFromURL:fromURL];
 
     [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -49,14 +48,10 @@
         NSString *path = [docsDir stringByAppendingString:@"new.txt"];
         NSURL *url = [[NSURL alloc]initFileURLWithPath:path];
         self.contactModel = [[IDTDocument alloc]initWithFileURL:url];
-        [self.contactModel readFolder];
         names = [self.contactModel.combinedArray objectAtIndex:0];
         paths = [self.contactModel.combinedArray objectAtIndex:1];
-    } else {
-        NSLog(@"self.contactModel is not nil!");
-    }
-
-    self.refreshControl  = [[UIRefreshControl alloc]init];
+    } 
+    self.refreshControl = [[UIRefreshControl alloc]init];
 
     self.refreshControl.tintColor = [UIColor colorWithRed:0.1 green:0.5 blue:0.5 alpha:1];
     [self.refreshControl addTarget:self action:@selector(reloadTableViewData:) forControlEvents:UIControlEventValueChanged];
@@ -153,7 +148,6 @@
     if (tableView == self.displayController.searchResultsTableView) {
         return [self.textFilesFiltered count];
     } else {
-        [self.contactModel readFolder];
         return [names count];
     }
 }
@@ -218,10 +212,11 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         NSString *identify = [names objectAtIndex:indexPath.row];
-        [self.contactModel deleteFileWithName:identify AtIndex:indexPath.row];
+        [self.contactModel deleteFile:identify AtIndex:indexPath.row];
 
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        NSLog(@"Hello)!");
     }
 }
 
@@ -230,7 +225,7 @@
     didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (alertView.alertViewStyle == UIAlertViewStylePlainTextInput) {
         if ([[alertView buttonTitleAtIndex:1] isEqualToString:@"Rename"] && buttonIndex == 1) {
-            self.textForFileName = [[alertView textFieldAtIndex:0]text];
+            self.textForFileName = [alertView textFieldAtIndex:0].text;
 
 
 
@@ -246,10 +241,9 @@
 
 
         if ([[alertView buttonTitleAtIndex:1] isEqualToString:@"Enter"] && buttonIndex == 1) {
-            self.textForFileName = [[alertView textFieldAtIndex:0]text];
+            self.textForFileName = [alertView textFieldAtIndex:0].text;
 
             if (self.textForFileName == nil) {
-                //FIXME: I crash if there is already a file named like me.
                 self.textForFileName = @"Blank";
             }
             [self insertNewObject:self];
@@ -274,7 +268,7 @@
             object = [self.filteredTextFilesPaths objectAtIndex:indexPath.row];
         } else {
             indexPath = [self.tableView indexPathForSelectedRow];
-
+        
             object = [paths objectAtIndex:indexPath.row];
         }
 
@@ -291,7 +285,7 @@
 
 #pragma mark Content Filtering
 - (void)filterContentForSearchText:(NSString *)searchText scope:(NSString *)scope {
-    /*Hello future self! Cotent is filtered via the NSPredicate api and then those filterd arrays are set on two global properties: self.textFilesFiltered and
+    /*Hello future self! Cotent is filtered via the NSPredicate api and then those filterd arrays are set on two properties: self.textFilesFiltered and
        self.filteredTextFilesPaths
      */
 
@@ -351,7 +345,6 @@
 
 //This is mainly here so that when Dropbox functionality is implmented it can reload the Dropbox data.
 - (void)reloadTableViewData:(id)selector {
-    [self.contactModel readFolder];
     [self.tableView reloadData];
     [self.refreshControl endRefreshing];
 }
