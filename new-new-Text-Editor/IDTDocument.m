@@ -11,6 +11,7 @@
 @property (nonatomic, strong) NSMutableArray *fileArray;
 @property (nonatomic, strong) NSMutableArray *nameArray;
 @property (nonatomic,strong) NSString *gistID;
+@property (nonatomic,strong) NSString *gistName;
 @end
 
 @implementation IDTDocument
@@ -26,6 +27,17 @@
     self.docsDir = [self.docsDir stringByAppendingString:@"/"];
     self.path = [self.docsDir stringByAppendingString:@"text.txt"];
     [self readFolder];
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
+    dispatch_async(queue, ^{
+        self.gistName = [url lastPathComponent];
+        self.gistID = [self getGistIDFromName:self.gistName];
+        if (self.gistID == Nil) {
+           NSLog(@"NAG");
+        }else {
+          self.isGist = YES;
+        }
+    });
     return self;
 }
 
@@ -58,7 +70,7 @@
        dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
     dispatch_async(queue, ^{
         NSLog(@"self.GistID is %@",self.gistID);
-        [self.githubEngine editGist:self.gistID withDictionary:[self createDictionaryRepresationOfFileWithContent:self.userText AndNameOfFile:@"Static Name"] success:^(id result) {
+        [self.githubEngine editGist:self.gistID withDictionary:[self createDictionaryRepresationOfFileWithContent:self.userText AndNameOfFile:self.gistName] success:^(id result) {
             NSLog(@"SUCCESS (in the edit gist place");
         } failure:^(NSError *error) {
             NSLog(@"Failure (in the edit gist place %@", error);
@@ -316,12 +328,9 @@
         NSString *valueKeyString = [[NSString alloc]init];
         while (value = [enumerator nextObject])
             valueKeyString = value;
-        NSLog(@"Name is %@", name);
-        NSLog(@"Name is %@", valueKeyString);
-        if ([name isEqualToString:valueKeyString]) {
+              if ([name isEqualToString:valueKeyString]) {
             NSLog(@"SUCCESSSSSSSSSSSSSSSSSSSSSSSSSS");
             IDString = [fileDictionary objectForKey:@"id"];
-            NSLog(@"IDStirng is %@", IDString);
         }
     }
 

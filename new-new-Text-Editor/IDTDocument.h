@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "UAGithubEngine.h"
-#import "IDTFileData.h"
 @interface IDTDocument : UIDocument
 
 #pragma mark Properties 
@@ -21,12 +20,13 @@
 
 @property (nonatomic,strong) UAGithubEngine *githubEngine;
 
-
 //These properties are used in the DetailVC.
 @property (strong,nonatomic) NSMutableArray *rangesOfHighlight;
 @property (strong,nonatomic) NSString * userText;
 
 @property (nonatomic,strong) NSMutableArray *combinedArray;
+
+@property (nonatomic) BOOL isGist;
 
 #pragma mark Public methods
 
