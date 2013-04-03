@@ -24,6 +24,7 @@
 		201E59E516E5088A00BD8183 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 201E59E416E5088900BD8183 /* SystemConfiguration.framework */; };
 		201E59E716E5089500BD8183 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 201E59E616E5089500BD8183 /* MobileCoreServices.framework */; };
 		20259D691691390200F4A1BA /* Telescope-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 20259D681691390200F4A1BA /* Telescope-icon.png */; };
+		20470EC0170B68B300041C75 /* HasGistCellImage@2X.png in Resources */ = {isa = PBXBuildFile; fileRef = 20470EBF170B68B300041C75 /* HasGistCellImage@2X.png */; };
 		2062AB061615088500CDC8E2 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2062AB051615088500CDC8E2 /* AddressBookUI.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		2062AB081615089400CDC8E2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2062AB071615089400CDC8E2 /* MessageUI.framework */; };
 		206EAD511689199600C6A06C /* libMMMarkdown-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 206EAD501689199600C6A06C /* libMMMarkdown-iOS.a */; };
@@ -59,7 +60,6 @@
 		20EC928B16FE5B2900C351F0 /* UAGithubJSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EC927D16FE5B2900C351F0 /* UAGithubJSONParser.m */; };
 		20EC928C16FE5B2900C351F0 /* UAGithubURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EC927F16FE5B2900C351F0 /* UAGithubURLConnection.m */; };
 		20EC928D16FE5B2900C351F0 /* UAReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EC928116FE5B2900C351F0 /* UAReachability.m */; };
-		20F8D9B116A89EFD007D024F /* IDTFileData.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F8D9B016A89EFD007D024F /* IDTFileData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +82,7 @@
 		201E59E416E5088900BD8183 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		201E59E616E5089500BD8183 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		20259D681691390200F4A1BA /* Telescope-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Telescope-icon.png"; sourceTree = "<group>"; };
+		20470EBF170B68B300041C75 /* HasGistCellImage@2X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HasGistCellImage@2X.png"; sourceTree = "<group>"; };
 		2062AB051615088500CDC8E2 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		2062AB071615089400CDC8E2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		206EAD501689199600C6A06C /* libMMMarkdown-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libMMMarkdown-iOS.a"; sourceTree = "<group>"; };
@@ -140,8 +141,6 @@
 		20EC927F16FE5B2900C351F0 /* UAGithubURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UAGithubURLConnection.m; sourceTree = "<group>"; };
 		20EC928016FE5B2900C351F0 /* UAReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UAReachability.h; sourceTree = "<group>"; };
 		20EC928116FE5B2900C351F0 /* UAReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UAReachability.m; sourceTree = "<group>"; };
-		20F8D9AF16A89EFD007D024F /* IDTFileData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDTFileData.h; sourceTree = "<group>"; };
-		20F8D9B016A89EFD007D024F /* IDTFileData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDTFileData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -292,6 +291,7 @@
 			isa = PBXGroup;
 			children = (
 				2001B97516ABB10B00874DA9 /* Assets */,
+				20470EBF170B68B300041C75 /* HasGistCellImage@2X.png */,
 				20D6067C16138F5D0091658C /* new-new-Text-Editor-Info.plist */,
 				20D4FDC516ADEA9800031046 /* GreenIconNew.png */,
 				20D6067D16138F5D0091658C /* InfoPlist.strings */,
@@ -347,8 +347,6 @@
 			children = (
 				207718E2166C391E00F8835A /* IDTDocument.h */,
 				207718DF166C391100F8835A /* IDTDocument.m */,
-				20F8D9AF16A89EFD007D024F /* IDTFileData.h */,
-				20F8D9B016A89EFD007D024F /* IDTFileData.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -428,6 +426,7 @@
 				2084823916B5F10300D0E679 /* GOOD.jpg in Resources */,
 				20EC928216FE5B2900C351F0 /* InfoPlist.strings in Resources */,
 				20EC928816FE5B2900C351F0 /* UAGithubEngine-Info.plist in Resources */,
+				20470EC0170B68B300041C75 /* HasGistCellImage@2X.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,7 +443,6 @@
 				20D6069416138F5D0091658C /* IDTDetailViewController.m in Sources */,
 				207718E0166C391100F8835A /* IDTDocument.m in Sources */,
 				20E71D3F16897037005640FD /* IDTWebViewController.m in Sources */,
-				20F8D9B116A89EFD007D024F /* IDTFileData.m in Sources */,
 				2001B97A16ABB21000874DA9 /* KOKeyboardRow.m in Sources */,
 				2001B97B16ABB21000874DA9 /* KOSwipeButton.m in Sources */,
 				2084823416B5ED3000D0E679 /* IDTHoardViewController.m in Sources */,
