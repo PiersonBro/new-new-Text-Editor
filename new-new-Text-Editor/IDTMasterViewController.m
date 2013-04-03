@@ -191,11 +191,11 @@
         cellLabel = [names objectAtIndex:indexPath.row];
     } else {
         cellLabel = [self.textFilesFiltered objectAtIndex:indexPath.row];
-    }
+    } 
     cell.textLabel.text = cellLabel;
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     cellBounds = cell.frame.size;
-
+      cell.imageView.image = [UIImage imageNamed:@"HasGistCellImage@2X.png"];
     UILongPressGestureRecognizer *gestureRecognizer = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handleLongPress:)];
     [cell addGestureRecognizer:gestureRecognizer];
     [gestureRecognizer setDelegate:self];

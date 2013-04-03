@@ -11,7 +11,7 @@
 #import "IDTWebViewController.h"
 @interface IDTDetailViewController () <MFMailComposeViewControllerDelegate, UITextViewDelegate, UIDocumentInteractionControllerDelegate, UIGestureRecognizerDelegate, UIWebViewDelegate, UIAlertViewDelegate> {
     UIBarButtonItem *barButton;
-    IDTDocument *secondDocument;
+    //IDTDocument *secondDocument;
 }
 @property (nonatomic, strong)  IDTDocument *document;
 @property (nonatomic, strong) NSURL *url;
@@ -27,21 +27,18 @@
 #pragma mark - Managing the detail item
 
 - (void)configureView {
-    // Update the user interface for the detail item.
-    self.textView.delegate = self;
-
     self.url = [[NSURL alloc]initFileURLWithPath:[self.detailItem description]];
     self.document = [[IDTDocument alloc]initWithFileURL:self.url];
     NSURL *url = [[NSURL alloc]initFileURLWithPath:[NSHomeDirectory() stringByAppendingPathComponent:@"Documents/main.txt"]];
     url = [NSURL fileURLWithPath:@"https://gist.github.com/PiersonBro/5079388/raw/b8cba0763bf353c6cbaba84fc4fd4a7b07bfa331/gistfile1.txt"];
-    secondDocument = [[IDTDocument alloc]initWithFileURL:url];
-    NSOperationQueue *specialQueue = [[NSOperationQueue alloc]init];
-    [specialQueue addOperationWithBlock:^{
-        [secondDocument openWithCompletionHandler:^(BOOL success) {
-            NSLog(@"Success!");
-            NSLog(@"what is the value of userText (secondDocument) %@", secondDocument.userText);
-        }];
-    }];
+   // secondDocument = [[IDTDocument alloc]initWithFileURL:url];
+   NSOperationQueue *specialQueue = [[NSOperationQueue alloc]init];
+//    [specialQueue addOperationWithBlock:^{
+//        [secondDocument openWithCompletionHandler:^(BOOL success) {
+//            NSLog(@"Success!");
+//            NSLog(@"what is the value of userText (secondDocument) %@", secondDocument.userText);
+//        }];
+//    }];
     NSString *textViewString = [self.textView.text copy];
     [specialQueue addOperationWithBlock:^{
         //This prevents a threading warning.
@@ -75,15 +72,17 @@
 #pragma mark textView Delagate
 
 - (void)textViewDidChange:(UITextView *)textView {
-    NSLog(@"secondDocument is %@", secondDocument.userText);
+//    NSLog(@"secondDocument is %@", secondDocument.userText);
     self.document.userText = textView.text;
     [self.document updateChangeCount:UIDocumentChangeDone];
-    secondDocument.userText = textView.text;
-    [secondDocument updateChangeCount:UIDocumentChangeDone];
+//    secondDocument.userText = textView.text;
+//    [secondDocument updateChangeCount:UIDocumentChangeDone];
 }
 
 #pragma mark view handling
 - (void)viewDidLoad {
+    self.textView.delegate = self;
+
     [super viewDidLoad];
     //This reads the file and applies the syntax highlighting.
     [self configureView];
