@@ -27,11 +27,8 @@
 #pragma mark - Managing the detail item
 
 - (void)configureView {
-    self.url = [[NSURL alloc]initFileURLWithPath:[self.detailItem description]];
-    self.document = [[IDTDocument alloc]initWithFileURL:self.url];
-    NSURL *url = [[NSURL alloc]initFileURLWithPath:[NSHomeDirectory() stringByAppendingPathComponent:@"Documents/main.txt"]];
-    url = [NSURL fileURLWithPath:@"https://gist.github.com/PiersonBro/5079388/raw/b8cba0763bf353c6cbaba84fc4fd4a7b07bfa331/gistfile1.txt"];
-   // secondDocument = [[IDTDocument alloc]initWithFileURL:url];
+    self.document = [[IDTDocument alloc]initWithFileURL:self.detailItem];
+      // secondDocument = [[IDTDocument alloc]initWithFileURL:url];
    NSOperationQueue *specialQueue = [[NSOperationQueue alloc]init];
 //    [specialQueue addOperationWithBlock:^{
 //        [secondDocument openWithCompletionHandler:^(BOOL success) {
@@ -63,7 +60,10 @@
                     }];
                 }]; //open failed.
             }else {
-                [self notifyUserOfNegativeEventWithString:@"Sorry. The Document Failed to save! There is nothing you can do but wallow in your own misery and delete this stupid app. My apologies "];
+                [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+                    [self notifyUserOfNegativeEventWithString:@"Sorry. The Document Failed to save! There is nothing you can do but wallow in your own misery and delete this stupid app. My apologies "];
+    
+                }];
             }
         }];
     }];
@@ -72,7 +72,6 @@
 #pragma mark textView Delagate
 
 - (void)textViewDidChange:(UITextView *)textView {
-//    NSLog(@"secondDocument is %@", secondDocument.userText);
     self.document.userText = textView.text;
     [self.document updateChangeCount:UIDocumentChangeDone];
 //    secondDocument.userText = textView.text;

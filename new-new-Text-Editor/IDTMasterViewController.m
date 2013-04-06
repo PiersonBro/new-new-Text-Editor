@@ -12,8 +12,6 @@
 @interface IDTMasterViewController () <UIAlertViewDelegate, UISearchDisplayDelegate, UISearchBarDelegate, UIActionSheetDelegate, UIGestureRecognizerDelegate>  {
     NSIndexPath *_indexOfFile;
     CGSize cellBounds;
-    NSArray *paths;
-    NSArray *names;
 }
 @property (nonatomic, strong) UISearchDisplayController *displayController;
 @property (nonatomic, strong) NSString *textForFileName;
@@ -30,10 +28,10 @@
 }
 //Called when a Users is using IOS's open in feature.
 - (void)addFileFromURL:(NSURL *)fromURL  {
-    self.contactModel = [[IDTDocument alloc]initWithFileURL:fromURL];
+    self.model = [[IDTModel alloc]init];
 
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.contactModel copyFileFromURL:fromURL];
+    [self.model copyFileFromURL:fromURL];
 
     [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
@@ -42,14 +40,8 @@
     [super viewDidLoad];
 
     // This allocs and init's the model.
-    if (self.contactModel == nil) {
-        NSString *docsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-        docsDir = [docsDir stringByAppendingString:@"/"];
-        NSString *path = [docsDir stringByAppendingString:@"new.txt"];
-        NSURL *url = [[NSURL alloc]initFileURLWithPath:path];
-        self.contactModel = [[IDTDocument alloc]initWithFileURL:url];
-        names = [self.contactModel.combinedArray objectAtIndex:0];
-        paths = [self.contactModel.combinedArray objectAtIndex:1];
+    if (self.model == nil) {
+        self.model = [[IDTModel alloc]init];
     } 
     self.refreshControl = [[UIRefreshControl alloc]init];
 
@@ -58,8 +50,8 @@
 
     // This are the mutable arrays for the search view
     // FIXME: These don't use the proper API methods.
-    self.textFilesFiltered = [[NSMutableArray alloc]initWithCapacity:[[self.contactModel.combinedArray objectAtIndex:0]count]];
-    self.filteredTextFilesPaths = [[NSMutableArray alloc]initWithCapacity:[[self.contactModel.combinedArray objectAtIndex:1]count]];
+    self.textFilesFiltered = [[NSMutableArray alloc]initWithCapacity:[self.model.combinedArray count]];
+    self.filteredTextFilesPaths = [[NSMutableArray alloc]initWithCapacity:[self.model.combinedArray count]];
 
     CGRect newBounds = self.tableView.bounds;
     newBounds.origin.y = newBounds.origin.y + self.searchBar.bounds.size.height;
@@ -97,10 +89,11 @@
                                                   cancelButtonTitle:@"Cancel"
                                                   otherButtonTitles:buttonText, nil];
         alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-
-        [alertView textFieldAtIndex:0].text = [names objectAtIndex:_indexOfFile.row];
+        IDTDocument *document = [self.model.combinedArray objectAtIndex:_indexOfFile.row];
+        
+        [alertView textFieldAtIndex:0].text = document.name;
         [alertView show];
-    } else {
+    } else {  
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Enter File Name"
                                                             message:@"Enter the name of the file"
                                                            delegate:self
@@ -112,12 +105,12 @@
 }
 
 - (void)insertNewObject:(id)sender {
-    BOOL succesOrFailure = [self.contactModel createFileWithText:@"Welcome to the green text editor"Name:self.textForFileName AtIndex:0];
+    BOOL succesOrFailure = [self.model createFileWithText:@"Welcome to the green text editor"Name:self.textForFileName AtIndex:0 isGist:YES];
     if (succesOrFailure == YES) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     } else {
-        [self notifyUserOfNegativeEventWithString:@"Oops something failed! The most likely reason is that you were trying to create a file that already exists! (has the same name) If so just change the name of the file and try again! "];
+        [self notifyUserOfNegativeEventWithString:@"Oops something failed! The most likely reason is that you were  trying to create a file that already exists! (has the same name) If so just change the name of the file and try again! "];
     }
 }
 
@@ -141,14 +134,14 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (self.contactModel == nil) {
+    if (self.model == nil) {
         NSLog(@"The model is nil! Abort! Abort!");
     }
 
     if (tableView == self.displayController.searchResultsTableView) {
         return [self.textFilesFiltered count];
     } else {
-        return [names count];
+        return [self.model.combinedArray count];
     }
 }
 
@@ -188,14 +181,18 @@
     NSString *cellLabel = nil;
 
     if (tableView != self.searchDisplayController.searchResultsTableView) {
-        cellLabel = [names objectAtIndex:indexPath.row];
+       IDTDocument *document = [self.model.combinedArray objectAtIndex:indexPath.row];
+        cellLabel = document.name;
     } else {
         cellLabel = [self.textFilesFiltered objectAtIndex:indexPath.row];
     } 
     cell.textLabel.text = cellLabel;
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     cellBounds = cell.frame.size;
-      cell.imageView.image = [UIImage imageNamed:@"HasGistCellImage@2X.png"];
+    if (((IDTDocument *)[self.model.combinedArray objectAtIndex:indexPath.row]).isGist) {
+        cell.imageView.image = [UIImage imageNamed:@"HasGistCellImage@2X.png"];
+        
+    }
     UILongPressGestureRecognizer *gestureRecognizer = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handleLongPress:)];
     [cell addGestureRecognizer:gestureRecognizer];
     [gestureRecognizer setDelegate:self];
@@ -211,10 +208,21 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSString *identify = [names objectAtIndex:indexPath.row];
-        [self.contactModel deleteFile:identify AtIndex:indexPath.row];
+        NSString *identify = [[NSString alloc]init];
 
+        if (tableView == self.searchDisplayController.searchResultsTableView) {
+           identify = [self.textFilesFiltered objectAtIndex:indexPath.row];
+            [self.textFilesFiltered removeObjectAtIndex:indexPath.row];
+            [self.filteredTextFilesPaths removeObjectAtIndex:indexPath.row];
+        } else {
+            identify = ((IDTDocument *)[self.model.combinedArray objectAtIndex:indexPath.row]).name;
+        }
+    
+        [self.model deleteFile:identify AtIndex:indexPath.row];
+        
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self reloadTableViewData:self];
+
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         NSLog(@"Hello)!");
     }
@@ -232,10 +240,8 @@
 
             NSUInteger uint = _indexOfFile.row;
 
-            NSString *prevNameOfFile = [names objectAtIndex:uint];
-            [self.contactModel renameFileName:prevNameOfFile withName:self.textForFileName atIndexPath:_indexOfFile];
-            names = [self.contactModel.combinedArray objectAtIndex:0];
-            paths = [self.contactModel.combinedArray objectAtIndex:1];
+            NSString *prevNameOfFile = ((IDTDocument *)[self.model.combinedArray objectAtIndex:uint]).name;
+            [self.model renameFileName:prevNameOfFile withName:self.textForFileName atIndexPath:_indexOfFile];
             [self.tableView reloadData];
         }
 
@@ -259,25 +265,30 @@
 #pragma mark Segue.
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"showDetail"]) {
-        NSString *object = nil;
+        NSURL *object = nil;
         NSIndexPath *indexPath = nil;
 
         if (sender == self.searchDisplayController.searchResultsTableView) {
             indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
 
-            object = [self.filteredTextFilesPaths objectAtIndex:indexPath.row];
+            object = [NSURL fileURLWithPath:[self.filteredTextFilesPaths objectAtIndex:indexPath.row]];
+            NSLog(@"the object is %@",object);
         } else {
             indexPath = [self.tableView indexPathForSelectedRow];
         
-            object = [paths objectAtIndex:indexPath.row];
+            IDTDocument *document = [self.model.combinedArray objectAtIndex:indexPath.row];
+            object = document.fileURL;
         }
 
         IDTDetailViewController *contactDetailViewController = [segue destinationViewController];
-        if (sender == self.searchDisplayController.searchResultsTableView) contactDetailViewController.nameOfFile = [self.textFilesFiltered objectAtIndex:indexPath.row];
+        if (sender == self.searchDisplayController.searchResultsTableView)
+            contactDetailViewController.nameOfFile = [self.textFilesFiltered objectAtIndex:indexPath.row];
 
 
         else {
-            contactDetailViewController.nameOfFile = [names objectAtIndex:indexPath.row];
+            IDTDocument *document = [self.model.combinedArray objectAtIndex:indexPath.row];
+
+            contactDetailViewController.nameOfFile = document.name;
         }
         [[segue destinationViewController] setDetailItem:object];
     }
@@ -292,26 +303,23 @@
     // Remove all objects from the filtered search array
     [self.textFilesFiltered removeAllObjects];
     [self.filteredTextFilesPaths removeAllObjects];
-
-
-    // Filter the array using NSPredicate
-
-    // NSString *searchTextPathsString = [self.contactModel.docsDir stringByAppendingString:searchText];
     NSMutableArray *mutableArray = [[NSMutableArray alloc]init];
-    for (NSString *string in paths) {
-        NSString *addString = [string lastPathComponent];
-        [mutableArray addObject:addString];
+    NSMutableArray *nameArray = [[NSMutableArray alloc]initWithCapacity:[self.model.combinedArray count]];
+    for (IDTDocument *document in self.model.combinedArray) {        
+        [nameArray addObject:document.name];
+        [mutableArray addObject:[document.fileURL lastPathComponent]];
     }
+    
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF contains[c] %@", searchText];
     NSPredicate *predicatePaths = [NSPredicate predicateWithFormat:@"SELF contains[c] %@", searchText];
-    NSArray *tempArray = [names filteredArrayUsingPredicate:predicate];
+    NSArray *tempArray = [nameArray filteredArrayUsingPredicate:predicate];
 
 
     NSArray *tempArrayPaths = [mutableArray filteredArrayUsingPredicate:predicatePaths];
     NSMutableArray *finalTempArrayPaths = [[NSMutableArray alloc]init];
     for (NSString *fileString in tempArrayPaths) {
-        NSString *completeFileString = [self.contactModel.docsDir stringByAppendingPathComponent:fileString];
-        [finalTempArrayPaths addObject:completeFileString];
+       NSString *completeFileString = [self.model.docsDir stringByAppendingPathComponent:fileString];
+      [finalTempArrayPaths addObject:completeFileString];
     }
 
 

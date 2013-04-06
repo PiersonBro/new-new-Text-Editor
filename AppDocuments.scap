@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ScappleDocument Version="1.0" ID="57627C30-E981-4444-8060-25282B6CEE22">
+    <Notes>
+        <Note ID="0" FontSize="12.0" Position="123.027344,133.941406" Width="64.0">
+            <Appearance></Appearance>
+            <String>IDTModel 
+</String>
+            <ConnectedNoteIDs>2-3</ConnectedNoteIDs>
+        </Note>
+        <Note ID="1" FontSize="12.0" Position="299.988281,136.636719" Width="83.0">
+            <Appearance></Appearance>
+            <String>IDTDocument
+</String>
+            <ConnectedNoteIDs>2, 5</ConnectedNoteIDs>
+        </Note>
+        <Note ID="2" FontSize="12.0" Position="413.441406,84.609375" Width="98.0">
+            <Appearance></Appearance>
+            <String>UAGithubEngine</String>
+            <ConnectedNoteIDs>0-1</ConnectedNoteIDs>
+        </Note>
+        <Note ID="3" FontSize="12.0" Position="59.070312,198.515625" Width="123.0">
+            <Appearance></Appearance>
+            <String>MasterViewController
+</String>
+            <ConnectedNoteIDs>0</ConnectedNoteIDs>
+        </Note>
+        <Note ID="5" FontSize="12.0" Position="291.945312,210.976562" Width="114.0">
+            <Appearance></Appearance>
+            <String>DetailViewControler
+</String>
+            <ConnectedNoteIDs>1</ConnectedNoteIDs>
+        </Note>
+        <Note ID="6" FontSize="12.0" Position="437.546875,159.863281" Width="200.0">
+            <Appearance></Appearance>
+            <String>MVC needs to know weather or not the Doc is a gist. So does DVC so it can edit a gist.</String>
+            <ConnectedNoteIDs>9</ConnectedNoteIDs>
+            <PointsToNoteIDs>9</PointsToNoteIDs>
+        </Note>
+        <Note ID="7" FontSize="12.0" Position="535.664062,48.574219" Width="200.0">
+            <Appearance></Appearance>
+            <String>How will I implement multi-file gists?</String>
+        </Note>
+        <Note ID="8" FontSize="12.0" Position="681.230469,47.308594" Width="183.0">
+            <Appearance></Appearance>
+            <String>Is this what I want my app to do?</String>
+        </Note>
+        <Note ID="9" FontSize="12.0" Position="433.859375,355.257812" Width="200.0">
+            <Appearance></Appearance>
+            <String>Answer: Hold an array of unopened IDTDocument Objects that are aware of the fact that they are a gist or not.</String>
+            <ConnectedNoteIDs>6</ConnectedNoteIDs>
+        </Note>
+    </Notes>
+    <BackgroundShapes></BackgroundShapes>
+    <NoteStyles>
+        <Style Name="Title Text" ID="8257BBB5-5826-4035-A0A8-811C1854508B" AffectFontStyle="Yes" AffectAlignment="Yes" AffectTextColor="No" AffectNoteBody="No" AffectFade="No">
+            <FontSize>28.0</FontSize>
+            <IsBold>Yes</IsBold>
+        </Style>
+        <Style Name="Red Text" ID="2182B963-63B2-405F-AFAB-11BD3C41DC54" AffectFontStyle="No" AffectAlignment="No" AffectTextColor="Yes" AffectNoteBody="No" AffectFade="No">
+            <TextColor>1.0 0.0 0.0</TextColor>
+        </Style>
+        <Style Name="Brown Bubble" ID="2F052AAA-D9A8-43AE-B977-B3B77D8D620D" AffectFontStyle="No" AffectAlignment="No" AffectTextColor="No" AffectNoteBody="Yes" AffectFade="No">
+            <BorderThickness>1</BorderThickness>
+            <BorderColor>0.290055 0.1523 0.182215</BorderColor>
+            <FillColor>0.940019 0.892907 0.779716</FillColor>
+        </Style>
+        <Style Name="Yellow Bubble" ID="2D46B0E2-A12C-4686-A6D0-72B127648314" AffectFontStyle="No" AffectAlignment="No" AffectTextColor="No" AffectNoteBody="Yes" AffectFade="No">
+            <BorderThickness>1</BorderThickness>
+            <BorderColor>0.756763 0.785592 0.373258</BorderColor>
+            <FillColor>0.906773 0.910625 0.634363</FillColor>
+        </Style>
+        <Style Name="Green Bubble" ID="0FF089F9-DD8B-4286-BD9D-ECBE0CF9EB23" AffectFontStyle="No" AffectAlignment="No" AffectTextColor="No" AffectNoteBody="Yes" AffectFade="No">
+            <BorderThickness>1</BorderThickness>
+            <BorderColor>0.331867 0.609932 0.356197</BorderColor>
+            <FillColor>0.790123 0.882327 0.80198</FillColor>
+        </Style>
+        <Style Name="Blue Bubble" ID="26FCD19A-36C4-4DEB-A736-C6D00A8CAD1C" AffectFontStyle="No" AffectAlignment="No" AffectTextColor="No" AffectNoteBody="Yes" AffectFade="No">
+            <BorderThickness>1</BorderThickness>
+            <BorderColor>0.477193 0.557066 0.76433</BorderColor>
+            <FillColor>0.840969 0.866828 0.925903</FillColor>
+        </Style>
+        <Style Name="Pink Bubble" ID="5CD237E3-6B1A-42C2-97D5-F28FC64B3FFE" AffectFontStyle="No" AffectAlignment="No" AffectTextColor="No" AffectNoteBody="Yes" AffectFade="No">
+            <BorderThickness>1</BorderThickness>
+            <BorderColor>0.747881 0.366532 0.542813</BorderColor>
+            <FillColor>0.918452 0.807302 0.863467</FillColor>
+        </Style>
+    </NoteStyles>
+    <UISettings>
+        <BackgroundColor>0.999476 0.972773 0.859012</BackgroundColor>
+        <DefaultFont>Helvetica</DefaultFont>
+        <DefaultTextColor>0.0 0.0 0.0</DefaultTextColor>
+    </UISettings>
+    <PrintSettings PaperSize="612.0,792.0" LeftMargin="72.0" RightMargin="72.0" TopMargin="90.0" BottomMargin="90.0" PaperType="na-letter" Orientation="Portrait" HorizontalPagination="Clip" VerticalPagination="Auto" ScaleFactor="1.0" HorizontallyCentered="Yes" VerticallyCentered="Yes" Collates="Yes" PagesAcross="1" PagesDown="1"></PrintSettings>
+</ScappleDocument>

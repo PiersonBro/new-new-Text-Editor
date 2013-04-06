@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "IDTDocument.h"
+#import "IDTModel.h"
 @interface IDTMasterViewController : UITableViewController
 
 //The SearchBar for the tableView.
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (nonatomic, strong) IDTDocument *contactModel;
+@property (nonatomic, strong) IDTModel *model;
 @property (nonatomic) BOOL shouldReloadDataSource;
 
 - (void)insertNewObject:(id)sender;
