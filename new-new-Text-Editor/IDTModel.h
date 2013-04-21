@@ -16,7 +16,9 @@
 
 @property (nonatomic,strong) UAGithubEngine *githubEngine;
 
-@property (nonatomic,strong) NSMutableArray *combinedArray;
+@property (nonatomic,strong) NSMutableArray *documents;
+
+@property (nonatomic,strong) NSMutableArray *filteredDocuments;
 
 @property (nonatomic, strong) NSString *docsDir;
 
@@ -31,5 +33,7 @@
 
 
 -(BOOL)copyFileFromURL:(NSURL *)fromURL;
+
+- (void)filterContentForSearchText:(NSString *)searchText scope:(NSString *)scope;
 
 @end

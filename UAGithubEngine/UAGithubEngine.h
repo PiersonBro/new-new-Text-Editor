@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 @class UAReachability;
 
-typedef void (^UAGithubEngineSuccessBlock)(id);
-typedef void (^UAGithubEngineBooleanSuccessBlock)(BOOL);
-typedef void (^UAGithubEngineFailureBlock)(NSError *);
+typedef void (^UAGithubEngineSuccessBlock)(id result);
+typedef void (^UAGithubEngineBooleanSuccessBlock)(BOOL success);
+typedef void (^UAGithubEngineFailureBlock)(NSError *error);
 
 @interface UAGithubEngine : NSObject 
 
@@ -22,6 +22,8 @@ typedef void (^UAGithubEngineFailureBlock)(NSError *);
 
 - (id)initWithUsername:(NSString *)aUsername password:(NSString *)aPassword withReachability:(BOOL)withReach;
 
+
++(UAGithubEngine *)sharedGithubEngine;
 /*
  Where methods take a 'whateverPath' argument, supply the full path to 'whatever'.
  For example, if the method calls for 'repositoryPath', supply @"username/repository".

@@ -7,6 +7,7 @@
 //
 
 #import "IDTWebViewController.h"
+#import "MMMarkdown.h"
 #import <MessageUI/MessageUI.h>
 #import <AddressBook/AddressBook.h>
 #import <AddressBookUI/AddressBookUI.h>
@@ -19,21 +20,27 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.githubEngine = [[UAGithubEngine alloc]initWithUsername:@"PiersonBro" password:@"[self 1github];" withReachability:NO];
-    //This load the string set by the detail view controller.
-    [self.githubEngine renderAsMarkdown:self.stringForWebView success:^(id result) {
-        NSLog(@"SUCCESS is %@",result);
-    } failure:^(NSError *error) {
-        NSLog(@"ERROR is %@",error);
-    }];
-    [self.webView loadHTMLString:self.stringForWebView baseURL:nil];
+
+       dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
+    dispatch_async(queue, ^{
+        [MMMarkdown HTMLStringWithMarkdown:self.stringForWebView error:nil];
+        [self.webView loadHTMLString:self.stringForWebView baseURL:nil];
+           self.githubEngine = [UAGithubEngine sharedGithubEngine];
+        //This load the string set by the detail view controller.
+        [self.githubEngine renderAsMarkdown:self.stringForWebView success:^(id result) {
+            NSLog(@"SUCCESS is %@",result);
+        } failure:^(NSError *error) {
+            NSLog(@"ERROR is %@",error);
+        }];
+
+    });
+    
 
 
 }

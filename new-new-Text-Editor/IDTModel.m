@@ -8,12 +8,13 @@
 
 #import "IDTModel.h"
 @interface IDTModel ()
+
 @end
 
 @implementation IDTModel
 -(id)init {
     self = [super init];
-    self.combinedArray = [[NSMutableArray alloc]initWithCapacity:100];
+    self.documents = [[NSMutableArray alloc]initWithCapacity:100];
     self.docsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/"];
 
     [self readFolder];
@@ -21,7 +22,10 @@
 }
 
 - (NSArray *)readFolder {
-    self.combinedArray = [[NSMutableArray alloc]initWithCapacity:2];
+    if (self.documents == nil) {
+        self.documents = [[NSMutableArray alloc]initWithCapacity:50];   
+    }
+    
     NSFileManager *filemgr = [NSFileManager defaultManager];
     
     NSError *error = nil;
@@ -34,7 +38,7 @@
         NSString *val = [preval stringByAppendingString:[textFiles objectAtIndex:i]];
         
         IDTDocument *document = [[IDTDocument alloc]initWithFileURL:[NSURL fileURLWithPath:val]];
-        [self.combinedArray addObject:document];
+        [self.documents addObject:document];
     }
     
     //If no files exists, create one.
@@ -43,13 +47,13 @@
     }
     if (error) NSLog(@"there was an %@", error);
     
-    return self.combinedArray;
+    return self.documents;
 }
-//None of the passed vars can be nil.
+//None of the method argumetns can be nil.
 - (BOOL)createFileWithText:(NSString *)text Name:(NSString *)name AtIndex:(NSUInteger)indexPath isGist:(BOOL)isGist {
     assert(text != nil && name != nil);
     //This block of code checks too see if the Name of the file already exists if it does it will abort the operation. This feature is disabled during the rewrite...
-    for (IDTDocument *document in self.combinedArray) {
+    for (IDTDocument *document in self.documents) {
         if ([document.name isEqualToString:name]) {
             return NO;
         }
@@ -66,23 +70,31 @@
     
     if (returnValue) {
        if (isGist) {
-           self.githubEngine = [[UAGithubEngine alloc]initWithUsername:@"PiersonBro" password:@"[self 1github];" withReachability:NO];
-       dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
+           NSLog(@"Aha!");
+         // self.githubEngine = [UAGithubEngine sharedGithubEngine];
+           self.githubEngine = [UAGithubEngine sharedGithubEngine];
+           dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
         dispatch_async(queue, ^{
+                
+            
         [self.githubEngine createGist:[self createDictionaryRepresationOfFileWithContent:nil AndNameOfFile:name] success:^(id result) {
                 NSLog(@"Success %@",result);
                 NSDictionary *dictionary = [result objectAtIndex:0];
                 NSString *gistID = [dictionary objectForKey:@"id"];
                 NSLog(@"%@",gistID);
+            NSNotification *notification = [NSNotification notificationWithName:@"IDTGistSuccess" object:@"Gist Was Created Successfully!"];
+            [[NSNotificationCenter defaultCenter]postNotification:notification];
     } failure:^(NSError *error) {
                 NSLog(@"CREATE failed with error %@", error);
+        NSString *notificationDescription = [NSString stringWithFormat:@"The getGists method failed with error: %@", error];
+        NSNotification *notification = [NSNotification notificationWithName:@"IDTGistError" object:notificationDescription];
+        [[NSNotificationCenter defaultCenter]postNotification:notification];
             }];
-        
         });
     }
     //After creating the file insert them into our datasource for the table View.
     IDTDocument *document = [[IDTDocument alloc]initWithFileURL:[NSURL fileURLWithPath:path]];
-    [self.combinedArray insertObject:document atIndex:indexPath];
+    [self.documents insertObject:document atIndex:indexPath];
     
     } else {
         //Abort.
@@ -94,25 +106,29 @@
     return returnValue;
 }
 
-//None of the passed vars can be nil.
+//None of the method arguments  can be nil.
 - (BOOL)deleteFile:(NSString *)name AtIndex:(NSUInteger)index {
     NSString *path = [self.docsDir stringByAppendingPathComponent:name];
     NSError *error = nil;
     
     if ([[NSFileManager defaultManager]removeItemAtPath:path error:&error]) {
-        IDTDocument *document = [self.combinedArray objectAtIndex:index];
+        IDTDocument *document = [self.documents objectAtIndex:index];
         if (document.isGist) {
         dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
         dispatch_async(queue, ^{
-            
+           self.githubEngine = [UAGithubEngine sharedGithubEngine];
             [self.githubEngine deleteGist:document.gistID success:^(BOOL sucess) {
-                NSLog(@"INCREIDBLE");
+                NSNotification *notification = [NSNotification notificationWithName:@"IDTGistSuccess" object:@"Gist Was Created Successfully!"];
+                [[NSNotificationCenter defaultCenter]postNotification:notification];
             } failure:^(NSError *error) {
                 NSLog(@"ERRROR is %@",error);
+                NSString *notificationDescription = [NSString stringWithFormat:@"The getGists method failed with error: %@", error];
+                NSNotification *notification = [NSNotification notificationWithName:@"IDTGistError" object:notificationDescription];
+                [[NSNotificationCenter defaultCenter]postNotification:notification];
             }];
         });
         }
-        [self.combinedArray removeObjectAtIndex:index];
+        [self.documents removeObjectAtIndex:index];
 
         return TRUE;
     } else {
@@ -129,9 +145,23 @@
     NSError *error = nil;
     
     if ([[NSFileManager defaultManager]moveItemAtPath:path toPath:newPath error:&error]) {
-        NSLog(@"succes");
-        self.combinedArray = nil;
-        [self readFolder];
+        NSURL *url = [NSURL fileURLWithPath:newPath];
+        IDTDocument *document = [[IDTDocument alloc]initWithFileURL:url];
+        [self.documents replaceObjectAtIndex:indexPath.row withObject:document];
+        
+        [document openWithCompletionHandler:^(BOOL success) {
+           self.githubEngine = [UAGithubEngine sharedGithubEngine];
+            [self.githubEngine editGist:newFileName withDictionary:[self createDictionaryRepresationOfFileWithContent:document.userText AndNameOfFile:newFileName] success:^(id result){
+                NSLog(@"Rename succeded");
+                //No Banner is needed here as telling the user that an editGist was successful is not a good UX.
+            } failure:^(NSError * error) {
+                NSString *notificationDescription = [NSString stringWithFormat:@"Sorry, We failed to save the gist. %@", error];
+                NSNotification *notification = [NSNotification notificationWithName:@"IDTGistError" object:notificationDescription];
+                [[NSNotificationCenter defaultCenter]postNotification:notification];
+                NSLog(@"error is %@",error);
+            }];
+                
+        }];
         
         
         
@@ -142,7 +172,7 @@
     
     return YES;
 }
-
+//This (sadly) isn't a copy mechanism it simply is a Model back-end for 'Open in'.
 - (BOOL)copyFileFromURL:(NSURL *)fromURL {
     NSError *error = Nil;
     NSString *toString = [fromURL absoluteString];
@@ -192,10 +222,15 @@
 
 - (NSArray *)getGists {
     __block NSArray *returnDict = [[NSArray alloc]init];
-    [self.githubEngine gistsForUser:@"PiersonBro" success:^(id result) {
+    self.githubEngine = [UAGithubEngine sharedGithubEngine];
+    [self.githubEngine gistsForUser:self.githubEngine.username success:^(id result) {
+        //No Banner is needed here as telling the user that an gistForUser was successful is not a good UX.
         returnDict = [NSArray arrayWithArray:result];
     } failure:^(NSError *error) {
         NSLog(@"The getGists method failed with error: %@", error);
+        NSString *notificationDescription = [NSString stringWithFormat:@"The getGists method failed with error: %@", error];
+        NSNotification *notification = [NSNotification notificationWithName:@"IDTGistError" object:notificationDescription];
+       [[NSNotificationCenter defaultCenter]postNotification:notification];
     }];
     
     return returnDict;
@@ -221,6 +256,23 @@
     
     return IDString;
 }
+
+
+
+#pragma mark Content Filtering
+
+- (void)filterContentForSearchText:(NSString *)searchText scope:(NSString *)scope {
+    /*Hello future self! Cotent is filtered via the NSPredicate api and then those filterd arrays are set on two properties: self.textFilesFiltered and
+     self.filteredTextFilesPaths
+     */
+    self.filteredDocuments = [[NSMutableArray alloc]initWithCapacity:[self.documents count]];
+    for (IDTDocument *document in self0.documents) {
+        if ([document.name rangeOfString:searchText].location != NSNotFound) {
+            [self.filteredDocuments addObject:document];
+        }
+    }
+}
+
 
 
 

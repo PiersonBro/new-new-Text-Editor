@@ -20,6 +20,9 @@
 
 #import "NSInvocation+Blocks.h"
 
+#import "SSKeychain.h"
+#import "SSKeychainQuery.h"
+
 #define API_PROTOCOL @"https://"
 #define API_DOMAIN @"api.github.com"
 
@@ -73,6 +76,30 @@
 	return self;
     
 }
+
++(UAGithubEngine *)sharedGithubEngine {
+    static UAGithubEngine *githubEngineShared;
+
+    NSError *error = nil;
+    SSKeychainQuery *query = [[SSKeychainQuery alloc]init];
+    query.service = @"Github";
+    query.account = [[NSUserDefaults standardUserDefaults]stringForKey:@"githubUsername"];
+    [query fetch:&error];
+    if (error) {
+        NSLog(@"BLAST is %@",error);
+        //TODO:
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Error" message:@"There was an error. Probably it happend becasue you did not sign in to Github. Please Do that. Sorry for the inconvience!" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Okay", nil];
+        [alertView show];
+    }
+ static dispatch_once_t once;
+    if (!githubEngineShared) {
+        dispatch_once(&once, ^ { githubEngineShared = [[UAGithubEngine alloc]initWithUsername:query.account password:@"[self 1github];" withReachability:NO]; });
+    }    
+    
+    return githubEngineShared;
+}
+
+
 
 
 #pragma mark

@@ -7,6 +7,8 @@
 //
 
 #import "IDTDocument.h"
+#import "SSKeychain.h"
+#import "SSKeychainQuery.h"
 @interface IDTDocument ()
 @property (nonatomic, strong) NSMutableArray *fileArray;
 @property (nonatomic, strong) NSMutableArray *nameArray;
@@ -22,15 +24,15 @@
     self.name = [url lastPathComponent];
     dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
     dispatch_async(queue, ^{
-        self.githubEngine = [[UAGithubEngine alloc]initWithUsername:@"PiersonBro" password:@"[self 1github];" withReachability:NO];
-
-        self.gistID = [self getGistIDFromName:self.name];
-        if (self.gistID == Nil) {
-           NSLog(@"Not a Gist");
-            self.isGist = NO;
-        }else {
-          self.isGist = YES;
-        }
+        self.githubEngine = [UAGithubEngine sharedGithubEngine];
+        NSLog(@"self.githubEngine is %@",self.githubEngine.password);
+    self.gistID = [self getGistIDFromName:self.name];
+    if (self.gistID == Nil) {
+        NSLog(@"Not a Gist");
+        self.isGist = NO;
+    }else {
+      self.isGist = YES;
+    }
     });
     return self;
 }
@@ -65,7 +67,6 @@
     if (self.isGist) {
     dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
     dispatch_async(queue, ^{
-        NSLog(@"self.GistID is %@",self.gistID);
         [self.githubEngine editGist:self.gistID withDictionary:[self createDictionaryRepresationOfFileWithContent:self.userText AndNameOfFile:self.name] success:^(id result) {
             NSLog(@"SUCCESS (in the edit gist place");
         } failure:^(NSError *error) {
@@ -76,34 +77,33 @@
     return [NSData dataWithBytes:[self.userText UTF8String]
                           length:[self.userText length]];
 }
-
+//FIXME: OOP Integrity: This should be it's own object.
 #pragma mark Basic String match.
 
 - (NSMutableArray *)stringMatchInString:(NSString *)inString WithRegularExpr:(NSString *)regex {
     NSError *error = nil;
-
-    NSRegularExpression *squeezeNewlines = [NSRegularExpression regularExpressionWithPattern:regex
+    NSRegularExpression *regularExpression = [NSRegularExpression regularExpressionWithPattern:regex
                                                                                      options:NSRegularExpressionCaseInsensitive | NSRegularExpressionSearch error:&error];
-
-
-
     self.rangesOfHighlight = [[NSMutableArray alloc]initWithCapacity:50];
-    //FIXME: If string is nil it will throw an exception
-    [squeezeNewlines enumerateMatchesInString:inString options:0 range:[inString rangeOfString:inString] usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
+    if (inString) {
+    [regularExpression enumerateMatchesInString:inString options:0 range:[inString rangeOfString:inString] usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
         NSRange textMatchRange = [result rangeAtIndex:0];
         [self.rangesOfHighlight addObject:[NSValue valueWithRange:textMatchRange]];
     }];
-
-
-
+    }
+    
+    if (error) {
+        NSLog(@"Regex Error: %@",error);
+    }
+   
     return self.rangesOfHighlight;
 }
 
 
+//-(NSArray)parseFor
 
 
-
-
+//FIXME: OOP Integrity: This should be it's own object.
 #pragma mark Github
 
 
@@ -123,7 +123,9 @@
 
 - (NSArray *)getGists {
     __block NSArray *returnDict = [[NSArray alloc]init];
-    [self.githubEngine gistsForUser:@"PiersonBro" success:^(id result) {
+    NSLog(@"githubEngine.password is %@ githubEngine.username is %@",self.githubEngine.password, self.githubEngine.username);
+    self.githubEngine = [UAGithubEngine sharedGithubEngine];
+    [self.githubEngine gistsForUser:self.githubEngine.username success:^(id result) {
         returnDict = [NSArray arrayWithArray:result];
     } failure:^(NSError *error) {
         NSLog(@"The getGists method failed with error: %@", error);

@@ -7,7 +7,7 @@
 //
 
 #import "IDTMasterViewController.h"
-
+#import "TSMessage.h"
 #import "IDTDetailViewController.h"
 @interface IDTMasterViewController () <UIAlertViewDelegate, UISearchDisplayDelegate, UISearchBarDelegate, UIActionSheetDelegate, UIGestureRecognizerDelegate>  {
     NSIndexPath *_indexOfFile;
@@ -15,15 +15,14 @@
 }
 @property (nonatomic, strong) UISearchDisplayController *displayController;
 @property (nonatomic, strong) NSString *textForFileName;
-@property (nonatomic, strong) NSMutableArray *textFilesFiltered;
-
-@property (nonatomic, strong) NSMutableArray *filteredTextFilesPaths;
+ // Holds a mutable array of UIDocuments. Only full when users is searching.
 @end
 
 @implementation IDTMasterViewController
+
 #pragma mark - Set up
 - (void)awakeFromNib {
-    NSLog(@"HMM");
+    self.model = [[IDTModel alloc]init];
     [super awakeFromNib];
 }
 //Called when a Users is using IOS's open in feature.
@@ -39,26 +38,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    // This allocs and init's the model.
-    if (self.model == nil) {
-        self.model = [[IDTModel alloc]init];
-    } 
-    self.refreshControl = [[UIRefreshControl alloc]init];
 
+    
+    self.refreshControl = [[UIRefreshControl alloc]init];
     self.refreshControl.tintColor = [UIColor colorWithRed:0.1 green:0.5 blue:0.5 alpha:1];
     [self.refreshControl addTarget:self action:@selector(reloadTableViewData:) forControlEvents:UIControlEventValueChanged];
 
-    // This are the mutable arrays for the search view
-    // FIXME: These don't use the proper API methods.
-    self.textFilesFiltered = [[NSMutableArray alloc]initWithCapacity:[self.model.combinedArray count]];
-    self.filteredTextFilesPaths = [[NSMutableArray alloc]initWithCapacity:[self.model.combinedArray count]];
-
-    CGRect newBounds = self.tableView.bounds;
-    newBounds.origin.y = newBounds.origin.y + self.searchBar.bounds.size.height;
-
-    self.tableView.bounds = newBounds;
     //Sets up the UIBarButtonItem, also sets up the selector.
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    UIBarButtonItem *settingsBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(beginSequeToSettingsView)];
+    self.navigationItem.leftBarButtonItems = @[self.editButtonItem,settingsBarButtonItem];
     self.searchBar.delegate = self;
     self.displayController = [[UISearchDisplayController alloc]initWithSearchBar:self.searchBar contentsController:self];
     self.displayController.searchResultsDataSource = self;
@@ -68,8 +56,8 @@
     UIBarButtonItem *switchButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonItemStylePlain target:self action:@selector(segueToOtherVC:)];
     self.navigationItem.rightBarButtonItems = @[addButton, switchButton];
 
-
-
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showErrorMessege:) name:@"IDTGistError" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showSuccessMessage:) name:@"IDTGistSuccess" object:nil];
     [self.tableView reloadData];
 }
 
@@ -89,7 +77,7 @@
                                                   cancelButtonTitle:@"Cancel"
                                                   otherButtonTitles:buttonText, nil];
         alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-        IDTDocument *document = [self.model.combinedArray objectAtIndex:_indexOfFile.row];
+        IDTDocument *document = [self.model.documents objectAtIndex:_indexOfFile.row];
         
         [alertView textFieldAtIndex:0].text = document.name;
         [alertView show];
@@ -105,7 +93,11 @@
 }
 
 - (void)insertNewObject:(id)sender {
-    BOOL succesOrFailure = [self.model createFileWithText:@"Welcome to the green text editor"Name:self.textForFileName AtIndex:0 isGist:YES];
+    //FIXME:Change isGist val too something user settable.
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    BOOL isGist = [defaults boolForKey:@"enableGists"];
+    NSLog(@"The val of is gist is %d",isGist);
+    BOOL succesOrFailure = [self.model createFileWithText:@"Welcome to the green text editor"Name:self.textForFileName AtIndex:0 isGist:isGist];
     if (succesOrFailure == YES) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -139,9 +131,9 @@
     }
 
     if (tableView == self.displayController.searchResultsTableView) {
-        return [self.textFilesFiltered count];
+        return [self.model.filteredDocuments count];
     } else {
-        return [self.model.combinedArray count];
+        return [self.model.documents count];
     }
 }
 
@@ -181,15 +173,14 @@
     NSString *cellLabel = nil;
 
     if (tableView != self.searchDisplayController.searchResultsTableView) {
-       IDTDocument *document = [self.model.combinedArray objectAtIndex:indexPath.row];
+       IDTDocument *document = [self.model.documents objectAtIndex:indexPath.row];
         cellLabel = document.name;
     } else {
-        cellLabel = [self.textFilesFiltered objectAtIndex:indexPath.row];
-    } 
+        cellLabel = ((IDTDocument *)[self.model.filteredDocuments objectAtIndex:indexPath.row]).name;    }
     cell.textLabel.text = cellLabel;
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     cellBounds = cell.frame.size;
-    if (((IDTDocument *)[self.model.combinedArray objectAtIndex:indexPath.row]).isGist) {
+    if (((IDTDocument *)[self.model.documents objectAtIndex:indexPath.row]).isGist) {
         cell.imageView.image = [UIImage imageNamed:@"HasGistCellImage@2X.png"];
         
     }
@@ -208,14 +199,13 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSString *identify = [[NSString alloc]init];
+        NSString *identify;
 
         if (tableView == self.searchDisplayController.searchResultsTableView) {
-           identify = [self.textFilesFiltered objectAtIndex:indexPath.row];
-            [self.textFilesFiltered removeObjectAtIndex:indexPath.row];
-            [self.filteredTextFilesPaths removeObjectAtIndex:indexPath.row];
+            identify = ((IDTDocument *)[self.model.filteredDocuments objectAtIndex:indexPath.row]).name;
+            [self.model.filteredDocuments removeObjectAtIndex:indexPath.row];
         } else {
-            identify = ((IDTDocument *)[self.model.combinedArray objectAtIndex:indexPath.row]).name;
+            identify = ((IDTDocument *)[self.model.documents objectAtIndex:indexPath.row]).name;
         }
     
         [self.model deleteFile:identify AtIndex:indexPath.row];
@@ -240,7 +230,7 @@
 
             NSUInteger uint = _indexOfFile.row;
 
-            NSString *prevNameOfFile = ((IDTDocument *)[self.model.combinedArray objectAtIndex:uint]).name;
+            NSString *prevNameOfFile = ((IDTDocument *)[self.model.documents objectAtIndex:uint]).name;
             [self.model renameFileName:prevNameOfFile withName:self.textForFileName atIndexPath:_indexOfFile];
             [self.tableView reloadData];
         }
@@ -267,26 +257,26 @@
     if ([segue.identifier isEqualToString:@"showDetail"]) {
         NSURL *object = nil;
         NSIndexPath *indexPath = nil;
-
+        IDTDocument *document;
         if (sender == self.searchDisplayController.searchResultsTableView) {
             indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
 
-            object = [NSURL fileURLWithPath:[self.filteredTextFilesPaths objectAtIndex:indexPath.row]];
-            NSLog(@"the object is %@",object);
+            document = [self.model.filteredDocuments objectAtIndex:indexPath.row];
+            object = document.fileURL;
         } else {
             indexPath = [self.tableView indexPathForSelectedRow];
         
-            IDTDocument *document = [self.model.combinedArray objectAtIndex:indexPath.row];
+            document = [self.model.documents objectAtIndex:indexPath.row];
             object = document.fileURL;
         }
 
         IDTDetailViewController *contactDetailViewController = [segue destinationViewController];
         if (sender == self.searchDisplayController.searchResultsTableView)
-            contactDetailViewController.nameOfFile = [self.textFilesFiltered objectAtIndex:indexPath.row];
+            contactDetailViewController.nameOfFile = document.name;
 
 
         else {
-            IDTDocument *document = [self.model.combinedArray objectAtIndex:indexPath.row];
+            IDTDocument *document = [self.model.documents objectAtIndex:indexPath.row];
 
             contactDetailViewController.nameOfFile = document.name;
         }
@@ -295,43 +285,11 @@
 }
 
 #pragma mark Content Filtering
-- (void)filterContentForSearchText:(NSString *)searchText scope:(NSString *)scope {
-    /*Hello future self! Cotent is filtered via the NSPredicate api and then those filterd arrays are set on two properties: self.textFilesFiltered and
-       self.filteredTextFilesPaths
-     */
-
-    // Remove all objects from the filtered search array
-    [self.textFilesFiltered removeAllObjects];
-    [self.filteredTextFilesPaths removeAllObjects];
-    NSMutableArray *mutableArray = [[NSMutableArray alloc]init];
-    NSMutableArray *nameArray = [[NSMutableArray alloc]initWithCapacity:[self.model.combinedArray count]];
-    for (IDTDocument *document in self.model.combinedArray) {        
-        [nameArray addObject:document.name];
-        [mutableArray addObject:[document.fileURL lastPathComponent]];
-    }
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF contains[c] %@", searchText];
-    NSPredicate *predicatePaths = [NSPredicate predicateWithFormat:@"SELF contains[c] %@", searchText];
-    NSArray *tempArray = [nameArray filteredArrayUsingPredicate:predicate];
-
-
-    NSArray *tempArrayPaths = [mutableArray filteredArrayUsingPredicate:predicatePaths];
-    NSMutableArray *finalTempArrayPaths = [[NSMutableArray alloc]init];
-    for (NSString *fileString in tempArrayPaths) {
-       NSString *completeFileString = [self.model.docsDir stringByAppendingPathComponent:fileString];
-      [finalTempArrayPaths addObject:completeFileString];
-    }
-
-
-
-    self.textFilesFiltered = [NSMutableArray arrayWithArray:tempArray];
-    self.filteredTextFilesPaths = [NSMutableArray arrayWithArray:finalTempArrayPaths];
-}
 
 #pragma mark UISearchDisplayDelagate
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
-    [self filterContentForSearchText:searchString scope:nil];
+    [self.model filterContentForSearchText:searchString scope:nil];
 
     // Return YES to cause the search result table view to be reloaded.
     return YES;
@@ -339,7 +297,7 @@
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
     // Tells the table data source to reload when scope bar selection changes
-    [self filterContentForSearchText:self.searchDisplayController.searchBar.text scope:nil];
+    [self.model filterContentForSearchText:self.searchDisplayController.searchBar.text scope:nil];
 
     // Return YES to cause the search result table view to be reloaded.
     return YES;
@@ -356,5 +314,31 @@
     [self.tableView reloadData];
     [self.refreshControl endRefreshing];
 }
+-(void) beginSequeToSettingsView {
+    [self performSegueWithIdentifier:@"settingsSegue" sender:self];
+    
+}
+
+
+
+-(void)showErrorMessege:(NSNotification *)errorNotification {
+    NSLog(@"Showing Error TSMessege");
+    NSDictionary *dictionary = errorNotification.userInfo;
+    NSLog(@"dictionary %@",dictionary);
+    [TSMessage showNotificationInViewController:self withTitle:@"ERROR" withMessage:@"Something Gist related was ERRORED out.!" withType:kNotificationError withDuration:4.0];
+    
+}
+-(void)showSuccessMessage:(NSNotification *)successNotification {
+     //FIXME: Does not tell user what was successful!
+    NSLog(@"Showing Success TSMessege");
+
+    [TSMessage showNotificationInViewController:self withTitle:@"Success" withMessage:@"Something Gist related was successful!" withType:kNotificationSuccessful withDuration:4.0];
+}
+
+-(void)dealloc {
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+}
+
+
 
 @end
