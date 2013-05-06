@@ -86,8 +86,8 @@
     query.account = [[NSUserDefaults standardUserDefaults]stringForKey:@"githubUsername"];
     [query fetch:&error];
     if (error) {
-        NSLog(@"BLAST is %@",error);
-        //TODO:
+        NSLog(@"Keychain error is %@",error);
+        //TODO:Make this a TSMessage
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Error" message:@"There was an error. Probably it happend becasue you did not sign in to Github. Please Do that. Sorry for the inconvience!" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Okay", nil];
         [alertView show];
     }

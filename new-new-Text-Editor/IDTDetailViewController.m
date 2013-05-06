@@ -9,11 +9,11 @@
 #import "KOKeyboardRow.h"
 #import "IDTDetailViewController.h"
 #import "IDTWebViewController.h"
+#import "IDTModel.h"
 @interface IDTDetailViewController () <MFMailComposeViewControllerDelegate, UITextViewDelegate, UIDocumentInteractionControllerDelegate, UIGestureRecognizerDelegate, UIWebViewDelegate, UIAlertViewDelegate> {
     UIBarButtonItem *barButton;
     //IDTDocument *secondDocument;
 }
-@property (nonatomic, strong)  IDTDocument *document;
 @property (nonatomic, strong) NSURL *url;
 @property (strong, nonatomic) IBOutlet UIButton *segueButton;
 @property (strong, nonatomic) UIPanGestureRecognizer *twoFingerswipe;
@@ -27,33 +27,41 @@
 #pragma mark - Managing the detail item
 
 - (void)configureView {
-    self.document = [[IDTDocument alloc]initWithFileURL:self.detailItem];
+    if (self.fileDocument == nil) {
+       NSString *string = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/hello.txt"];
+        NSURL *url = [NSURL fileURLWithPath:string];
+        self.fileDocument = [[IDTDocument alloc]initWithFileURL:url];
+        self.nameOfFile = @"hello.txt";
+
+    }
+    
       // secondDocument = [[IDTDocument alloc]initWithFileURL:url];
-   NSOperationQueue *specialQueue = [[NSOperationQueue alloc]init];
 //    [specialQueue addOperationWithBlock:^{
 //        [secondDocument openWithCompletionHandler:^(BOOL success) {
 //            NSLog(@"Success!");
 //            NSLog(@"what is the value of userText (secondDocument) %@", secondDocument.userText);
 //        }];
 //    }];
+    NSOperationQueue *specialQueue = [[NSOperationQueue alloc]init];
+    //This prevents a threading warning.
+
     NSString *textViewString = [self.textView.text copy];
     [specialQueue addOperationWithBlock:^{
-        //This prevents a threading warning.
-        [self.document openWithCompletionHandler:^(BOOL success) {
+        [self.fileDocument openWithCompletionHandler:^(BOOL success) {
             BOOL HTMLDoc;
             HTMLDoc = YES;
 
       
             if (success && HTMLDoc == YES) {
                 [[NSOperationQueue mainQueue]addOperationWithBlock:^{
-                    self.textView.text = self.document.userText;
+                    self.textView.text = self.fileDocument.userText;
                 }];
 
                 NSOperationQueue *queue = [[NSOperationQueue alloc]init];
                 __block NSMutableAttributedString *mutableAttributedString = [[NSMutableAttributedString alloc]initWithString:textViewString];
                 [queue setName:@"Data Processing Queue"];
                 [queue addOperationWithBlock:^{
-                    mutableAttributedString = [self highlightOnBackgroundThreadWithRegularExpression:@"(?i)<(?![BIP]\\b ).*?/?>" inString:self.document.userText withHighlightColor:[UIColor colorWithRed:0.7 green:0.2 blue:0.3 alpha:0.9]];
+                    mutableAttributedString = [self highlightOnBackgroundThreadWithRegularExpression:@"(?i)<(?![BIP]\\b ).*?/?>" inString:self.fileDocument.userText withHighlightColor:[UIColor colorWithRed:0.7 green:0.2 blue:0.3 alpha:0.9]];
 
                     [[NSOperationQueue mainQueue]addOperationWithBlock:^{
                         [self updateUIWithAttriubtedString:mutableAttributedString];
@@ -72,12 +80,29 @@
 #pragma mark textView Delagate
 
 - (void)textViewDidChange:(UITextView *)textView {
-    self.document.userText = textView.text;
-    [self.document updateChangeCount:UIDocumentChangeDone];
-//    secondDocument.userText = textView.text;
-//    [secondDocument updateChangeCount:UIDocumentChangeDone];
-}
+    self.fileDocument.userText = textView.text;
+    [self.fileDocument updateChangeCount:UIDocumentChangeDone];
+    
 
+}
+-(void)linkWithDocument:(IDTDocument *)document {
+    [document openWithCompletionHandler:^(BOOL success) {
+        if (success) {
+            NSLog(@"IT WAS SUCCESSFUL");
+        
+        
+            document.userText = [document.userText stringByAppendingString:@"INFO: Document was linked with another document!"];
+            NSLog(@"document.userText is %@",document.userText);
+            [document updateChangeCount:UIDocumentChangeDone];
+
+        
+        [document closeWithCompletionHandler:^(BOOL success) {
+            if (!success) [self notifyUserOfNegativeEventWithString:@"Sorry. The Document Failed to save! There is nothing you can do but wallow in your own misery and delete this stupid app. My apologies "];
+            else NSLog(@"IT SHOULD WORK");
+        }];
+        }
+    }];
+}
 #pragma mark view handling
 - (void)viewDidLoad {
     self.textView.delegate = self;
@@ -123,18 +148,26 @@
 
 //This saves the open document and dismisses popups. IT does work.
 - (void)viewWillDisappear:(BOOL)animated {
-    if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
-        [self.document closeWithCompletionHandler:^(BOOL success) {
-            if (!success) [self notifyUserOfNegativeEventWithString:@"Sorry. The Document Failed to save! There is nothing you can do but wallow in your own misery and delete this stupid app. My apologies "];
-        }];
+    [self.fileDocument closeWithCompletionHandler:^(BOOL success) {
+        if (!success) [self notifyUserOfNegativeEventWithString:@"Sorry. The Document Failed to save! There is nothing you can do but wallow in your own misery and delete this stupid app. My apologies "];
+    }];
+    if ([self.textView.text rangeOfString:@"Link:"].location != NSNotFound) {
+        IDTModel *model = [[IDTModel alloc]init];
+        for (IDTDocument *document in model.documents) {
+            if ([document.name rangeOfString:@"FIXME"].location != NSNotFound) {
+                [self linkWithDocument:document];
+                break;
+            }
+        }
     }
     [super viewWillDisappear:YES];
 }
 
 - (void)didReceiveMemoryWarning {
-    NSLog(@"Detail view did receive memeory warning");
+    NSLog(@"Detail view did receive memeory warning!");
+    //FIXME: Add a TSMessage.
     self.textView = nil;
-    self.document = nil;
+    self.fileDocument = nil;
     [super didReceiveMemoryWarning];
 }
 
@@ -149,7 +182,6 @@
 
     self.docInteractionController.delegate = self;
     if ([self.docInteractionController presentOptionsMenuFromBarButtonItem:barButton animated:YES]) NSLog(@"Succes");
-
     else NSLog(@"faluire is not an option");
 }
 
@@ -198,7 +230,7 @@
 #pragma mark syntax highlighting
 //This is the view controller conterpart to the model's stringMatch method.
 - (NSMutableAttributedString *)highlightOnBackgroundThreadWithRegularExpression:(NSString *)regEx inString:(NSString *)string withHighlightColor:(UIColor *)color {
-    NSMutableArray *mutableArray = [self.document stringMatchInString:string WithRegularExpr:regEx];
+    NSMutableArray *mutableArray = [self.fileDocument stringMatchInString:string WithRegularExpr:regEx];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:string];
     for (NSUInteger i = 0; i < [mutableArray count]; i++) {
         NSRange range = [[mutableArray objectAtIndex:i]rangeValue];

@@ -15,14 +15,15 @@
 }
 @property (nonatomic, strong) UISearchDisplayController *displayController;
 @property (nonatomic, strong) NSString *textForFileName;
- // Holds a mutable array of UIDocuments. Only full when users is searching.
 @end
 
 @implementation IDTMasterViewController
 
 #pragma mark - Set up
 - (void)awakeFromNib {
-    self.model = [[IDTModel alloc]init];
+    if (self.model == nil) {
+        self.model = [[IDTModel alloc]init];
+    }
     [super awakeFromNib];
 }
 //Called when a Users is using IOS's open in feature.
@@ -33,6 +34,7 @@
     [self.model copyFileFromURL:fromURL];
 
     [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self reloadTableViewData:self];
 }
 
 - (void)viewDidLoad {
@@ -53,8 +55,7 @@
     self.displayController.searchResultsDelegate = self;
     self.displayController.delegate = self;
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(popup:withText:)];
-    UIBarButtonItem *switchButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonItemStylePlain target:self action:@selector(segueToOtherVC:)];
-    self.navigationItem.rightBarButtonItems = @[addButton, switchButton];
+    self.navigationItem.rightBarButtonItems = @[addButton,];
 
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showErrorMessege:) name:@"IDTGistError" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showSuccessMessage:) name:@"IDTGistSuccess" object:nil];
@@ -109,15 +110,20 @@
 #pragma mark - Table View (delagate)
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //The main (non search seque is setup in the storyboard thus no code is here.
+    //The main (non search seque is setup in the storyboard thus no code is here. For iPhone. Not iPad...
     //PrepareForSegue is atuomaticly called.
-
-
-
     // Perform segue to text editor detail
 
     if (tableView == self.displayController.searchResultsTableView) {
-        [self performSegueWithIdentifier:@"showDetail" sender:tableView];
+        if ([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+            [self performSegueWithIdentifier:@"ipadSegueToDetailView" sender:tableView];
+        }else {
+            [self performSegueWithIdentifier:@"showDetail" sender:tableView];
+        }
+    } else if ([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            [self performSegueWithIdentifier:@"ipadSegueToDetailView" sender:tableView];
+        
+
     }
 }
 
@@ -207,14 +213,17 @@
         } else {
             identify = ((IDTDocument *)[self.model.documents objectAtIndex:indexPath.row]).name;
         }
-    
+
         [self.model deleteFile:identify AtIndex:indexPath.row];
-        
+        if (tableView == self.searchDisplayController.searchResultsTableView) {
+            [self reloadTableViewData:self];
+        }
+
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         [self reloadTableViewData:self];
 
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        NSLog(@"Hello)!");
+       // NSLog(@"Hello)!");
     }
 }
 
@@ -254,20 +263,17 @@
 
 #pragma mark Segue.
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"showDetail"]) {
-        NSURL *object = nil;
+    if ([segue.identifier isEqualToString:@"showDetail"] || [segue.identifier isEqualToString:@"ipadSegueToDetailView"] ) {
         NSIndexPath *indexPath = nil;
-        IDTDocument *document;
+        IDTDocument *document = nil;
         if (sender == self.searchDisplayController.searchResultsTableView) {
             indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
 
             document = [self.model.filteredDocuments objectAtIndex:indexPath.row];
-            object = document.fileURL;
         } else {
             indexPath = [self.tableView indexPathForSelectedRow];
         
             document = [self.model.documents objectAtIndex:indexPath.row];
-            object = document.fileURL;
         }
 
         IDTDetailViewController *contactDetailViewController = [segue destinationViewController];
@@ -276,12 +282,12 @@
 
 
         else {
-            IDTDocument *document = [self.model.documents objectAtIndex:indexPath.row];
 
             contactDetailViewController.nameOfFile = document.name;
         }
-        [[segue destinationViewController] setDetailItem:object];
+        ((IDTDetailViewController *)[segue destinationViewController]).fileDocument = document;
     }
+
 }
 
 #pragma mark Content Filtering
@@ -303,18 +309,13 @@
     return YES;
 }
 
-- (void)segueToOtherVC:(id)sender {
-    NSLog(@"HELLO THERE!");
-
-    [self performSegueWithIdentifier:@"showNewVC" sender:self];
-}
-
 //This is mainly here so that when Dropbox functionality is implmented it can reload the Dropbox data.
 - (void)reloadTableViewData:(id)selector {
     [self.tableView reloadData];
     [self.refreshControl endRefreshing];
 }
 -(void) beginSequeToSettingsView {
+    
     [self performSegueWithIdentifier:@"settingsSegue" sender:self];
     
 }

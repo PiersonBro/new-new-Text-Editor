@@ -13,9 +13,10 @@
 #import "IDTDocument.h"
 #import "MMMarkdown.h"
 
-@interface IDTDetailViewController : UIViewController
+@interface IDTDetailViewController : UIViewController 
 //These properties are perhaps the only ones that should be public.
-@property (strong, nonatomic) id detailItem;
+@property (nonatomic, strong)  IDTDocument *fileDocument;
+
 @property (strong, nonatomic) id nameOfFile;
 
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;

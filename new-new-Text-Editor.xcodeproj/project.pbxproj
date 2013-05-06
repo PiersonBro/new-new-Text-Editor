@@ -49,9 +49,9 @@
 		206A2A54171FAC0500B6EF7A /* TSMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 206A2A41171FAC0500B6EF7A /* TSMessageView.m */; };
 		206A2A55171FAC0500B6EF7A /* UIColor+MLColorAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 206A2A43171FAC0500B6EF7A /* UIColor+MLColorAdditions.m */; };
 		206EAD511689199600C6A06C /* libMMMarkdown-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 206EAD501689199600C6A06C /* libMMMarkdown-iOS.a */; };
+		20750D3D172F672600DEA894 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20750D3C172F672600DEA894 /* MainStoryboard_iPad.storyboard */; };
+		20750D40172F732000DEA894 /* IDTSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20750D3F172F732000DEA894 /* IDTSplitViewController.m */; };
 		207718E0166C391100F8835A /* IDTDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 207718DF166C391100F8835A /* IDTDocument.m */; };
-		2084823416B5ED3000D0E679 /* IDTHoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2084823316B5ED3000D0E679 /* IDTHoardViewController.m */; };
-		2084823716B5EFA700D0E679 /* IDTCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2084823616B5EFA700D0E679 /* IDTCollectionCell.m */; };
 		2084823916B5F10300D0E679 /* GOOD.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2084823816B5F10300D0E679 /* GOOD.jpg */; };
 		208BA30B166F1CA300118232 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 208BA30A166F1CA300118232 /* Social.framework */; };
 		208D657517177CC20018522E /* IDTSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 208D657417177CC20018522E /* IDTSettingsViewController.m */; };
@@ -136,12 +136,11 @@
 		206A2A43171FAC0500B6EF7A /* UIColor+MLColorAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+MLColorAdditions.m"; sourceTree = "<group>"; };
 		206EAD501689199600C6A06C /* libMMMarkdown-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libMMMarkdown-iOS.a"; sourceTree = "<group>"; };
 		206EAD52168919A100C6A06C /* MMMarkdown.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMMarkdown.h; sourceTree = "<group>"; };
+		20750D3C172F672600DEA894 /* MainStoryboard_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
+		20750D3E172F732000DEA894 /* IDTSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDTSplitViewController.h; sourceTree = "<group>"; };
+		20750D3F172F732000DEA894 /* IDTSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDTSplitViewController.m; sourceTree = "<group>"; };
 		207718DF166C391100F8835A /* IDTDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = IDTDocument.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		207718E2166C391E00F8835A /* IDTDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IDTDocument.h; sourceTree = "<group>"; };
-		2084823216B5ED3000D0E679 /* IDTHoardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDTHoardViewController.h; sourceTree = "<group>"; };
-		2084823316B5ED3000D0E679 /* IDTHoardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDTHoardViewController.m; sourceTree = "<group>"; };
-		2084823516B5EFA700D0E679 /* IDTCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDTCollectionCell.h; sourceTree = "<group>"; };
-		2084823616B5EFA700D0E679 /* IDTCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDTCollectionCell.m; sourceTree = "<group>"; };
 		2084823816B5F10300D0E679 /* GOOD.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = GOOD.jpg; sourceTree = "<group>"; };
 		208BA30A166F1CA300118232 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		208D657317177CC20018522E /* IDTSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDTSettingsViewController.h; sourceTree = "<group>"; };
@@ -258,17 +257,6 @@
 			name = Keyboard;
 			sourceTree = "<group>";
 		};
-		20238C6616F02521003A9276 /* CollectionView  */ = {
-			isa = PBXGroup;
-			children = (
-				2084823216B5ED3000D0E679 /* IDTHoardViewController.h */,
-				2084823316B5ED3000D0E679 /* IDTHoardViewController.m */,
-				2084823516B5EFA700D0E679 /* IDTCollectionCell.h */,
-				2084823616B5EFA700D0E679 /* IDTCollectionCell.m */,
-			);
-			name = "CollectionView ";
-			sourceTree = "<group>";
-		};
 		20238C6716F0254A003A9276 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -288,9 +276,11 @@
 			isa = PBXGroup;
 			children = (
 				20D6069A16138F950091658C /* MainStoryboard.storyboard */,
+				20750D3C172F672600DEA894 /* MainStoryboard_iPad.storyboard */,
 				20D6068316138F5D0091658C /* IDTAppDelegate.h */,
 				20D6068416138F5D0091658C /* IDTAppDelegate.m */,
-				206EAD52168919A100C6A06C /* MMMarkdown.h */,
+				20750D3E172F732000DEA894 /* IDTSplitViewController.h */,
+				20750D3F172F732000DEA894 /* IDTSplitViewController.m */,
 			);
 			name = Misc;
 			sourceTree = "<group>";
@@ -345,9 +335,9 @@
 		20D6066516138F5D0091658C = {
 			isa = PBXGroup;
 			children = (
+				202A7C2E1717CFF80065C720 /* SSKeychain */,
 				206A2A2D171FAC0500B6EF7A /* TSMessages */,
 				20EC926816FE5B2900C351F0 /* UAGithubEngine */,
-				202A7C2E1717CFF80065C720 /* SSKeychain */,
 				2001B97C16ABB22200874DA9 /* Text Editor */,
 				20D6067316138F5D0091658C /* Frameworks */,
 				20D6067116138F5D0091658C /* Products */,
@@ -385,7 +375,6 @@
 				20F2B88E16CC12C10091F6F4 /* Model */,
 				20238C6716F0254A003A9276 /* ViewControllers */,
 				20238C6816F025AB003A9276 /* Misc */,
-				20238C6616F02521003A9276 /* CollectionView  */,
 				20F2B88D16CC12620091F6F4 /* Images */,
 				2001B97D16ABB25F00874DA9 /* Keyboard */,
 				20D6067B16138F5D0091658C /* Supporting Files */,
@@ -402,6 +391,7 @@
 				20D4FDC516ADEA9800031046 /* GreenIconNew.png */,
 				20D6067D16138F5D0091658C /* InfoPlist.strings */,
 				20D6068016138F5D0091658C /* main.m */,
+				206EAD52168919A100C6A06C /* MMMarkdown.h */,
 				20D6068216138F5D0091658C /* new-new-Text-Editor-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -550,6 +540,7 @@
 				206A2A50171FAC0500B6EF7A /* NotificationBackgroundWarning@2x.png in Resources */,
 				206A2A51171FAC0500B6EF7A /* NotificationBackgroundWarningIcon.png in Resources */,
 				206A2A52171FAC0500B6EF7A /* NotificationBackgroundWarningIcon@2x.png in Resources */,
+				20750D3D172F672600DEA894 /* MainStoryboard_iPad.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -568,8 +559,6 @@
 				20E71D3F16897037005640FD /* IDTWebViewController.m in Sources */,
 				2001B97A16ABB21000874DA9 /* KOKeyboardRow.m in Sources */,
 				2001B97B16ABB21000874DA9 /* KOSwipeButton.m in Sources */,
-				2084823416B5ED3000D0E679 /* IDTHoardViewController.m in Sources */,
-				2084823716B5EFA700D0E679 /* IDTCollectionCell.m in Sources */,
 				20EC928316FE5B2900C351F0 /* NSArray+Utilities.m in Sources */,
 				20EC928416FE5B2900C351F0 /* NSData+Base64.m in Sources */,
 				20EC928516FE5B2900C351F0 /* NSInvocation+Blocks.m in Sources */,
@@ -587,6 +576,7 @@
 				206A2A53171FAC0500B6EF7A /* TSMessage.m in Sources */,
 				206A2A54171FAC0500B6EF7A /* TSMessageView.m in Sources */,
 				206A2A55171FAC0500B6EF7A /* UIColor+MLColorAdditions.m in Sources */,
+				20750D40172F732000DEA894 /* IDTSplitViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,3 +1,4 @@
+
 //
 //  IDTDocument.m
 //  AttributedTextED
@@ -20,19 +21,18 @@
 #pragma mark Initalizer
 
 - (id)initWithFileURL:(NSURL *)url {
+    
     self = [super initWithFileURL:url];
     self.name = [url lastPathComponent];
     dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
     dispatch_async(queue, ^{
         self.githubEngine = [UAGithubEngine sharedGithubEngine];
-        NSLog(@"self.githubEngine is %@",self.githubEngine.password);
-    self.gistID = [self getGistIDFromName:self.name];
-    if (self.gistID == Nil) {
-        NSLog(@"Not a Gist");
-        self.isGist = NO;
-    }else {
-      self.isGist = YES;
-    }
+        self.gistID = [self getGistIDFromName:self.name];
+        if (self.gistID == Nil) {
+            self.isGist = NO;
+        }else {
+            self.isGist = YES;
+        }
     });
     return self;
 }
@@ -47,7 +47,6 @@
         self.userText = [[NSString alloc] initWithBytes:[contents bytes]
                                                  length:[contents length]
                                                encoding:NSUTF8StringEncoding];
-
     else self.userText = @"Empty"; // When the note is created we assign some default content
 
 
@@ -85,6 +84,7 @@
     NSRegularExpression *regularExpression = [NSRegularExpression regularExpressionWithPattern:regex
                                                                                      options:NSRegularExpressionCaseInsensitive | NSRegularExpressionSearch error:&error];
     self.rangesOfHighlight = [[NSMutableArray alloc]initWithCapacity:50];
+    //This fixes an annoying .DS_Store simulator bug.
     if (inString) {
     [regularExpression enumerateMatchesInString:inString options:0 range:[inString rangeOfString:inString] usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
         NSRange textMatchRange = [result rangeAtIndex:0];
@@ -123,11 +123,11 @@
 
 - (NSArray *)getGists {
     __block NSArray *returnDict = [[NSArray alloc]init];
-    NSLog(@"githubEngine.password is %@ githubEngine.username is %@",self.githubEngine.password, self.githubEngine.username);
     self.githubEngine = [UAGithubEngine sharedGithubEngine];
     [self.githubEngine gistsForUser:self.githubEngine.username success:^(id result) {
         returnDict = [NSArray arrayWithArray:result];
     } failure:^(NSError *error) {
+        
         NSLog(@"The getGists method failed with error: %@", error);
     }];
 

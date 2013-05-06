@@ -22,7 +22,7 @@
 
 @property (nonatomic, strong) NSString *docsDir;
 
--(NSArray *) readFolder;
+-(NSMutableArray *) readFolder;
 
 
 -(BOOL) deleteFile:(NSString *)name AtIndex:(NSUInteger)index;

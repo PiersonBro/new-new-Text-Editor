@@ -21,7 +21,7 @@
     return self;
 }
 
-- (NSArray *)readFolder {
+- (NSMutableArray *)readFolder {
     if (self.documents == nil) {
         self.documents = [[NSMutableArray alloc]initWithCapacity:50];   
     }
@@ -32,8 +32,6 @@
     
     NSArray *textFiles = [filemgr contentsOfDirectoryAtPath:self.docsDir error:&error];
     for (NSUInteger i = 0; i < [textFiles count]; i++) {
-        NSString *string = [textFiles objectAtIndex:i];
-        NSLog(@"what is the val of textFiles %@?",string);
         NSString *preval = [self.docsDir stringByAppendingString:@"/"];
         NSString *val = [preval stringByAppendingString:[textFiles objectAtIndex:i]];
         
@@ -118,7 +116,7 @@
         dispatch_async(queue, ^{
            self.githubEngine = [UAGithubEngine sharedGithubEngine];
             [self.githubEngine deleteGist:document.gistID success:^(BOOL sucess) {
-                NSNotification *notification = [NSNotification notificationWithName:@"IDTGistSuccess" object:@"Gist Was Created Successfully!"];
+                NSNotification *notification = [NSNotification notificationWithName:@"IDTGistSuccess" object:@"Gist Was Deleted Successfully!"];
                 [[NSNotificationCenter defaultCenter]postNotification:notification];
             } failure:^(NSError *error) {
                 NSLog(@"ERRROR is %@",error);
@@ -148,7 +146,7 @@
         NSURL *url = [NSURL fileURLWithPath:newPath];
         IDTDocument *document = [[IDTDocument alloc]initWithFileURL:url];
         [self.documents replaceObjectAtIndex:indexPath.row withObject:document];
-        
+        //Some gist rename attempt... FIXME: Understand this code.
         [document openWithCompletionHandler:^(BOOL success) {
            self.githubEngine = [UAGithubEngine sharedGithubEngine];
             [self.githubEngine editGist:newFileName withDictionary:[self createDictionaryRepresationOfFileWithContent:document.userText AndNameOfFile:newFileName] success:^(id result){
@@ -179,21 +177,19 @@
     NSString *nameOfFile = [toString lastPathComponent];
     NSString *pathString = [NSHomeDirectory() stringByAppendingFormat:@"/Documents/%@", nameOfFile];
     NSURL *toURL = [NSURL fileURLWithPath:pathString];
-    BOOL success = [[NSFileManager defaultManager]copyItemAtURL:fromURL toURL:toURL error:&error];
-    if (success) {
-        [self readFolder];
-    }
-    NSError *deletionError = nil;
-    NSString *finalString = [NSHomeDirectory() stringByAppendingFormat:@"/Documents/%@", @"Inbox"];
-    NSURL *deleteURL = [NSURL fileURLWithPath:finalString];
-    
-    
-    BOOL deleteSuccess = [[NSFileManager defaultManager]removeItemAtURL:deleteURL error:&deletionError];
-    
-    if (deleteSuccess) {
-        NSLog(@"YAYAY");
+    BOOL success = [[NSFileManager defaultManager]moveItemAtURL:fromURL toURL:toURL error:&error];
         
-        [self readFolder];
+    if (success) {
+        NSLog(@"Delete Success!");
+        
+        IDTDocument *document = [[IDTDocument alloc]initWithFileURL:toURL];
+
+        [self.documents insertObject:document atIndex:0];
+        NSLog(@"The count of self.documents is %d",self.documents.count);
+        NSURL *url = [fromURL URLByDeletingLastPathComponent];
+        NSLog(@"The count of self.documents is %d",self.documents.count);
+        [[NSFileManager defaultManager]removeItemAtURL:url error:nil];
+
     }
     
     
@@ -266,7 +262,7 @@
      self.filteredTextFilesPaths
      */
     self.filteredDocuments = [[NSMutableArray alloc]initWithCapacity:[self.documents count]];
-    for (IDTDocument *document in self0.documents) {
+    for (IDTDocument *document in self.documents) {
         if ([document.name rangeOfString:searchText].location != NSNotFound) {
             [self.filteredDocuments addObject:document];
         }

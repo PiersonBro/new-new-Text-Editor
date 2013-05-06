@@ -7,6 +7,9 @@
 //
 
 #import "IDTAppDelegate.h"
+#import "IDTSplitViewController.h"
+#import "IDTDetailViewController.h"
+#import "IDTMasterViewController.h"
 @implementation IDTAppDelegate
 
 -(void)customizeApperance {
@@ -33,6 +36,11 @@ extern CFAbsoluteTime startTime;
     });
     [self customizeApperance];
     
+//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+//        IDTSplitViewController *splitViewController = (IDTSplitViewController *)self.window.rootViewController;
+//        IDTMasterViewController  *masterViewController = [splitViewController.viewControllers objectAtIndex:0];
+//        IDTDetailViewController *detailViewController = [splitViewController.viewControllers lastObject];
+//    }
     return YES;
 }
 
