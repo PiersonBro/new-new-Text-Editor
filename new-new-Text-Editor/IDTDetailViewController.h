@@ -12,8 +12,9 @@
 #import <UIKit/UIKit.h>
 #import "IDTDocument.h"
 #import "MMMarkdown.h"
+#import "IDTChooseDocumentViewController.h"
 
-@interface IDTDetailViewController : UIViewController 
+@interface IDTDetailViewController : UIViewController  <UISplitViewControllerDelegate>
 //These properties are perhaps the only ones that should be public.
 @property (nonatomic, strong)  IDTDocument *fileDocument;
 
@@ -21,6 +22,9 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 @property (nonatomic) BOOL darkModeEnabled;
+@property (nonatomic,strong) UIPopoverController *documentPopover;
+
+@property (strong, nonatomic) IBOutlet UITextView *textView;
 
 
 - (void)configureView;

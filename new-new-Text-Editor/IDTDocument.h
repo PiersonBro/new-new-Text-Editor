@@ -26,7 +26,12 @@
 
 @property (nonatomic,strong) NSString *gistID;
 
+//                                                                      NOT IMPLEMENTAED!!!!!!!!                                                                              //
 
+//Linked documents are documents that work togethor in a completed write to this file incomplete write to this file sort of way.cx
+@property (nonatomic) BOOL isLinked;
+//This is specfied by a special popup UI. 
+@property (nonatomic,strong) IDTDocument *linkedDocument;
 
 #pragma mark Public methods
 

@@ -39,9 +39,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-
-    
     self.refreshControl = [[UIRefreshControl alloc]init];
     self.refreshControl.tintColor = [UIColor colorWithRed:0.1 green:0.5 blue:0.5 alpha:1];
     [self.refreshControl addTarget:self action:@selector(reloadTableViewData:) forControlEvents:UIControlEventValueChanged];
@@ -113,6 +110,7 @@
     //The main (non search seque is setup in the storyboard thus no code is here. For iPhone. Not iPad...
     //PrepareForSegue is atuomaticly called.
     // Perform segue to text editor detail
+    
 
     if (tableView == self.displayController.searchResultsTableView) {
         if ([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPad){
@@ -121,11 +119,13 @@
             [self performSegueWithIdentifier:@"showDetail" sender:tableView];
         }
     } else if ([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-            [self performSegueWithIdentifier:@"ipadSegueToDetailView" sender:tableView];
-        
 
+
+            [self performSegueWithIdentifier:@"ipadSegueToDetailView" sender:tableView];
     }
+        
 }
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -134,6 +134,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (self.model == nil) {
         NSLog(@"The model is nil! Abort! Abort!");
+        self.model = [[IDTModel alloc]init];
     }
 
     if (tableView == self.displayController.searchResultsTableView) {
@@ -173,8 +174,6 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-
-
     //cell label.
     NSString *cellLabel = nil;
 
@@ -198,11 +197,6 @@
     return cell;
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         NSString *identify;
@@ -223,7 +217,6 @@
         [self reloadTableViewData:self];
 
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-       // NSLog(@"Hello)!");
     }
 }
 
@@ -233,10 +226,6 @@
     if (alertView.alertViewStyle == UIAlertViewStylePlainTextInput) {
         if ([[alertView buttonTitleAtIndex:1] isEqualToString:@"Rename"] && buttonIndex == 1) {
             self.textForFileName = [alertView textFieldAtIndex:0].text;
-
-
-
-
             NSUInteger uint = _indexOfFile.row;
 
             NSString *prevNameOfFile = ((IDTDocument *)[self.model.documents objectAtIndex:uint]).name;

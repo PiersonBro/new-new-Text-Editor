@@ -9,29 +9,24 @@
 #import <Foundation/Foundation.h>
 #import "UAGithubEngine.h"
 #import "IDTDocument.h"
+#import "IDTFolder.h"
 
 @interface IDTModel : NSObject
 
-@property (nonatomic,strong) IDTDocument *contactDocument;
-
-@property (nonatomic,strong) UAGithubEngine *githubEngine;
 
 @property (nonatomic,strong) NSMutableArray *documents;
 
 @property (nonatomic,strong) NSMutableArray *filteredDocuments;
 
-@property (nonatomic, strong) NSString *docsDir;
 
--(NSMutableArray *) readFolder;
-
-
+-(NSMutableArray *)readFolder;
+//Returns YES if successful, otherwise NO.
 -(BOOL) deleteFile:(NSString *)name AtIndex:(NSUInteger)index;
-
+//Returns YES if successful, otherwise NO.
 -(BOOL) createFileWithText:(NSString *)text Name:(NSString *)name AtIndex:(NSUInteger)indexPath isGist:(BOOL)isGist;
-
+//Returns YES if successful, otherwise NO.
 -(BOOL)renameFileName:(NSString *)name withName:(NSString *)newFileName atIndexPath:(NSIndexPath *)indexPath;
-
-
+//Returns YES if successful, otherwise NO.
 -(BOOL)copyFileFromURL:(NSURL *)fromURL;
 
 - (void)filterContentForSearchText:(NSString *)searchText scope:(NSString *)scope;

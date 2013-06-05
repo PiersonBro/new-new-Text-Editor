@@ -10,15 +10,18 @@
 #import "IDTDetailViewController.h"
 #import "IDTWebViewController.h"
 #import "IDTModel.h"
-@interface IDTDetailViewController () <MFMailComposeViewControllerDelegate, UITextViewDelegate, UIDocumentInteractionControllerDelegate, UIGestureRecognizerDelegate, UIWebViewDelegate, UIAlertViewDelegate> {
+#import "IDTMasterViewController.h"
+#import "IDTChooseDocumentViewController.h"
+#import "IDTLinked.h"
+@interface IDTDetailViewController () <MFMailComposeViewControllerDelegate, UITextViewDelegate, UIDocumentInteractionControllerDelegate, UIGestureRecognizerDelegate, UIWebViewDelegate, UIAlertViewDelegate,UIPopoverControllerDelegate,IDTDismissDelagate> {
     UIBarButtonItem *barButton;
     //IDTDocument *secondDocument;
 }
 @property (nonatomic, strong) NSURL *url;
 @property (strong, nonatomic) IBOutlet UIButton *segueButton;
 @property (strong, nonatomic) UIPanGestureRecognizer *twoFingerswipe;
-@property (strong, nonatomic) IBOutlet UITextView *textView;
 @property (retain, nonatomic) UIDocumentInteractionController *docInteractionController;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *linkDocumentButton;
 
 @end
 
@@ -85,20 +88,16 @@
     
 
 }
+//Should be a model method.
 -(void)linkWithDocument:(IDTDocument *)document {
     [document openWithCompletionHandler:^(BOOL success) {
         if (success) {
-            NSLog(@"IT WAS SUCCESSFUL");
-        
-        
-            document.userText = [document.userText stringByAppendingString:@"INFO: Document was linked with another document!"];
-            NSLog(@"document.userText is %@",document.userText);
+            document.userText = [document.userText stringByAppendingString:[NSString stringWithFormat:@"INFO: Document was linked with document %@",self.fileDocument.name]];
             [document updateChangeCount:UIDocumentChangeDone];
 
         
         [document closeWithCompletionHandler:^(BOOL success) {
             if (!success) [self notifyUserOfNegativeEventWithString:@"Sorry. The Document Failed to save! There is nothing you can do but wallow in your own misery and delete this stupid app. My apologies "];
-            else NSLog(@"IT SHOULD WORK");
         }];
         }
     }];
@@ -126,6 +125,9 @@
     NSMutableAttributedString *displayNameOfFile = [[NSMutableAttributedString alloc]initWithString:self.nameOfFile];
     [displayNameOfFile addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:NSMakeRange(0, [displayNameOfFile length])];
     self.detailDescriptionLabel.attributedText = displayNameOfFile;
+    if ([UIDevice currentDevice].userInterfaceIdiom ==  UIUserInterfaceIdiomPad ) {
+        self.navigationItem.title = self.nameOfFile;
+    }
 
 
     if (self.darkModeEnabled == YES) {
@@ -141,25 +143,15 @@
     self.twoFingerswipe.minimumNumberOfTouches = 2;
     [self.textView addGestureRecognizer:self.twoFingerswipe];
     if ([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        [self.view addSubview:self.textView];
         [KOKeyboardRow applyToTextView:self.textView];
     }
 }
 
-//This saves the open document and dismisses popups. IT does work.
+//This saves the open document and dismisses popups. IT does work. It is not called when the MASTERVC is openn
 - (void)viewWillDisappear:(BOOL)animated {
     [self.fileDocument closeWithCompletionHandler:^(BOOL success) {
         if (!success) [self notifyUserOfNegativeEventWithString:@"Sorry. The Document Failed to save! There is nothing you can do but wallow in your own misery and delete this stupid app. My apologies "];
     }];
-    if ([self.textView.text rangeOfString:@"Link:"].location != NSNotFound) {
-        IDTModel *model = [[IDTModel alloc]init];
-        for (IDTDocument *document in model.documents) {
-            if ([document.name rangeOfString:@"FIXME"].location != NSNotFound) {
-                [self linkWithDocument:document];
-                break;
-            }
-        }
-    }
     [super viewWillDisappear:YES];
 }
 
@@ -170,7 +162,7 @@
     self.fileDocument = nil;
     [super didReceiveMemoryWarning];
 }
-
+ 
 - (void)notifyUserOfNegativeEventWithString:(NSString *)string {
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Sorry" message:string delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [alert show];
@@ -178,7 +170,7 @@
 
 #pragma mark SegmentAction and Sharing
 - (IBAction)action1:(id)sender {
-    self.docInteractionController = [UIDocumentInteractionController interactionControllerWithURL:self.url];
+    self.docInteractionController = [UIDocumentInteractionController interactionControllerWithURL:self.fileDocument.fileURL];
 
     self.docInteractionController.delegate = self;
     if ([self.docInteractionController presentOptionsMenuFromBarButtonItem:barButton animated:YES]) NSLog(@"Succes");
@@ -192,13 +184,6 @@
 - (IBAction)action3:(id)sender {
     [self performSegueWithIdentifier:@"goToWebView" sender:self];
 }
-
-//This code is supposed to go back to main view
-//}
-//-(IBAction)action5:(id)sender {
-//[self prepareForSegue:<#(UIStoryboardSegue *)#> sender:<#(id)#>]
-//}
-
 
 - (IBAction)action4:(id)sender {
     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Search" message:@"type in stuff to search text" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Search", nil];
@@ -234,10 +219,9 @@
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:string];
     for (NSUInteger i = 0; i < [mutableArray count]; i++) {
         NSRange range = [[mutableArray objectAtIndex:i]rangeValue];
-
-
         [attributedString addAttribute:NSForegroundColorAttributeName value:color range:range];
     }
+
 
     return attributedString;
 }
@@ -285,5 +269,38 @@
         }];
     }
 }
+- (IBAction)showPopup:(id)sender {
+    [self.textView resignFirstResponder];
+    IDTChooseDocumentViewController *chooseDocumentVC = [[IDTChooseDocumentViewController alloc]initWithStyle:UITableViewStylePlain];
+    chooseDocumentVC.delegate = self;
+    self.documentPopover = [[UIPopoverController alloc]initWithContentViewController:chooseDocumentVC];
+    [self.documentPopover presentPopoverFromBarButtonItem:self.linkDocumentButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+
+
+}
+-(void)didTap {
+    [self.documentPopover dismissPopoverAnimated:YES];
+    IDTChooseDocumentViewController *chooseDocumentVC = (IDTChooseDocumentViewController *)self.documentPopover.contentViewController;
+    NSLog(@"The Value of document is %@",chooseDocumentVC.document);
+   // [self linkWithDocument:chooseDocumentVC.document];
+    IDTLinked *linked = [[IDTLinked alloc]initWithThrower:self.fileDocument andReciever:chooseDocumentVC.document andType:nil];
+    [self.fileDocument updateChangeCount:UIDocumentChangeDone];
+    [self.fileDocument closeWithCompletionHandler:^(BOOL success) {
+        if (success) {
+            [linked inherit];
+            self.textView.text = linked.linkedDocumentThrower.userText;
+        }
+    }];
+}
+
+
+
+
+
+
+
+
+
+
 
 @end

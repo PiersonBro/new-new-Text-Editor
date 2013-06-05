@@ -8,6 +8,11 @@
 
 #import "IDTModel.h"
 @interface IDTModel ()
+@property (nonatomic, strong) NSString *docsDir;
+@property (nonatomic,strong) IDTDocument *contactDocument;
+
+@property (nonatomic,strong) UAGithubEngine *githubEngine;
+
 
 @end
 
@@ -34,23 +39,22 @@
     for (NSUInteger i = 0; i < [textFiles count]; i++) {
         NSString *preval = [self.docsDir stringByAppendingString:@"/"];
         NSString *val = [preval stringByAppendingString:[textFiles objectAtIndex:i]];
-        
         IDTDocument *document = [[IDTDocument alloc]initWithFileURL:[NSURL fileURLWithPath:val]];
         [self.documents addObject:document];
     }
     
     //If no files exists, create one.
     if (![filemgr contentsOfDirectoryAtPath:self.docsDir error:nil]) {
-        [self createFileWithText:@"Hello and welcome to my awesomely cool text editor! This is the list of stuff not yet implemented.  2. Syntax highlighting for HTML (uber difficult). 2.RTF implmentation (SUPER UBER difficult) " Name:@"Welcome!" AtIndex:0 isGist:NO];
+        [self createFileWithText:@"Hello and welcome to my awesomely cool text editor! This is the list of stuff not yet implemented.  2. Syntax highlighting for HTML (uber difficult). 2.Github Repo implmentation (SUPER UBER difficult) " Name:@"Welcome!" AtIndex:0 isGist:NO];
     }
     if (error) NSLog(@"there was an %@", error);
     
     return self.documents;
 }
-//None of the method argumetns can be nil.
+//None of the method arguments can be nil.
 - (BOOL)createFileWithText:(NSString *)text Name:(NSString *)name AtIndex:(NSUInteger)indexPath isGist:(BOOL)isGist {
     assert(text != nil && name != nil);
-    //This block of code checks too see if the Name of the file already exists if it does it will abort the operation. This feature is disabled during the rewrite...
+    //Checks too see if the Name of the file already exists if it does it will abort the operation. 
     for (IDTDocument *document in self.documents) {
         if ([document.name isEqualToString:name]) {
             return NO;

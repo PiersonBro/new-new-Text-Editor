@@ -16,4 +16,5 @@
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 - (IBAction)doneButtonPressed:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UITextField *regexLinkingTextField;
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "IDTSplitViewController.h"
-
+#import "IDTDetailViewController.h"
 @interface IDTSplitViewController () <UISplitViewControllerDelegate>
 
 @end
@@ -35,8 +35,24 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark SplitView
+
 - (void)splitViewController:(UISplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc {
+   IDTDetailViewController *detailVC = [self.viewControllers objectAtIndex:1];
+    [detailVC.textView resignFirstResponder];
+}
+
+- (void)splitViewController:(UISplitViewController *)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
+    NSLog(@"YESSSS");
+    IDTDetailViewController *detailVC = [self.viewControllers objectAtIndex:1];
+    [detailVC.textView resignFirstResponder];
     
 }
+
+
+
+
+
 
 @end

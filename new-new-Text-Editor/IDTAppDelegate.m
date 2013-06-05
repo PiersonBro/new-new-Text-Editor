@@ -38,8 +38,9 @@ extern CFAbsoluteTime startTime;
     
 //    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
 //        IDTSplitViewController *splitViewController = (IDTSplitViewController *)self.window.rootViewController;
-//        IDTMasterViewController  *masterViewController = [splitViewController.viewControllers objectAtIndex:0];
 //        IDTDetailViewController *detailViewController = [splitViewController.viewControllers lastObject];
+//        
+//        splitViewController.delegate = detailViewController;
 //    }
     return YES;
 }

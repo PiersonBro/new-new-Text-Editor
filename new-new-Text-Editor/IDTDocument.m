@@ -127,8 +127,8 @@
     [self.githubEngine gistsForUser:self.githubEngine.username success:^(id result) {
         returnDict = [NSArray arrayWithArray:result];
     } failure:^(NSError *error) {
-        
-        NSLog(@"The getGists method failed with error: %@", error);
+        NSLog(@"The gist method failed. Probably offline!!");
+      //  NSLog(@"The getGists method failed with error: %@", error);
     }];
 
     return returnDict;
@@ -146,7 +146,7 @@
         while (value = [enumerator nextObject])
             valueKeyString = value;
               if ([name isEqualToString:valueKeyString]) {
-            NSLog(@"SUCCESSSSSSSSSSSSSSSSSSSSSSSSSS");
+          
             IDString = [fileDictionary objectForKey:@"id"];
         }
     }
