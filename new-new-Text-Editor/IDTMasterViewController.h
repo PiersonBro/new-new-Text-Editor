@@ -21,4 +21,6 @@
 
 - (void)addFileFromURL:(NSURL *)fromURL;
 
+@property (nonatomic,strong) NSString *startingFilePath;
+
 @end

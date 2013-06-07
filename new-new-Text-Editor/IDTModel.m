@@ -17,10 +17,10 @@
 @end
 
 @implementation IDTModel
--(id)init {
+-(instancetype)initWithFilePath:(NSString *)filePath {
     self = [super init];
     self.documents = [[NSMutableArray alloc]initWithCapacity:100];
-    self.docsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/"];
+    self.docsDir = [NSHomeDirectory() stringByAppendingPathComponent:filePath];
 
     [self readFolder];
     return self;
@@ -38,11 +38,18 @@
     NSArray *textFiles = [filemgr contentsOfDirectoryAtPath:self.docsDir error:&error];
     for (NSUInteger i = 0; i < [textFiles count]; i++) {
         NSString *preval = [self.docsDir stringByAppendingString:@"/"];
-        NSString *val = [preval stringByAppendingString:[textFiles objectAtIndex:i]];
-        IDTDocument *document = [[IDTDocument alloc]initWithFileURL:[NSURL fileURLWithPath:val]];
-        [self.documents addObject:document];
+        NSString *filePath = [preval stringByAppendingString:[textFiles objectAtIndex:i]];
+        BOOL isDirectory = nil;
+        [filemgr fileExistsAtPath:filePath isDirectory:&isDirectory];
+        if (isDirectory) {
+            IDTFolder *folder = [[IDTFolder alloc]initWithFilePath:filePath];
+            [self.documents addObject:folder];
+
+        } else {
+            IDTDocument *document = [[IDTDocument alloc]initWithFileURL:[NSURL fileURLWithPath:filePath]];
+            [self.documents addObject:document];
+        }
     }
-    
     //If no files exists, create one.
     if (![filemgr contentsOfDirectoryAtPath:self.docsDir error:nil]) {
         [self createFileWithText:@"Hello and welcome to my awesomely cool text editor! This is the list of stuff not yet implemented.  2. Syntax highlighting for HTML (uber difficult). 2.Github Repo implmentation (SUPER UBER difficult) " Name:@"Welcome!" AtIndex:0 isGist:NO];
@@ -83,14 +90,9 @@
                 NSLog(@"Success %@",result);
                 NSDictionary *dictionary = [result objectAtIndex:0];
                 NSString *gistID = [dictionary objectForKey:@"id"];
-                NSLog(@"%@",gistID);
-            NSNotification *notification = [NSNotification notificationWithName:@"IDTGistSuccess" object:@"Gist Was Created Successfully!"];
-            [[NSNotificationCenter defaultCenter]postNotification:notification];
+            NSLog(@"%@",gistID);
     } failure:^(NSError *error) {
-                NSLog(@"CREATE failed with error %@", error);
-        NSString *notificationDescription = [NSString stringWithFormat:@"The getGists method failed with error: %@", error];
-        NSNotification *notification = [NSNotification notificationWithName:@"IDTGistError" object:notificationDescription];
-        [[NSNotificationCenter defaultCenter]postNotification:notification];
+        NSLog(@"CREATE failed with error %@", error);
             }];
         });
     }
@@ -120,13 +122,10 @@
         dispatch_async(queue, ^{
            self.githubEngine = [UAGithubEngine sharedGithubEngine];
             [self.githubEngine deleteGist:document.gistID success:^(BOOL sucess) {
-                NSNotification *notification = [NSNotification notificationWithName:@"IDTGistSuccess" object:@"Gist Was Deleted Successfully!"];
-                [[NSNotificationCenter defaultCenter]postNotification:notification];
+                
             } failure:^(NSError *error) {
                 NSLog(@"ERRROR is %@",error);
-                NSString *notificationDescription = [NSString stringWithFormat:@"The getGists method failed with error: %@", error];
-                NSNotification *notification = [NSNotification notificationWithName:@"IDTGistError" object:notificationDescription];
-                [[NSNotificationCenter defaultCenter]postNotification:notification];
+                
             }];
         });
         }
@@ -157,9 +156,6 @@
                 NSLog(@"Rename succeded");
                 //No Banner is needed here as telling the user that an editGist was successful is not a good UX.
             } failure:^(NSError * error) {
-                NSString *notificationDescription = [NSString stringWithFormat:@"Sorry, We failed to save the gist. %@", error];
-                NSNotification *notification = [NSNotification notificationWithName:@"IDTGistError" object:notificationDescription];
-                [[NSNotificationCenter defaultCenter]postNotification:notification];
                 NSLog(@"error is %@",error);
             }];
                 
@@ -228,9 +224,6 @@
         returnDict = [NSArray arrayWithArray:result];
     } failure:^(NSError *error) {
         NSLog(@"The getGists method failed with error: %@", error);
-        NSString *notificationDescription = [NSString stringWithFormat:@"The getGists method failed with error: %@", error];
-        NSNotification *notification = [NSNotification notificationWithName:@"IDTGistError" object:notificationDescription];
-       [[NSNotificationCenter defaultCenter]postNotification:notification];
     }];
     
     return returnDict;
@@ -265,10 +258,13 @@
     /*Hello future self! Cotent is filtered via the NSPredicate api and then those filterd arrays are set on two properties: self.textFilesFiltered and
      self.filteredTextFilesPaths
      */
-    self.filteredDocuments = [[NSMutableArray alloc]initWithCapacity:[self.documents count]];
-    for (IDTDocument *document in self.documents) {
+    //MAJOR API CHANGE: self.documents is depercated in fact in won't work. self.documents is filtered directly. YEAH!!!! No more unnessscary duplication!
+    NSUInteger count = [self.documents count];
+    NSMutableArray *undocuments = [self.documents copy];
+    self.documents = [[NSMutableArray alloc]initWithCapacity:count];
+    for (IDTDocument *document in undocuments) {
         if ([document.name rangeOfString:searchText].location != NSNotFound) {
-            [self.filteredDocuments addObject:document];
+            [self.documents addObject:document];
         }
     }
 }

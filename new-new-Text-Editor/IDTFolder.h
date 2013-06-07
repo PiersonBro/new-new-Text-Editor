@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface IDTFolder : NSObject
+@property (nonatomic,strong) NSString *filePath;
+
 @property (nonatomic,strong) NSString *name;
-@property (nonatomic,strong) NSURL *folderURL;
-//FIXME: Will this create confusion? I don't know.
-@property (nonatomic,strong) NSMutableArray *documents;
+-(IDTFolder *)initWithFilePath:(NSString *)filePath;
 @end

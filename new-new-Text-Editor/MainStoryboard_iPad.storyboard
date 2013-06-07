@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="pJu-jK-4Pg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12E55" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="pJu-jK-4Pg">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
@@ -200,7 +200,7 @@
             </objects>
             <point key="canvasLocation" x="1751" y="2194"/>
         </scene>
-        <!--Master View Controller - Root View Controller-->
+        <!--Master View Controller - Documents-->
         <scene sceneID="CtQ-qk-1Nb">
             <objects>
                 <tableViewController clearsSelectionOnViewWillAppear="NO" id="ekx-ZY-c8t" customClass="IDTMasterViewController" sceneMemberID="viewController">
@@ -235,11 +235,12 @@
                             <outlet property="delegate" destination="ekx-ZY-c8t" id="Hs4-5J-ky4"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="MOu-IU-yh8"/>
+                    <navigationItem key="navigationItem" title="Documents" id="MOu-IU-yh8"/>
                     <connections>
                         <outlet property="searchBar" destination="Fqq-o9-LiQ" id="ZxT-cj-TBE"/>
                         <outlet property="searchDisplayController" destination="0Hy-bf-W9s" id="fow-kK-EPI"/>
                         <segue destination="CqZ-OJ-1UW" kind="modal" identifier="settingsSegue" id="FPz-Ub-9Xr"/>
+                        <segue destination="fVC-W7-AZu" kind="replace" identifier="segueToFolderView" splitViewControllerTargetIndex="0" id="PX8-1H-Shx"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gxl-DS-UWO" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -261,7 +262,36 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="3029" y="286"/>
+            <point key="canvasLocation" x="2539" y="219"/>
+        </scene>
+        <!--Table View Controller-->
+        <scene sceneID="QJD-Yl-6wd">
+            <objects>
+                <tableViewController id="fVC-W7-AZu" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="gDl-ez-cdT">
+                        <rect key="frame" x="0.0" y="20" width="320" height="832"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="9Gh-4P-7o3">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="fVC-W7-AZu" id="uon-0L-c3F"/>
+                            <outlet property="delegate" destination="fVC-W7-AZu" id="66W-j5-3xC"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ADF-DH-oLJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3042" y="255"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="4wc-HL-aNJ">
@@ -276,7 +306,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yjW-V0-7Me" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2519" y="255"/>
+            <point key="canvasLocation" x="2169" y="239"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="Nmp-ct-5g9">
@@ -297,7 +327,6 @@
         <class className="IDTDetailViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/IDTDetailViewController.h"/>
             <relationships>
-                <relationship kind="action" name="action2:"/>
                 <relationship kind="outlet" name="detailDescriptionLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="linkDocumentButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="segueButton" candidateClass="UIButton"/>

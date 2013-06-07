@@ -7,7 +7,6 @@
 //
 
 #import "IDTMasterViewController.h"
-#import "TSMessage.h"
 #import "IDTDetailViewController.h"
 @interface IDTMasterViewController () <UIAlertViewDelegate, UISearchDisplayDelegate, UISearchBarDelegate, UIActionSheetDelegate, UIGestureRecognizerDelegate>  {
     NSIndexPath *_indexOfFile;
@@ -22,13 +21,18 @@
 #pragma mark - Set up
 - (void)awakeFromNib {
     if (self.model == nil) {
-        self.model = [[IDTModel alloc]init];
+        if (self.startingFilePath) {
+            self.model = [[IDTModel alloc]initWithFilePath:self.startingFilePath];
+        } else {
+            self.model = [[IDTModel alloc]initWithFilePath:@"Documents/"];
+
+        }
     }
     [super awakeFromNib];
 }
 //Called when a Users is using IOS's open in feature.
 - (void)addFileFromURL:(NSURL *)fromURL  {
-    self.model = [[IDTModel alloc]init];
+    self.model = [[IDTModel alloc]initWithFilePath:@"Documents/"];
 
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [self.model copyFileFromURL:fromURL];
@@ -53,9 +57,6 @@
     self.displayController.delegate = self;
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(popup:withText:)];
     self.navigationItem.rightBarButtonItems = @[addButton,];
-
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showErrorMessege:) name:@"IDTGistError" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showSuccessMessage:) name:@"IDTGistSuccess" object:nil];
     [self.tableView reloadData];
 }
 
@@ -114,16 +115,21 @@
 
     if (tableView == self.displayController.searchResultsTableView) {
         if ([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPad){
-            [self performSegueWithIdentifier:@"ipadSegueToDetailView" sender:tableView];
+            if ([[self.model.documents objectAtIndex:indexPath.row] isKindOfClass:[IDTFolder class]]) {
+                [self performSegueWithIdentifier:@"segueToFolderView" sender:self];
+            } else {
+                [self performSegueWithIdentifier:@"ipadSegueToDetailView" sender:tableView];
+            }
         }else {
             [self performSegueWithIdentifier:@"showDetail" sender:tableView];
         }
-    } else if ([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-
-
-            [self performSegueWithIdentifier:@"ipadSegueToDetailView" sender:tableView];
     }
+       else if ([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+           
+            [self performSegueWithIdentifier:@"ipadSegueToDetailView" sender:tableView];
         
+    }
+    
 }
 
 
@@ -134,11 +140,11 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (self.model == nil) {
         NSLog(@"The model is nil! Abort! Abort!");
-        self.model = [[IDTModel alloc]init];
+        self.model = [[IDTModel alloc]initWithFilePath:@"Documents/"];
     }
 
     if (tableView == self.displayController.searchResultsTableView) {
-        return [self.model.filteredDocuments count];
+        return [self.model.documents count];
     } else {
         return [self.model.documents count];
     }
@@ -176,18 +182,28 @@
     }
     //cell label.
     NSString *cellLabel = nil;
-
-    if (tableView != self.searchDisplayController.searchResultsTableView) {
-       IDTDocument *document = [self.model.documents objectAtIndex:indexPath.row];
-        cellLabel = document.name;
+    //Woe is me!!!!!!!!!!!!!!!!!!!!!!!! X10
+    if ([[self.model.documents objectAtIndex:indexPath.row] isKindOfClass:[IDTFolder class]]) {
+        if (tableView != self.searchDisplayController.searchResultsTableView) {
+            IDTFolder *folder = [self.model.documents objectAtIndex:indexPath.row];
+            cellLabel = folder.name;
+            NSLog(@"indexPath is %d",indexPath.row);
+        } else {
+        cellLabel = ((IDTFolder *)[self.model.documents objectAtIndex:indexPath.row]).name;
+        }
     } else {
-        cellLabel = ((IDTDocument *)[self.model.filteredDocuments objectAtIndex:indexPath.row]).name;    }
-    cell.textLabel.text = cellLabel;
-    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-    cellBounds = cell.frame.size;
-    if (((IDTDocument *)[self.model.documents objectAtIndex:indexPath.row]).isGist) {
-        cell.imageView.image = [UIImage imageNamed:@"HasGistCellImage@2X.png"];
-        
+        if (tableView != self.searchDisplayController.searchResultsTableView) {
+           IDTDocument *document = [self.model.documents objectAtIndex:indexPath.row];
+            cellLabel = document.name;
+        } else {
+            cellLabel = ((IDTDocument *)[self.model.documents objectAtIndex:indexPath.row]).name;    }
+        cell.textLabel.text = cellLabel;
+            [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+            cellBounds = cell.frame.size;
+        if (((IDTDocument *)[self.model.documents objectAtIndex:indexPath.row]).isGist) {
+            cell.imageView.image = [UIImage imageNamed:@"HasGistCellImage@2X.png"];
+            
+        }
     }
     UILongPressGestureRecognizer *gestureRecognizer = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handleLongPress:)];
     [cell addGestureRecognizer:gestureRecognizer];
@@ -202,8 +218,8 @@
         NSString *identify;
 
         if (tableView == self.searchDisplayController.searchResultsTableView) {
-            identify = ((IDTDocument *)[self.model.filteredDocuments objectAtIndex:indexPath.row]).name;
-            [self.model.filteredDocuments removeObjectAtIndex:indexPath.row];
+            identify = ((IDTDocument *)[self.model.documents objectAtIndex:indexPath.row]).name;
+            [self.model.documents removeObjectAtIndex:indexPath.row];
         } else {
             identify = ((IDTDocument *)[self.model.documents objectAtIndex:indexPath.row]).name;
         }
@@ -221,8 +237,7 @@
 }
 
 #pragma mark UIAlertViewDelagate.
-- (void)            alertView:(UIAlertView *)alertView
-    didDismissWithButtonIndex:(NSInteger)buttonIndex {
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (alertView.alertViewStyle == UIAlertViewStylePlainTextInput) {
         if ([[alertView buttonTitleAtIndex:1] isEqualToString:@"Rename"] && buttonIndex == 1) {
             self.textForFileName = [alertView textFieldAtIndex:0].text;
@@ -258,7 +273,7 @@
         if (sender == self.searchDisplayController.searchResultsTableView) {
             indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
 
-            document = [self.model.filteredDocuments objectAtIndex:indexPath.row];
+            document = [self.model.documents objectAtIndex:indexPath.row];
         } else {
             indexPath = [self.tableView indexPathForSelectedRow];
         
@@ -275,8 +290,21 @@
             contactDetailViewController.nameOfFile = document.name;
         }
         ((IDTDetailViewController *)[segue destinationViewController]).fileDocument = document;
-    }
+    } else if ([segue.identifier isEqualToString:@"segueToFolderView"]) {
+        if (self.tableView == self.searchDisplayController.searchResultsTableView) {
+            NSIndexPath *indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
+            IDTFolder *folder = [self.model.documents objectAtIndex:indexPath.row];
+            IDTMasterViewController *mvc = [segue destinationViewController];
+            mvc.startingFilePath = folder.filePath;
+        }
+        else {
+            NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+            IDTFolder *folder = [self.model.documents objectAtIndex:indexPath.row];
+            IDTMasterViewController *mvc = [segue destinationViewController];
+            mvc.startingFilePath = folder.filePath;
 
+        }
+    }
 }
 
 #pragma mark Content Filtering
@@ -286,18 +314,11 @@
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
     [self.model filterContentForSearchText:searchString scope:nil];
 
-    // Return YES to cause the search result table view to be reloaded.
     return YES;
 }
-
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
-    // Tells the table data source to reload when scope bar selection changes
-    [self.model filterContentForSearchText:self.searchDisplayController.searchBar.text scope:nil];
-
-    // Return YES to cause the search result table view to be reloaded.
-    return YES;
+- (void)searchDisplayController:(UISearchDisplayController *)controller willHideSearchResultsTableView:(UITableView *)tableView {
+    [self.model readFolder];
 }
-
 //This is mainly here so that when Dropbox functionality is implmented it can reload the Dropbox data.
 - (void)reloadTableViewData:(id)selector {
     [self.tableView reloadData];
@@ -308,27 +329,6 @@
     [self performSegueWithIdentifier:@"settingsSegue" sender:self];
     
 }
-
-
-
--(void)showErrorMessege:(NSNotification *)errorNotification {
-    NSLog(@"Showing Error TSMessege");
-    NSDictionary *dictionary = errorNotification.userInfo;
-    NSLog(@"dictionary %@",dictionary);
-    [TSMessage showNotificationInViewController:self withTitle:@"ERROR" withMessage:@"Something Gist related was ERRORED out.!" withType:kNotificationError withDuration:4.0];
-    
-}
--(void)showSuccessMessage:(NSNotification *)successNotification {
-     //FIXME: Does not tell user what was successful!
-    NSLog(@"Showing Success TSMessege");
-
-    [TSMessage showNotificationInViewController:self withTitle:@"Success" withMessage:@"Something Gist related was successful!" withType:kNotificationSuccessful withDuration:4.0];
-}
-
--(void)dealloc {
-    [[NSNotificationCenter defaultCenter]removeObserver:self];
-}
-
 
 
 @end

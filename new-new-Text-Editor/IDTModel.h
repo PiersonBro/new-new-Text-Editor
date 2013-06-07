@@ -13,11 +13,9 @@
 
 @interface IDTModel : NSObject
 
+-(instancetype)initWithFilePath:(NSString *)filePath;
 
 @property (nonatomic,strong) NSMutableArray *documents;
-
-@property (nonatomic,strong) NSMutableArray *filteredDocuments;
-
 
 -(NSMutableArray *)readFolder;
 //Returns YES if successful, otherwise NO.

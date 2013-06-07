@@ -41,24 +41,6 @@
 		2066A1F5174ED50600BEBA91 /* UAGithubURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 2066A1EB174ED50600BEBA91 /* UAGithubURLConnection.m */; };
 		2066A1F6174ED50600BEBA91 /* UAReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 2066A1ED174ED50600BEBA91 /* UAReachability.m */; };
 		2066A1FE174FCDB400BEBA91 /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 2066A1FD174FCDB400BEBA91 /* Base64.m */; };
-		206A2A44171FAC0500B6EF7A /* design.json in Resources */ = {isa = PBXBuildFile; fileRef = 206A2A2E171FAC0500B6EF7A /* design.json */; };
-		206A2A45171FAC0500B6EF7A /* NotificationBackgroundError.png in Resources */ = {isa = PBXBuildFile; fileRef = 206A2A30171FAC0500B6EF7A /* NotificationBackgroundError.png */; };
-		206A2A46171FAC0500B6EF7A /* NotificationBackgroundError@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 206A2A31171FAC0500B6EF7A /* NotificationBackgroundError@2x.png */; };
-		206A2A47171FAC0500B6EF7A /* NotificationBackgroundErrorIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 206A2A32171FAC0500B6EF7A /* NotificationBackgroundErrorIcon.png */; };
-		206A2A48171FAC0500B6EF7A /* NotificationBackgroundErrorIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 206A2A33171FAC0500B6EF7A /* NotificationBackgroundErrorIcon@2x.png */; };
-		206A2A49171FAC0500B6EF7A /* NotificationBackgroundMessage.png in Resources */ = {isa = PBXBuildFile; fileRef = 206A2A34171FAC0500B6EF7A /* NotificationBackgroundMessage.png */; };
-		206A2A4A171FAC0500B6EF7A /* NotificationBackgroundMessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 206A2A35171FAC0500B6EF7A /* NotificationBackgroundMessage@2x.png */; };
-		206A2A4B171FAC0500B6EF7A /* NotificationBackgroundSuccess.png in Resources */ = {isa = PBXBuildFile; fileRef = 206A2A36171FAC0500B6EF7A /* NotificationBackgroundSuccess.png */; };
-		206A2A4C171FAC0500B6EF7A /* NotificationBackgroundSuccess@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 206A2A37171FAC0500B6EF7A /* NotificationBackgroundSuccess@2x.png */; };
-		206A2A4D171FAC0500B6EF7A /* NotificationBackgroundSuccessIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 206A2A38171FAC0500B6EF7A /* NotificationBackgroundSuccessIcon.png */; };
-		206A2A4E171FAC0500B6EF7A /* NotificationBackgroundSuccessIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 206A2A39171FAC0500B6EF7A /* NotificationBackgroundSuccessIcon@2x.png */; };
-		206A2A4F171FAC0500B6EF7A /* NotificationBackgroundWarning.png in Resources */ = {isa = PBXBuildFile; fileRef = 206A2A3A171FAC0500B6EF7A /* NotificationBackgroundWarning.png */; };
-		206A2A50171FAC0500B6EF7A /* NotificationBackgroundWarning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 206A2A3B171FAC0500B6EF7A /* NotificationBackgroundWarning@2x.png */; };
-		206A2A51171FAC0500B6EF7A /* NotificationBackgroundWarningIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 206A2A3C171FAC0500B6EF7A /* NotificationBackgroundWarningIcon.png */; };
-		206A2A52171FAC0500B6EF7A /* NotificationBackgroundWarningIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 206A2A3D171FAC0500B6EF7A /* NotificationBackgroundWarningIcon@2x.png */; };
-		206A2A53171FAC0500B6EF7A /* TSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 206A2A3F171FAC0500B6EF7A /* TSMessage.m */; };
-		206A2A54171FAC0500B6EF7A /* TSMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 206A2A41171FAC0500B6EF7A /* TSMessageView.m */; };
-		206A2A55171FAC0500B6EF7A /* UIColor+MLColorAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 206A2A43171FAC0500B6EF7A /* UIColor+MLColorAdditions.m */; };
 		206DFE3517532BBF00DC409C /* IDTLinked.m in Sources */ = {isa = PBXBuildFile; fileRef = 206DFE3417532BBF00DC409C /* IDTLinked.m */; };
 		206EAD511689199600C6A06C /* libMMMarkdown-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 206EAD501689199600C6A06C /* libMMMarkdown-iOS.a */; };
 		20750D3D172F672600DEA894 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20750D3C172F672600DEA894 /* MainStoryboard_iPad.storyboard */; };
@@ -137,27 +119,6 @@
 		2066A1ED174ED50600BEBA91 /* UAReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UAReachability.m; path = ../Forks/UAGithubEngine/UAGithubEngine/UAReachability.m; sourceTree = "<group>"; };
 		2066A1FC174FCDB400BEBA91 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Base64.h; path = ../Forks/UAGithubEngine/UAGithubEngine/Base64.h; sourceTree = "<group>"; };
 		2066A1FD174FCDB400BEBA91 /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Base64.m; path = ../Forks/UAGithubEngine/UAGithubEngine/Base64.m; sourceTree = "<group>"; };
-		206A2A2E171FAC0500B6EF7A /* design.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = design.json; sourceTree = "<group>"; };
-		206A2A30171FAC0500B6EF7A /* NotificationBackgroundError.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NotificationBackgroundError.png; sourceTree = "<group>"; };
-		206A2A31171FAC0500B6EF7A /* NotificationBackgroundError@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NotificationBackgroundError@2x.png"; sourceTree = "<group>"; };
-		206A2A32171FAC0500B6EF7A /* NotificationBackgroundErrorIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NotificationBackgroundErrorIcon.png; sourceTree = "<group>"; };
-		206A2A33171FAC0500B6EF7A /* NotificationBackgroundErrorIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NotificationBackgroundErrorIcon@2x.png"; sourceTree = "<group>"; };
-		206A2A34171FAC0500B6EF7A /* NotificationBackgroundMessage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NotificationBackgroundMessage.png; sourceTree = "<group>"; };
-		206A2A35171FAC0500B6EF7A /* NotificationBackgroundMessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NotificationBackgroundMessage@2x.png"; sourceTree = "<group>"; };
-		206A2A36171FAC0500B6EF7A /* NotificationBackgroundSuccess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NotificationBackgroundSuccess.png; sourceTree = "<group>"; };
-		206A2A37171FAC0500B6EF7A /* NotificationBackgroundSuccess@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NotificationBackgroundSuccess@2x.png"; sourceTree = "<group>"; };
-		206A2A38171FAC0500B6EF7A /* NotificationBackgroundSuccessIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NotificationBackgroundSuccessIcon.png; sourceTree = "<group>"; };
-		206A2A39171FAC0500B6EF7A /* NotificationBackgroundSuccessIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NotificationBackgroundSuccessIcon@2x.png"; sourceTree = "<group>"; };
-		206A2A3A171FAC0500B6EF7A /* NotificationBackgroundWarning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NotificationBackgroundWarning.png; sourceTree = "<group>"; };
-		206A2A3B171FAC0500B6EF7A /* NotificationBackgroundWarning@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NotificationBackgroundWarning@2x.png"; sourceTree = "<group>"; };
-		206A2A3C171FAC0500B6EF7A /* NotificationBackgroundWarningIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NotificationBackgroundWarningIcon.png; sourceTree = "<group>"; };
-		206A2A3D171FAC0500B6EF7A /* NotificationBackgroundWarningIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NotificationBackgroundWarningIcon@2x.png"; sourceTree = "<group>"; };
-		206A2A3E171FAC0500B6EF7A /* TSMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSMessage.h; sourceTree = "<group>"; };
-		206A2A3F171FAC0500B6EF7A /* TSMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSMessage.m; sourceTree = "<group>"; };
-		206A2A40171FAC0500B6EF7A /* TSMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSMessageView.h; sourceTree = "<group>"; };
-		206A2A41171FAC0500B6EF7A /* TSMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSMessageView.m; sourceTree = "<group>"; };
-		206A2A42171FAC0500B6EF7A /* UIColor+MLColorAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+MLColorAdditions.h"; sourceTree = "<group>"; };
-		206A2A43171FAC0500B6EF7A /* UIColor+MLColorAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+MLColorAdditions.m"; sourceTree = "<group>"; };
 		206DFE3317532BBF00DC409C /* IDTLinked.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDTLinked.h; sourceTree = "<group>"; };
 		206DFE3417532BBF00DC409C /* IDTLinked.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDTLinked.m; sourceTree = "<group>"; };
 		206EAD501689199600C6A06C /* libMMMarkdown-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libMMMarkdown-iOS.a"; sourceTree = "<group>"; };
@@ -338,48 +299,11 @@
 			name = UAGithubEngine;
 			sourceTree = "<group>";
 		};
-		206A2A2D171FAC0500B6EF7A /* TSMessages */ = {
-			isa = PBXGroup;
-			children = (
-				206A2A2E171FAC0500B6EF7A /* design.json */,
-				206A2A2F171FAC0500B6EF7A /* Images */,
-				206A2A3E171FAC0500B6EF7A /* TSMessage.h */,
-				206A2A3F171FAC0500B6EF7A /* TSMessage.m */,
-				206A2A40171FAC0500B6EF7A /* TSMessageView.h */,
-				206A2A41171FAC0500B6EF7A /* TSMessageView.m */,
-				206A2A42171FAC0500B6EF7A /* UIColor+MLColorAdditions.h */,
-				206A2A43171FAC0500B6EF7A /* UIColor+MLColorAdditions.m */,
-			);
-			path = TSMessages;
-			sourceTree = "<group>";
-		};
-		206A2A2F171FAC0500B6EF7A /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				206A2A30171FAC0500B6EF7A /* NotificationBackgroundError.png */,
-				206A2A31171FAC0500B6EF7A /* NotificationBackgroundError@2x.png */,
-				206A2A32171FAC0500B6EF7A /* NotificationBackgroundErrorIcon.png */,
-				206A2A33171FAC0500B6EF7A /* NotificationBackgroundErrorIcon@2x.png */,
-				206A2A34171FAC0500B6EF7A /* NotificationBackgroundMessage.png */,
-				206A2A35171FAC0500B6EF7A /* NotificationBackgroundMessage@2x.png */,
-				206A2A36171FAC0500B6EF7A /* NotificationBackgroundSuccess.png */,
-				206A2A37171FAC0500B6EF7A /* NotificationBackgroundSuccess@2x.png */,
-				206A2A38171FAC0500B6EF7A /* NotificationBackgroundSuccessIcon.png */,
-				206A2A39171FAC0500B6EF7A /* NotificationBackgroundSuccessIcon@2x.png */,
-				206A2A3A171FAC0500B6EF7A /* NotificationBackgroundWarning.png */,
-				206A2A3B171FAC0500B6EF7A /* NotificationBackgroundWarning@2x.png */,
-				206A2A3C171FAC0500B6EF7A /* NotificationBackgroundWarningIcon.png */,
-				206A2A3D171FAC0500B6EF7A /* NotificationBackgroundWarningIcon@2x.png */,
-			);
-			path = Images;
-			sourceTree = "<group>";
-		};
 		20D6066516138F5D0091658C = {
 			isa = PBXGroup;
 			children = (
 				2066A1F7174ED53C00BEBA91 /* UAGithubEngine */,
 				202A7C2E1717CFF80065C720 /* SSKeychain */,
-				206A2A2D171FAC0500B6EF7A /* TSMessages */,
 				2001B97C16ABB22200874DA9 /* Text Editor */,
 				20D6067316138F5D0091658C /* Frameworks */,
 				20D6067116138F5D0091658C /* Products */,
@@ -538,21 +462,6 @@
 				20D4FDC616ADEA9800031046 /* GreenIconNew.png in Resources */,
 				2084823916B5F10300D0E679 /* GOOD.jpg in Resources */,
 				20470EC0170B68B300041C75 /* HasGistCellImage@2X.png in Resources */,
-				206A2A44171FAC0500B6EF7A /* design.json in Resources */,
-				206A2A45171FAC0500B6EF7A /* NotificationBackgroundError.png in Resources */,
-				206A2A46171FAC0500B6EF7A /* NotificationBackgroundError@2x.png in Resources */,
-				206A2A47171FAC0500B6EF7A /* NotificationBackgroundErrorIcon.png in Resources */,
-				206A2A48171FAC0500B6EF7A /* NotificationBackgroundErrorIcon@2x.png in Resources */,
-				206A2A49171FAC0500B6EF7A /* NotificationBackgroundMessage.png in Resources */,
-				206A2A4A171FAC0500B6EF7A /* NotificationBackgroundMessage@2x.png in Resources */,
-				206A2A4B171FAC0500B6EF7A /* NotificationBackgroundSuccess.png in Resources */,
-				206A2A4C171FAC0500B6EF7A /* NotificationBackgroundSuccess@2x.png in Resources */,
-				206A2A4D171FAC0500B6EF7A /* NotificationBackgroundSuccessIcon.png in Resources */,
-				206A2A4E171FAC0500B6EF7A /* NotificationBackgroundSuccessIcon@2x.png in Resources */,
-				206A2A4F171FAC0500B6EF7A /* NotificationBackgroundWarning.png in Resources */,
-				206A2A50171FAC0500B6EF7A /* NotificationBackgroundWarning@2x.png in Resources */,
-				206A2A51171FAC0500B6EF7A /* NotificationBackgroundWarningIcon.png in Resources */,
-				206A2A52171FAC0500B6EF7A /* NotificationBackgroundWarningIcon@2x.png in Resources */,
 				20750D3D172F672600DEA894 /* MainStoryboard_iPad.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -576,9 +485,6 @@
 				208D657517177CC20018522E /* IDTSettingsViewController.m in Sources */,
 				202A7C331717CFF80065C720 /* SSKeychain.m in Sources */,
 				202A7C341717CFF80065C720 /* SSKeychainQuery.m in Sources */,
-				206A2A53171FAC0500B6EF7A /* TSMessage.m in Sources */,
-				206A2A54171FAC0500B6EF7A /* TSMessageView.m in Sources */,
-				206A2A55171FAC0500B6EF7A /* UIColor+MLColorAdditions.m in Sources */,
 				20750D40172F732000DEA894 /* IDTSplitViewController.m in Sources */,
 				20A7743D1738468B00E7D671 /* IDTFolder.m in Sources */,
 				2066A1EE174ED50600BEBA91 /* UAGithubEngine.m in Sources */,
@@ -698,7 +604,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/../../Downloads/Markdown-Viewer-master\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "new-new-Text-Editor/new-new-Text-Editor-Prefix.pch";
@@ -721,7 +626,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/../../Downloads/Markdown-Viewer-master\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "new-new-Text-Editor/new-new-Text-Editor-Prefix.pch";

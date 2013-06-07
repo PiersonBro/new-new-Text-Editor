@@ -17,7 +17,7 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        self.model = [[IDTModel alloc]init];
+        self.model = [[IDTModel alloc]initWithFilePath:@"Documents/"];
     }
     return self;
 }
@@ -26,7 +26,7 @@
 {
     [super viewDidLoad];
     if (!self.model) {
-        self.model = [[IDTModel alloc]init];
+        self.model = [[IDTModel alloc]initWithFilePath:@"Documents/"];
     }
     
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"chooseCell"];
