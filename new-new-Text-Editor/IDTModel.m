@@ -263,8 +263,8 @@
   NSMutableArray *undocuments = [self.documents copy];
   self.documents = [[NSMutableArray alloc]initWithCapacity:count];
 // it's called document but it's actually either a document or folder.
-  for (id *document in undocuments) {
-  if ([document.name rangeOfString:searchText].location != NSNotFound) {
+  for (id document in undocuments) {
+  if ([((IDTDocument *)document).name rangeOfString:searchText].location != NSNotFound) {
   [self.documents addObject:document];
   }
   }
