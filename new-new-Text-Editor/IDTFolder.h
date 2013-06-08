@@ -1,9 +1,9 @@
 //
-//  IDTFolder.h
-//  new-new-Text-Editor
+// IDTFolder.h
+// new-new-Text-Editor
 //
-//  Created by E&Z Pierson on 5/6/13.
-//  Copyright (c) 2013 E&Z Pierson. All rights reserved.
+// Created by E&Z Pierson on 5/6/13.
+// Copyright (c) 2013 E&Z Pierson. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -12,5 +12,8 @@
 @property (nonatomic,strong) NSString *filePath;
 
 @property (nonatomic,strong) NSString *name;
+
+@property (nonatomic) BOOL isGist;
+
 -(IDTFolder *)initWithFilePath:(NSString *)filePath;
 @end
