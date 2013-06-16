@@ -28,7 +28,7 @@
  
   for (NSUInteger i = 0; i < [textFiles count]; i++) {
   NSString *preval = [docsDir stringByAppendingString:@"/"];
-  NSString *val = [preval stringByAppendingString:[textFiles objectAtIndex:i]];
+  NSString *val = [preval stringByAppendingString:textFiles[i]];
  
   IDTDocument *document = [[IDTDocument alloc]initWithFileURL:[NSURL fileURLWithPath:val]];
   [documents addObject:document];

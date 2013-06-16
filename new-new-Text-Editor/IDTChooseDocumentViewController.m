@@ -55,7 +55,7 @@
 {
     static NSString *CellIdentifier = @"chooseCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    IDTDocument *document = [self.model.documents objectAtIndex:indexPath.row];
+    IDTDocument *document = (self.model.documents)[indexPath.row];
     cell.textLabel.text = document.name;
     return cell;
 }
@@ -66,7 +66,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.document = [self.model.documents objectAtIndex:indexPath.row];
+    self.document = (self.model.documents)[indexPath.row];
     [self.delegate didTap];
     
 }

@@ -9,11 +9,13 @@
 #import <Foundation/Foundation.h>
 
 @interface IDTFolder : NSObject
+
+-(IDTFolder *)initWithFilePath:(NSString *)filePath;
+
 @property (nonatomic,strong) NSString *filePath;
 
 @property (nonatomic,strong) NSString *name;
 
 @property (nonatomic) BOOL isGist;
 
--(IDTFolder *)initWithFilePath:(NSString *)filePath;
 @end

@@ -20,15 +20,7 @@
 
 #pragma mark - Set up
 - (void)awakeFromNib {
-  if (self.model == nil) {
-  if (self.startingFilePath) {
-  self.model = [[IDTModel alloc]initWithFilePath:self.startingFilePath];
-  } else {
-  self.model = [[IDTModel alloc]initWithFilePath:@"Documents/"];
-
-  }
-  }
-  [super awakeFromNib];
+   [super awakeFromNib];
 }
 //Called when a Users is using IOS's open in feature.
 - (void)addFileFromURL:(NSURL *)fromURL {
@@ -43,6 +35,16 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  if (self.model == nil) {
+        if (self.startingFilePath) {
+            NSString *fixer = [self.startingFilePath stringByAppendingString:@"//"];
+            self.model = [[IDTModel alloc]initWithFilePath:fixer];
+        } else {
+            self.model = [[IDTModel alloc]initWithFilePath:@"Documents/"];
+            
+        }
+  }
+
   self.refreshControl = [[UIRefreshControl alloc]init];
   self.refreshControl.tintColor = [UIColor colorWithRed:0.1 green:0.5 blue:0.5 alpha:1];
   [self.refreshControl addTarget:self action:@selector(reloadTableViewData:) forControlEvents:UIControlEventValueChanged];
@@ -76,7 +78,7 @@
   cancelButtonTitle:@"Cancel"
   otherButtonTitles:buttonText, nil];
   alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-  IDTDocument *document = [self.model.documents objectAtIndex:_indexOfFile.row];
+  IDTDocument *document = self.model.documents[_indexOfFile.row];
  
   [alertView textFieldAtIndex:0].text = document.name;
   [alertView show];
@@ -111,23 +113,31 @@
   //The main (non search seque is setup in the storyboard thus no code is here. For iPhone. Not iPad...
   //PrepareForSegue is atuomaticly called.
   // Perform segue to text editor detail
- 
+    if ([self.model.documents[indexPath.row] isKindOfClass:[IDTFolder class]]) {
+        [self performSegueWithIdentifier:@"segueToFolderView" sender:tableView];
+        
+    } else {
+        [self performSegueWithIdentifier:@"showDetail" sender:tableView];
 
+    }
   if (tableView == self.displayController.searchResultsTableView) {
   if ([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPad){
-  if ([[self.model.documents objectAtIndex:indexPath.row] isKindOfClass:[IDTFolder class]]) {
-  [self performSegueWithIdentifier:@"segueToFolderView" sender:self];
-  } else {
-  [self performSegueWithIdentifier:@"ipadSegueToDetailView" sender:tableView];
-  }
+      if ([self.model.documents[indexPath.row] isKindOfClass:[IDTFolder class]]) {
+      [self performSegueWithIdentifier:@"segueToFolderView" sender:tableView];
+      } else {
+      [self performSegueWithIdentifier:@"ipadSegueToDetailView" sender:tableView];
+    }
   }else {
-  [self performSegueWithIdentifier:@"showDetail" sender:tableView];
-  }
+      if ([self.model.documents[indexPath.row] isKindOfClass:[IDTFolder class]]) {
+          [self performSegueWithIdentifier:@"segueToFolderView" sender:tableView];
+          
+      } else {
+      }
+    }
   }
   else if ([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
- 
-  [self performSegueWithIdentifier:@"ipadSegueToDetailView" sender:tableView];
- 
+      [self performSegueWithIdentifier:@"ipadSegueToDetailView" sender:tableView];
+
   }
  
 }
@@ -183,28 +193,20 @@
   //cell label.
   NSString *cellLabel = nil;
   //Woe is me!!!!!!!!!!!!!!!!!!!!!!!! X10
-  if ([[self.model.documents objectAtIndex:indexPath.row] isKindOfClass:[IDTFolder class]]) {
+
   if (tableView != self.searchDisplayController.searchResultsTableView) {
-  IDTFolder *folder = [self.model.documents objectAtIndex:indexPath.row];
-  cellLabel = folder.name;
-  NSLog(@"indexPath is %d",indexPath.row);
-  } else {
-  cellLabel = ((IDTFolder *)[self.model.documents objectAtIndex:indexPath.row]).name;
-  }
-  } else {
-  if (tableView != self.searchDisplayController.searchResultsTableView) {
-  IDTDocument *document = [self.model.documents objectAtIndex:indexPath.row];
+  IDTDocument *document = self.model.documents[indexPath.row];
   cellLabel = document.name;
   } else {
-  cellLabel = ((IDTDocument *)[self.model.documents objectAtIndex:indexPath.row]).name; }
+  cellLabel = ((IDTDocument *)self.model.documents[indexPath.row]).name; }
   cell.textLabel.text = cellLabel;
   [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
   cellBounds = cell.frame.size;
-  if (((IDTDocument *)[self.model.documents objectAtIndex:indexPath.row]).isGist) {
+  if (((IDTDocument *)self.model.documents[indexPath.row]).isGist) {
   cell.imageView.image = [UIImage imageNamed:@"HasGistCellImage@2X.png"];
  
   }
-  }
+  
   UILongPressGestureRecognizer *gestureRecognizer = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handleLongPress:)];
   [cell addGestureRecognizer:gestureRecognizer];
   [gestureRecognizer setDelegate:self];
@@ -218,10 +220,10 @@
   NSString *identify;
 
   if (tableView == self.searchDisplayController.searchResultsTableView) {
-  identify = ((IDTDocument *)[self.model.documents objectAtIndex:indexPath.row]).name;
+  identify = ((IDTDocument *)self.model.documents[indexPath.row]).name;
   [self.model.documents removeObjectAtIndex:indexPath.row];
   } else {
-  identify = ((IDTDocument *)[self.model.documents objectAtIndex:indexPath.row]).name;
+  identify = ((IDTDocument *)self.model.documents[indexPath.row]).name;
   }
 
   [self.model deleteFile:identify AtIndex:indexPath.row];
@@ -243,7 +245,7 @@
   self.textForFileName = [alertView textFieldAtIndex:0].text;
   NSUInteger uint = _indexOfFile.row;
 
-  NSString *prevNameOfFile = ((IDTDocument *)[self.model.documents objectAtIndex:uint]).name;
+  NSString *prevNameOfFile = ((IDTDocument *)self.model.documents[uint]).name;
   [self.model renameFileName:prevNameOfFile withName:self.textForFileName atIndexPath:_indexOfFile];
   [self.tableView reloadData];
   }
@@ -268,43 +270,41 @@
 #pragma mark Segue.
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
   if ([segue.identifier isEqualToString:@"showDetail"] || [segue.identifier isEqualToString:@"ipadSegueToDetailView"] ) {
-  NSIndexPath *indexPath = nil;
-  IDTDocument *document = nil;
-  if (sender == self.searchDisplayController.searchResultsTableView) {
-  indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
-
-  document = [self.model.documents objectAtIndex:indexPath.row];
+      NSIndexPath *indexPath = nil;
+      IDTDocument *document = nil;
+      if (sender == self.searchDisplayController.searchResultsTableView) {
+          
+      indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
+      document = self.model.documents[indexPath.row];
   } else {
-  indexPath = [self.tableView indexPathForSelectedRow];
- 
-  document = [self.model.documents objectAtIndex:indexPath.row];
+      
+      indexPath = [self.tableView indexPathForSelectedRow];
+      document = self.model.documents[indexPath.row];
   }
-
-  IDTDetailViewController *contactDetailViewController = [segue destinationViewController];
-  if (sender == self.searchDisplayController.searchResultsTableView)
-  contactDetailViewController.nameOfFile = document.name;
-
-
-  else {
-
-  contactDetailViewController.nameOfFile = document.name;
-  }
-  ((IDTDetailViewController *)[segue destinationViewController]).fileDocument = document;
+      IDTDetailViewController *contactDetailViewController = [segue destinationViewController];
+  
+      if (sender == self.searchDisplayController.searchResultsTableView)
+          contactDetailViewController.nameOfFile = document.name;
+      else {
+          contactDetailViewController.nameOfFile = document.name;
+      }
+      ((IDTDetailViewController *)[segue destinationViewController]).fileDocument = document;
   } else if ([segue.identifier isEqualToString:@"segueToFolderView"]) {
-  if (self.tableView == self.searchDisplayController.searchResultsTableView) {
-  NSIndexPath *indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
-  IDTFolder *folder = [self.model.documents objectAtIndex:indexPath.row];
-  IDTMasterViewController *mvc = [segue destinationViewController];
-  mvc.startingFilePath = folder.filePath;
-  }
-  else {
-  NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-  IDTFolder *folder = [self.model.documents objectAtIndex:indexPath.row];
-  IDTMasterViewController *mvc = [segue destinationViewController];
-  mvc.startingFilePath = folder.filePath;
+      //FIXME: Fix this
+      if (sender == self.searchDisplayController.searchResultsTableView) {
+          NSIndexPath *indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
+          IDTFolder *folder = self.model.documents[indexPath.row];
+          IDTMasterViewController *mvc = [segue destinationViewController];
+          mvc.startingFilePath = folder.name;
+      }
+      else {
+          NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+          IDTFolder *folder = self.model.documents[indexPath.row];
+          IDTMasterViewController *mvc = [segue destinationViewController];
+          mvc.startingFilePath = folder.name;
 
-  }
-  }
+        }
+      }
 }
 
 #pragma mark Content Filtering
@@ -325,7 +325,7 @@
   [self.refreshControl endRefreshing];
 }
 -(void) beginSequeToSettingsView {
- 
+  
   [self performSegueWithIdentifier:@"settingsSegue" sender:self];
  
 }

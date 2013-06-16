@@ -28,5 +28,8 @@
 -(BOOL)copyFileFromURL:(NSURL *)fromURL;
 
 - (void)filterContentForSearchText:(NSString *)searchText scope:(NSString *)scope;
+//For testing ONLY!
+@property (nonatomic, strong, readonly) NSString *docsDir;
+
 
 @end

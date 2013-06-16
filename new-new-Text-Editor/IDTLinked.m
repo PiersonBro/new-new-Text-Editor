@@ -46,8 +46,7 @@
 }];
 }];
     NSLog(@"linkedDocumentReciever is %@",self.linkedDocumentReciever);
-//[self.linkedDocumentReciever closeWithCompletionHandler:^(BOOL success) {
-//}];
+
 }
 
 -(BOOL)add {

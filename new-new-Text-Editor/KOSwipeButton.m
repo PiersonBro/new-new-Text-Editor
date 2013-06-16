@@ -143,7 +143,7 @@
 - (void)setKeys:(NSString *)newKeys
 {
     for (NSUInteger i = 0; i < MIN(newKeys.length, (uint)5); i++) {
-        [[labels objectAtIndex:i] setText:[newKeys substringWithRange:NSMakeRange(i, 1)]];
+        [labels[i] setText:[newKeys substringWithRange:NSMakeRange(i, 1)]];
         
         if ([[newKeys substringToIndex:1] isEqualToString:@"◉"] |
             [[newKeys substringToIndex:1] isEqualToString:@"T"]) {
@@ -152,12 +152,12 @@
             tabButton = [[newKeys substringToIndex:1] isEqualToString:@"T"];
             
             if (i != 2)
-                [[labels objectAtIndex:i] setHidden:YES];
+                [labels[i] setHidden:YES];
             else {
                 if (trackPoint) {
-                    [[labels objectAtIndex:i] setHidden:YES];
+                    [labels[i] setHidden:YES];
                     
-                    [[labels objectAtIndex:i] setFont:[UIFont systemFontOfSize:20]];
+                    [labels[i] setFont:[UIFont systemFontOfSize:20]];
                     blueImage = [UIImage imageNamed:@"key-blue.png"];
                     pressedImage = [UIImage imageNamed:@"key-pressed.png"];
                     
@@ -173,8 +173,8 @@
                     [self addSubview:foregroundView];
 
                 } else {
-                    [[labels objectAtIndex:i] setText:@"TAB"];
-                    [[labels objectAtIndex:i] setFrame:self.bounds];
+                    [labels[i] setText:@"TAB"];
+                    [labels[i] setFrame:self.bounds];
                 }
             }
         }
@@ -186,7 +186,7 @@
     selectedLabel = nil;
     
     for (uint i = 0; i < labels.count; i++) {
-        UILabel *l = [labels objectAtIndex:i];
+        UILabel *l = labels[i];
         l.highlighted = (idx == i);
         
         if (idx == i)

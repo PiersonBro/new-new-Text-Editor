@@ -8,19 +8,24 @@
 
 #import "IDTModel.h"
 @interface IDTModel ()
-@property (nonatomic, strong) NSString *docsDir;
 @property (nonatomic,strong) IDTDocument *contactDocument;
 
 @property (nonatomic,strong) UAGithubEngine *githubEngine;
 
-
+@property (nonatomic, strong, readwrite) NSString *docsDir;
 @end
 
 @implementation IDTModel
 -(instancetype)initWithFilePath:(NSString *)filePath {
   self = [super init];
   self.documents = [[NSMutableArray alloc]initWithCapacity:100];
-  self.docsDir = [NSHomeDirectory() stringByAppendingPathComponent:filePath];
+    if ([filePath isEqualToString:@"Documents/"]) {
+        self.docsDir = [NSHomeDirectory() stringByAppendingPathComponent:filePath];
+    }else {
+        NSString *addDocuments = [NSHomeDirectory() stringByAppendingString:@"/Documents/"];
+        self.docsDir = [addDocuments stringByAppendingString:filePath];
+    }
+
 
   [self readFolder];
   return self;
@@ -34,30 +39,30 @@
   NSFileManager *filemgr = [NSFileManager defaultManager];
  
   NSError *error = nil;
- 
   NSArray *textFiles = [filemgr contentsOfDirectoryAtPath:self.docsDir error:&error];
+  
   for (NSUInteger i = 0; i < [textFiles count]; i++) {
   NSString *preval = [self.docsDir stringByAppendingString:@"/"];
-  NSString *filePath = [preval stringByAppendingString:[textFiles objectAtIndex:i]];
+  NSString *filePath = [preval stringByAppendingString:textFiles[i]];
   BOOL isDirectory = nil;
   [filemgr fileExistsAtPath:filePath isDirectory:&isDirectory];
   if (isDirectory) {
-  IDTFolder *folder = [[IDTFolder alloc]initWithFilePath:filePath];
-  [self.documents addObject:folder];
-
+      IDTFolder *folder = [[IDTFolder alloc]initWithFilePath:filePath];
+      [self.documents addObject:folder];
   } else {
-  IDTDocument *document = [[IDTDocument alloc]initWithFileURL:[NSURL fileURLWithPath:filePath]];
-  [self.documents addObject:document];
-  }
-  }
+      IDTDocument *document = [[IDTDocument alloc]initWithFileURL:[NSURL fileURLWithPath:filePath]];
+      [self.documents addObject:document];
+    }
+}
   //If no files exists, create one.
-  if (![filemgr contentsOfDirectoryAtPath:self.docsDir error:nil]) {
-  [self createFileWithText:@"Hello and welcome to my awesomely cool text editor! This is the list of stuff not yet implemented. 2. Syntax highlighting for HTML (uber difficult). 2.Github Repo implmentation (SUPER UBER difficult) " Name:@"Welcome!" AtIndex:0 isGist:NO];
-  }
+//  if (![filemgr contentsOfDirectoryAtPath:self.docsDir error:nil]) {
+//  [self createFileWithText:@"Hello and welcome to my awesomely cool text editor! This is the list of stuff not yet implemented. 2. Syntax highlighting for HTML (uber difficult). 2.Github Repo implmentation (SUPER UBER difficult) " Name:@"Welcome!" AtIndex:0 isGist:NO];
+//  }
   if (error) NSLog(@"there was an %@", error);
  
   return self.documents;
 }
+
 //None of the method arguments can be nil.
 - (BOOL)createFileWithText:(NSString *)text Name:(NSString *)name AtIndex:(NSUInteger)indexPath isGist:(BOOL)isGist {
   assert(text != nil && name != nil);
@@ -88,8 +93,8 @@
  
   [self.githubEngine createGist:[self createDictionaryRepresationOfFileWithContent:nil AndNameOfFile:name] success:^(id result) {
   NSLog(@"Success %@",result);
-  NSDictionary *dictionary = [result objectAtIndex:0];
-  NSString *gistID = [dictionary objectForKey:@"id"];
+  NSDictionary *dictionary = result[0];
+  NSString *gistID = dictionary[@"id"];
   NSLog(@"%@",gistID);
   } failure:^(NSError *error) {
   NSLog(@"CREATE failed with error %@", error);
@@ -116,7 +121,7 @@
   NSError *error = nil;
  
   if ([[NSFileManager defaultManager]removeItemAtPath:path error:&error]) {
-  IDTDocument *document = [self.documents objectAtIndex:index];
+  IDTDocument *document = (self.documents)[index];
   if (document.isGist) {
   dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
   dispatch_async(queue, ^{
@@ -148,7 +153,7 @@
   if ([[NSFileManager defaultManager]moveItemAtPath:path toPath:newPath error:&error]) {
   NSURL *url = [NSURL fileURLWithPath:newPath];
   IDTDocument *document = [[IDTDocument alloc]initWithFileURL:url];
-  [self.documents replaceObjectAtIndex:indexPath.row withObject:document];
+  (self.documents)[indexPath.row] = document;
   //Some gist rename attempt... FIXME: Understand this code.
   [document openWithCompletionHandler:^(BOOL success) {
   self.githubEngine = [UAGithubEngine sharedGithubEngine];
@@ -242,7 +247,7 @@
   valueKeyString = value;
   if ([name isEqualToString:valueKeyString]) {
   NSLog(@"SUCCESSSSSSSSSSSSSSSSSSSSSSSSSS");
-  IDString = [fileDictionary objectForKey:@"id"];
+  IDString = fileDictionary[@"id"];
   }
   }
  

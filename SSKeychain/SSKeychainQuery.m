@@ -35,14 +35,14 @@
     [self delete:nil];
     
     NSMutableDictionary *query = [self query];
-    [query setObject:self.passwordData forKey:(__bridge id)kSecValueData];
+    query[(__bridge id)kSecValueData] = self.passwordData;
     if (self.label) {
-        [query setObject:self.label forKey:(__bridge id)kSecAttrLabel];
+        query[(__bridge id)kSecAttrLabel] = self.label;
     }
 #if __IPHONE_4_0 && TARGET_OS_IPHONE
 	CFTypeRef accessibilityType = [SSKeychain accessibilityType];
     if (accessibilityType) {
-        [query setObject:(__bridge id)accessibilityType forKey:(__bridge id)kSecAttrAccessible];
+        query[(__bridge id)kSecAttrAccessible] = (__bridge id)accessibilityType;
     }
 #endif
     status = SecItemAdd((__bridge CFDictionaryRef)query, NULL);
@@ -88,8 +88,8 @@
 - (NSArray *)fetchAll:(NSError *__autoreleasing *)error {
     OSStatus status = SSKeychainErrorBadArguments;
     NSMutableDictionary *query = [self query];
-    [query setObject:@YES forKey:(__bridge id)kSecReturnAttributes];
-    [query setObject:(__bridge id)kSecMatchLimitAll forKey:(__bridge id)kSecMatchLimit];
+    query[(__bridge id)kSecReturnAttributes] = @YES;
+    query[(__bridge id)kSecMatchLimit] = (__bridge id)kSecMatchLimitAll;
 	
 	CFTypeRef result = NULL;
     status = SecItemCopyMatching((__bridge CFDictionaryRef)query, &result);
@@ -113,8 +113,8 @@
 	
 	CFTypeRef result = NULL;
 	NSMutableDictionary *query = [self query];
-    [query setObject:@YES forKey:(__bridge_transfer id)kSecReturnData];
-    [query setObject:(__bridge id)kSecMatchLimitOne forKey:(__bridge id)kSecMatchLimit];
+    query[(__bridge_transfer id)kSecReturnData] = @YES;
+    query[(__bridge id)kSecMatchLimit] = (__bridge id)kSecMatchLimitOne;
     status = SecItemCopyMatching((__bridge CFDictionaryRef)query, &result);
 	
 	if (status != errSecSuccess && error != NULL) {
@@ -146,19 +146,19 @@
 
 - (NSMutableDictionary *)query {
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithCapacity:3];
-    [dictionary setObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
+    dictionary[(__bridge id)kSecClass] = (__bridge id)kSecClassGenericPassword;
     
     if (self.service) {
-        [dictionary setObject:self.service forKey:(__bridge id)kSecAttrService];
+        dictionary[(__bridge id)kSecAttrService] = self.service;
     }
     
     if (self.account) {
-        [dictionary setObject:self.account forKey:(__bridge id)kSecAttrAccount];
+        dictionary[(__bridge id)kSecAttrAccount] = self.account;
     }
     
 #if __IPHONE_3_0 && TARGET_OS_IPHONE
     if (self.accessGroup) {
-        [dictionary setObject:self.accessGroup forKey:(__bridge id)kSecAttrAccessGroup];
+        dictionary[(__bridge id)kSecAttrAccessGroup] = self.accessGroup;
     }
 #endif
     

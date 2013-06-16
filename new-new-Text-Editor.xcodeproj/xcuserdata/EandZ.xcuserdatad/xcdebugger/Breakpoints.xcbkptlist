@@ -8,25 +8,25 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new-new-Text-Editor/IDTModel.m"
-         timestampString = "392313000.24492"
+         timestampString = "392537877.187757"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "265"
-         endingLineNumber = "265"
-         landmarkName = "-filterContentForSearchText:scope:"
+         startingLineNumber = "64"
+         endingLineNumber = "64"
+         landmarkName = "-createFileWithText:Name:AtIndex:isGist:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "new-new-Text-Editor/IDTModel.m"
-         timestampString = "392360003.383712"
+         filePath = "new-new-Text-Editor/IDTMasterViewController.m"
+         timestampString = "392516952.254602"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "59"
-         endingLineNumber = "59"
-         landmarkName = "-readFolder"
+         startingLineNumber = "303"
+         endingLineNumber = "303"
+         landmarkName = "-prepareForSegue:sender:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

@@ -118,7 +118,7 @@
     barButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(action1:)];
     UIBarButtonItem *barButton2 = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(action4:)];
     UIBarButtonItem *barButton3 = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Telescope-icon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(action3:)];
-    NSArray *barButtonItemArray = [[NSArray alloc]initWithObjects:barButton, barButton2, barButton3, nil];
+    NSArray *barButtonItemArray = @[barButton, barButton2, barButton3];
 
     self.navigationItem.rightBarButtonItems = barButtonItemArray;
     // Attirbuted String for header label.
@@ -218,7 +218,7 @@
     NSMutableArray *mutableArray = [self.fileDocument stringMatchInString:string WithRegularExpr:regEx];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:string];
     for (NSUInteger i = 0; i < [mutableArray count]; i++) {
-        NSRange range = [[mutableArray objectAtIndex:i]rangeValue];
+        NSRange range = [mutableArray[i]rangeValue];
         [attributedString addAttribute:NSForegroundColorAttributeName value:color range:range];
     }
 

@@ -80,7 +80,7 @@ extern CFAbsoluteTime startTime;
   annotation:(id)annotation
 {
   UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
-  IDTMasterViewController *firstViewController = (IDTMasterViewController *)[[navigationController viewControllers] objectAtIndex:0];
+  IDTMasterViewController *firstViewController = (IDTMasterViewController *)[navigationController viewControllers][0];
   // Make sure url indicates a file (as opposed to, e.g., http://)
   if (url != nil && [url isFileURL]) {
   //Contact the MasterVC and tell it to add a url to the datasource.

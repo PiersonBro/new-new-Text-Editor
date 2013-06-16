@@ -147,7 +147,7 @@
             valueKeyString = value;
               if ([name isEqualToString:valueKeyString]) {
           
-            IDString = [fileDictionary objectForKey:@"id"];
+            IDString = fileDictionary[@"id"];
         }
     }
 
